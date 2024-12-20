@@ -1,6 +1,6 @@
 {
   "name": "pdf-viewer-vue3",
-  "version": "0.1.19",
+  "version": "0.1.24",
   "private": false,
   "scripts": {
     "serve": "vue-cli-service serve",

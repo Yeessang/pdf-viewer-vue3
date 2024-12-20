@@ -18872,41 +18872,44 @@ const _hoisted_17 = {
 
 /* harmony default export */ var PDFvue_type_script_setup_true_lang_js = ({
   __name: 'PDF',
+  emits: ["pagesLoaded", "pageRendered", "pageChanging", "findChange"],
   setup(__props, {
-    expose: __expose
+    expose: __expose,
+    emit: __emit
   }) {
-    let pdfInstance;
+    let pdfInstance = (0,external_commonjs_vue_commonjs2_vue_root_Vue_.shallowRef)();
     const pdfContainer = (0,external_commonjs_vue_commonjs2_vue_root_Vue_.ref)();
     const thumbnailContainer = (0,external_commonjs_vue_commonjs2_vue_root_Vue_.ref)();
     const renderKey = (0,external_commonjs_vue_commonjs2_vue_root_Vue_.ref)(0);
     const showThumbnail = (0,external_commonjs_vue_commonjs2_vue_root_Vue_.ref)(false);
     const currentPage = (0,external_commonjs_vue_commonjs2_vue_root_Vue_.ref)(1);
     const totalPage = (0,external_commonjs_vue_commonjs2_vue_root_Vue_.ref)(0);
+    const emits = __emit;
     function pagePressHandler(e) {
       let value = Number(e.target.value);
       value = Math.min(Math.max(0, value), totalPage.value);
       currentPage.value = value;
-      if (pdfInstance) {
-        pdfInstance.viewer.currentPageNumber = value;
+      if (pdfInstance.value) {
+        pdfInstance.value.viewer.currentPageNumber = value;
       }
     }
     const spreadMode = (0,external_commonjs_vue_commonjs2_vue_root_Vue_.ref)(0);
     function changeSpreadMode(value) {
-      if (pdfInstance) {
+      if (pdfInstance.value) {
         spreadMode.value = value;
-        pdfInstance.viewer.spreadMode = value;
+        pdfInstance.value.viewer.spreadMode = value;
       }
     }
     const pageScale = (0,external_commonjs_vue_commonjs2_vue_root_Vue_.ref)("page-actual");
     let sideEffectFn;
     function changePageScale(value) {
-      if (pdfInstance) {
+      if (pdfInstance.value) {
         pageScale.value = value;
-        pdfInstance.viewer.currentScaleValue = value;
+        pdfInstance.value.viewer.currentScaleValue = value;
         sideEffectFn?.();
         if (value === 'page-width' || value === 'page-height') {
           sideEffectFn = bindSize(pdfContainer.value, () => {
-            pdfInstance.viewer.currentScaleValue = value;
+            pdfInstance.value.viewer.currentScaleValue = value;
           });
         }
       }
@@ -18934,34 +18937,37 @@ const _hoisted_17 = {
       showSearch.value = false;
       resetSearch();
       (0,external_commonjs_vue_commonjs2_vue_root_Vue_.nextTick)(() => {
-        pdfInstance = new PDF({
+        pdfInstance.value = new PDF({
           pdfContainer: pdfContainer.value,
           thumbnailContainer: thumbnailContainer.value,
           listeners: {
             onPagesLoaded: v => {
               currentPage.value = 1;
               totalPage.value = v.pagesCount;
+              emits("pagesLoaded", v);
             },
             onPageRendered: v => {
-              console.log("pagerendered", v);
+              emits("pageRendered", v);
             },
             onPageChanging: v => {
               currentPage.value = v.pageNumber;
+              emits("pageChanging", v);
             },
             onFindChange: v => {
               searchIndex.value = v.matchesCount.current;
               searchTotal.value = v.matchesCount.total;
+              emits("findChange", v);
             }
           }
         });
-        pdfInstance.loadFile(config);
+        pdfInstance.value.loadFile(config);
       });
     }
     (0,external_commonjs_vue_commonjs2_vue_root_Vue_.watch)(showThumbnail, newValue => {
       if (newValue) {
-        pdfInstance?.initThumbnailViewer();
+        pdfInstance.value?.initThumbnailViewer();
         setTimeout(() => {
-          pdfInstance?.thumbViewer?.scrollThumbnailIntoView(currentPage.value);
+          pdfInstance.value?.thumbViewer?.scrollThumbnailIntoView(currentPage.value);
         });
         showCatalog.value = false;
       }
@@ -18970,11 +18976,11 @@ const _hoisted_17 = {
     const showCatalog = (0,external_commonjs_vue_commonjs2_vue_root_Vue_.ref)(false);
     const clickCatalog = node => {
       const dest = node.dest;
-      pdfInstance?.link?.goToDestination(dest);
+      pdfInstance.value?.link?.goToDestination(dest);
     };
     (0,external_commonjs_vue_commonjs2_vue_root_Vue_.watch)(showCatalog, async newValue => {
       if (newValue) {
-        const outline = await pdfInstance?.pdf?.getOutline();
+        const outline = await pdfInstance.value?.pdf?.getOutline();
         catalogTreeData.value = outline;
         showThumbnail.value = false;
       }
@@ -18983,12 +18989,12 @@ const _hoisted_17 = {
     const showPrint = (0,external_commonjs_vue_commonjs2_vue_root_Vue_.ref)(false);
     let abortPrint;
     async function print() {
-      if (!pdfInstance) return;
+      if (!pdfInstance.value) return;
       showPrint.value = true;
       progress.value = 0;
       const {
         abort
-      } = await pdfInstance?.printPDF(v => progress.value = v, () => showPrint.value = false);
+      } = await pdfInstance.value?.printPDF(v => progress.value = v, () => showPrint.value = false);
       abortPrint = abort;
     }
     function abort() {
@@ -19019,14 +19025,14 @@ const _hoisted_17 = {
       input();
     }
     function _search() {
-      pdfInstance?.find(searchKey.value, (0,external_commonjs_vue_commonjs2_vue_root_Vue_.toRaw)(searchOptions));
+      pdfInstance.value?.find(searchKey.value, (0,external_commonjs_vue_commonjs2_vue_root_Vue_.toRaw)(searchOptions));
     }
     const input = debounce(_search, 200);
     function findPrev() {
-      pdfInstance?.findPrev(searchKey.value, (0,external_commonjs_vue_commonjs2_vue_root_Vue_.toRaw)(searchOptions));
+      pdfInstance.value?.findPrev(searchKey.value, (0,external_commonjs_vue_commonjs2_vue_root_Vue_.toRaw)(searchOptions));
     }
     function findNext() {
-      pdfInstance?.findNext(searchKey.value, (0,external_commonjs_vue_commonjs2_vue_root_Vue_.toRaw)(searchOptions));
+      pdfInstance.value?.findNext(searchKey.value, (0,external_commonjs_vue_commonjs2_vue_root_Vue_.toRaw)(searchOptions));
     }
     function resetSearch() {
       searchKey.value = "";
@@ -19057,7 +19063,8 @@ const _hoisted_17 = {
       }
     }
     __expose({
-      loadFile
+      loadFile,
+      pdfInstance
     });
     return (_ctx, _cache) => {
       return (0,external_commonjs_vue_commonjs2_vue_root_Vue_.openBlock)(), (0,external_commonjs_vue_commonjs2_vue_root_Vue_.createElementBlock)("section", {
@@ -19187,10 +19194,10 @@ const _hoisted_17 = {
 });
 ;// ./lib/PDF.vue?vue&type=script&setup=true&lang=js
  
-;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-54.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-54.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-54.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./lib/PDF.vue?vue&type=style&index=0&id=3b225562&lang=css
+;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-54.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-54.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-54.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./lib/PDF.vue?vue&type=style&index=0&id=0bd8f6df&lang=css
 // extracted by mini-css-extract-plugin
 
-;// ./lib/PDF.vue?vue&type=style&index=0&id=3b225562&lang=css
+;// ./lib/PDF.vue?vue&type=style&index=0&id=0bd8f6df&lang=css
 
 ;// ./lib/PDF.vue
 

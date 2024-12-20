@@ -134,44 +134,44 @@
 <script setup>
 import PDFTree from './PDFTree.vue';
 import { PDF } from '../core/pdf';
-import { ref, nextTick, defineExpose, watch, reactive, toRaw } from 'vue';
+import { ref, nextTick, defineExpose, defineEmits, watch, reactive, toRaw, shallowRef } from 'vue';
 import ResizeObserver from 'resize-observer-polyfill';
 import { computePosition, flip, shift } from "@floating-ui/dom";
 import { debounce } from '../core';
-let pdfInstance;
+let pdfInstance = shallowRef();
 const pdfContainer = ref();
 const thumbnailContainer = ref();
 const renderKey = ref(0);
 const showThumbnail = ref(false);
-
 const currentPage = ref(1);
 const totalPage = ref(0);
+const emits = defineEmits(["pagesLoaded", "pageRendered", "pageChanging", "findChange"]);
 function pagePressHandler(e) {
   let value = Number(e.target.value);
   value = Math.min(Math.max(0, value), totalPage.value);
   currentPage.value = value;
-  if (pdfInstance) {
-    pdfInstance.viewer.currentPageNumber = value;
+  if (pdfInstance.value) {
+    pdfInstance.value.viewer.currentPageNumber = value;
   }
 }
 const spreadMode = ref(0);
 function changeSpreadMode(value) {
-  if (pdfInstance) {
+  if (pdfInstance.value) {
     spreadMode.value = value
-    pdfInstance.viewer.spreadMode = value;
+    pdfInstance.value.viewer.spreadMode = value;
   }
 }
 
 const pageScale = ref("page-actual")
 let sideEffectFn
 function changePageScale(value) {
-  if (pdfInstance) {
+  if (pdfInstance.value) {
     pageScale.value = value
-    pdfInstance.viewer.currentScaleValue = value;
+    pdfInstance.value.viewer.currentScaleValue = value;
     sideEffectFn?.()
     if (value === 'page-width' || value === 'page-height') {
       sideEffectFn = bindSize(pdfContainer.value, () => {
-        pdfInstance.viewer.currentScaleValue = value;
+        pdfInstance.value.viewer.currentScaleValue = value;
       })
     }
   }
@@ -201,33 +201,38 @@ function loadFile(data) {
   showSearch.value = false;
   resetSearch();
   nextTick(() => {
-    pdfInstance = new PDF({
+    pdfInstance.value = new PDF({
       pdfContainer: pdfContainer.value,
       thumbnailContainer: thumbnailContainer.value,
       listeners: {
         onPagesLoaded: (v) => {
           currentPage.value = 1;
           totalPage.value = v.pagesCount;
+          emits("pagesLoaded", v);
         },
-        onPageRendered: (v) => {console.log("pagerendered", v)},
+        onPageRendered: (v) => {
+          emits("pageRendered", v);
+        },
         onPageChanging: (v) => {
           currentPage.value = v.pageNumber;
+          emits("pageChanging", v);
         },
         onFindChange: (v) => {
           searchIndex.value = v.matchesCount.current;
           searchTotal.value = v.matchesCount.total;
+          emits("findChange", v)
         }
       }
     });
-    pdfInstance.loadFile(config);
+    pdfInstance.value.loadFile(config);
   })
 }
 
 watch(showThumbnail, (newValue) => {
   if (newValue) {
-    pdfInstance?.initThumbnailViewer();
+    pdfInstance.value?.initThumbnailViewer();
     setTimeout(() => {
-      pdfInstance?.thumbViewer?.scrollThumbnailIntoView(currentPage.value);
+      pdfInstance.value?.thumbViewer?.scrollThumbnailIntoView(currentPage.value);
     })
     showCatalog.value = false
   }
@@ -238,11 +243,11 @@ const catalogTreeData = ref([]);
 const showCatalog = ref(false);
 const clickCatalog = (node) => {
   const dest = node.dest
-  pdfInstance?.link?.goToDestination(dest)
+  pdfInstance.value?.link?.goToDestination(dest)
 }
 watch(showCatalog, async (newValue) => {
   if (newValue) {
-    const outline = await pdfInstance?.pdf?.getOutline()
+    const outline = await pdfInstance.value?.pdf?.getOutline()
     catalogTreeData.value = outline
     showThumbnail.value = false
   }
@@ -252,10 +257,10 @@ const progress = ref(30);
 const showPrint = ref(false);
 let abortPrint;
 async function print() {
-  if (!pdfInstance) return
+  if (!pdfInstance.value) return
   showPrint.value = true;
   progress.value = 0;
-  const { abort } = await pdfInstance?.printPDF(
+  const { abort } = await pdfInstance.value?.printPDF(
     (v) => progress.value = v,
     () => showPrint.value = false
   );
@@ -287,14 +292,14 @@ function toggleSearchOption(key) {
   input()
 }
 function _search() {
-  pdfInstance?.find(searchKey.value, toRaw(searchOptions))
+  pdfInstance.value?.find(searchKey.value, toRaw(searchOptions))
 }
 const input = debounce(_search, 200)
 function findPrev() {
-  pdfInstance?.findPrev(searchKey.value, toRaw(searchOptions))
+  pdfInstance.value?.findPrev(searchKey.value, toRaw(searchOptions))
 }
 function findNext() {
-  pdfInstance?.findNext(searchKey.value, toRaw(searchOptions))
+  pdfInstance.value?.findNext(searchKey.value, toRaw(searchOptions))
 }
 function resetSearch() {
   searchKey.value = "";
@@ -323,7 +328,8 @@ function toggleSearch() {
 }
 
 defineExpose({
-  loadFile
+  loadFile,
+  pdfInstance
 });
 
 </script>
