@@ -2,9 +2,21 @@
 
 一款Vue3框架开发的pdf阅读器组件
 
+## demo
 
-### demo
 [demo地址](https://codesandbox.io/p/devbox/nice-keller-75ns2d?file=%2Fsrc%2FApp.vue%3A1%2C1-39%2C1)
+
+## Feature
+
+- 文本选中、复制
+- 缩略图
+- 目录
+- 翻页、跳转页
+- 单页/双页视图
+- 缩放（同样也支持比例缩放，未来会加）
+- 打印
+- 搜索文本
+- 移动端（工具栏未来会支持响应式）
 
 ## usage
 
@@ -19,6 +31,7 @@ async function handleFileChange(event) {
   const files = event.target.files;
   const file = files[0];
   if (file) {
+    // loadFile支持buffer数据，也支持解决了跨域问题的文件地址链接（cors支持的文件地址或者在您的项目中nginx代理转发的下载地址都可以）
     const buffer = await file.arrayBuffer();
     pdfComp.value?.loadFile(buffer);
     console.log(pdfComp.value);
