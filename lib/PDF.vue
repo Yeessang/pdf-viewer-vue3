@@ -85,8 +85,21 @@
       </div>
     </div>
     <div
+      v-if="loadingPercentVisible"
+      class="absolute top-0 bottom-0 w-full bg-[rgba(255,255,255,.9)] z-[100]"
+    >
+      <div class="absolute left-1/2 top-1/2 translate-y-[-50%] translate-x-[-50%]">
+        <div class="relative w-[230px] h-[24px] rounded-[12px] overflow-hidden bg-slate-200">
+          <div class="absolute w-full h-full bg-violet-300 transition-all" :style="{ transform: `translateX(${loadingPercent - 100}%)` }"></div>
+        </div>
+        <div class="mt-[10px] text-[12px] text-center text-gray-500">
+          准备加载文档中，当前进度：{{ loadingPercent }}%
+        </div>
+      </div>
+    </div>
+    <div
       v-if="showPrint"
-      class="absolute top-0 bottom-0 w-full bg-[rgba(255,255,255,.8)] z-[100]"
+      class="absolute top-0 bottom-0 w-full bg-[rgba(255,255,255,.9)] z-[100]"
     >
       <div class="absolute left-1/2 top-1/2 translate-y-[-50%] translate-x-[-50%]">
         <div class="relative w-[230px] h-[24px] rounded-[12px] overflow-hidden bg-slate-200">
@@ -134,7 +147,7 @@
 <script setup>
 import PDFTree from './PDFTree.vue';
 import { PDF } from '../core/pdf';
-import { ref, nextTick, defineExpose, defineEmits, watch, reactive, toRaw, shallowRef } from 'vue';
+import { ref, nextTick, defineExpose, defineEmits, watch, reactive, toRaw, shallowRef, onBeforeUnmount } from 'vue';
 import ResizeObserver from 'resize-observer-polyfill';
 import { computePosition, flip, shift } from "@floating-ui/dom";
 import { debounce } from '../core';
@@ -145,6 +158,8 @@ const renderKey = ref(0);
 const showThumbnail = ref(false);
 const currentPage = ref(1);
 const totalPage = ref(0);
+const loadingPercent = ref(0);
+const loadingPercentVisible = ref(false);
 const emits = defineEmits(["pagesLoaded", "pageRendered", "pageChanging", "findChange"]);
 function pagePressHandler(e) {
   let value = Number(e.target.value);
@@ -199,6 +214,7 @@ function loadFile(data) {
   showCatalog.value = false;
   catalogTreeData.value = [];
   showSearch.value = false;
+  loadingPercent.value = 0;
   resetSearch();
   nextTick(() => {
     pdfInstance.value = new PDF({
@@ -221,6 +237,10 @@ function loadFile(data) {
           searchIndex.value = v.matchesCount.current;
           searchTotal.value = v.matchesCount.total;
           emits("findChange", v)
+        },
+        onLoadProgress: (v) => {
+          loadingPercentVisible.value = v < 100
+          loadingPercent.value = v
         }
       }
     });
@@ -327,9 +347,18 @@ function toggleSearch() {
   }
 }
 
+function destroy() {
+  if (pdfInstance.value) pdfInstance.value.pdf?.destroy?.()
+}
+
+onBeforeUnmount(() => {
+  destroy()
+})
+
 defineExpose({
   loadFile,
-  pdfInstance
+  pdfInstance,
+  destroy
 });
 
 </script>

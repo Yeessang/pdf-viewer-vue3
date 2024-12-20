@@ -15592,10 +15592,11 @@ class PDF {
         this.listeners?.onPageChanging?.(pageInfo);
       });
       const loadingTask = pdf.getDocument(options);
-      loadingTask.onProgress = function (progressData) {
+      loadingTask.onProgress = progressData => {
         percentLoaded = Math.min(100, Math.round(progressData.loaded / progressData.total * 100));
         total = progressData.total;
         loaded = Math.min(progressData.loaded, total);
+        this.listeners?.onLoadProgress?.(percentLoaded);
       };
       loadingTask.promise.then(ins => {
         console.log(ins, 'ins');
@@ -18825,7 +18826,7 @@ const _hoisted_10 = {
 };
 const _hoisted_11 = {
   key: 0,
-  class: "absolute top-0 bottom-0 w-full bg-[rgba(255,255,255,.8)] z-[100]"
+  class: "absolute top-0 bottom-0 w-full bg-[rgba(255,255,255,.9)] z-[100]"
 };
 const _hoisted_12 = {
   class: "absolute left-1/2 top-1/2 translate-y-[-50%] translate-x-[-50%]"
@@ -18837,12 +18838,25 @@ const _hoisted_14 = {
   class: "mt-[10px] text-[12px] text-center text-gray-500"
 };
 const _hoisted_15 = {
-  class: "flex items-center"
+  key: 1,
+  class: "absolute top-0 bottom-0 w-full bg-[rgba(255,255,255,.9)] z-[100]"
 };
 const _hoisted_16 = {
-  class: "flex flex-wrap text-[12px] m-auto text-slate-500"
+  class: "absolute left-1/2 top-1/2 translate-y-[-50%] translate-x-[-50%]"
 };
 const _hoisted_17 = {
+  class: "relative w-[230px] h-[24px] rounded-[12px] overflow-hidden bg-slate-200"
+};
+const _hoisted_18 = {
+  class: "mt-[10px] text-[12px] text-center text-gray-500"
+};
+const _hoisted_19 = {
+  class: "flex items-center"
+};
+const _hoisted_20 = {
+  class: "flex flex-wrap text-[12px] m-auto text-slate-500"
+};
+const _hoisted_21 = {
   key: 0,
   class: "text-[12px] text-slate-500 px-[5px] mt-[3px]"
 };
@@ -18866,6 +18880,8 @@ const _hoisted_17 = {
     const showThumbnail = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(false);
     const currentPage = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(1);
     const totalPage = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(0);
+    const loadingPercent = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(0);
+    const loadingPercentVisible = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(false);
     const emits = __emit;
     function pagePressHandler(e) {
       let value = Number(e.target.value);
@@ -18917,6 +18933,7 @@ const _hoisted_17 = {
       showCatalog.value = false;
       catalogTreeData.value = [];
       showSearch.value = false;
+      loadingPercent.value = 0;
       resetSearch();
       (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.nextTick)(() => {
         pdfInstance.value = new PDF({
@@ -18939,6 +18956,10 @@ const _hoisted_17 = {
               searchIndex.value = v.matchesCount.current;
               searchTotal.value = v.matchesCount.total;
               emits("findChange", v);
+            },
+            onLoadProgress: v => {
+              loadingPercentVisible.value = v < 100;
+              loadingPercent.value = v;
             }
           }
         });
@@ -19044,9 +19065,16 @@ const _hoisted_17 = {
         input();
       }
     }
+    function destroy() {
+      if (pdfInstance.value) pdfInstance.value.pdf?.destroy?.();
+    }
+    (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.onBeforeUnmount)(() => {
+      destroy();
+    });
     __expose({
       loadFile,
-      pdfInstance
+      pdfInstance,
+      destroy
     });
     return (_ctx, _cache) => {
       return (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)("section", {
@@ -19127,12 +19155,17 @@ const _hoisted_17 = {
         class: "pdf-container absolute w-full h-full overflow-auto"
       }, _cache[23] || (_cache[23] = [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
         class: "pdfViewer"
-      }, null, -1)]), 512)])]), showPrint.value ? ((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)("div", _hoisted_11, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_12, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_13, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
+      }, null, -1)]), 512)])]), loadingPercentVisible.value ? ((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)("div", _hoisted_11, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_12, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_13, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
+        class: "absolute w-full h-full bg-violet-300 transition-all",
+        style: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeStyle)({
+          transform: `translateX(${loadingPercent.value - 100}%)`
+        })
+      }, null, 4)]), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_14, " 准备加载文档中，当前进度：" + (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.toDisplayString)(loadingPercent.value) + "% ", 1)])])) : (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createCommentVNode)("", true), showPrint.value ? ((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)("div", _hoisted_15, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_16, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_17, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
         class: "absolute w-full h-full bg-violet-300 transition-all",
         style: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeStyle)({
           transform: `translateX(${progress.value - 100}%)`
         })
-      }, null, 4)]), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_14, " 准备打印文档中，当前进度：" + (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.toDisplayString)(progress.value) + "% ", 1), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
+      }, null, 4)]), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_18, " 准备打印文档中，当前进度：" + (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.toDisplayString)(progress.value) + "% ", 1), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
         class: "mt-[10px] text-center"
       }, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("button", {
         class: "text-[12px] text-violet-400 py-[3px] px-[5px] rounded-[5px] transition-all hover:text-purple-400",
@@ -19144,7 +19177,7 @@ const _hoisted_17 = {
           ref_key: "floating",
           ref: floating,
           class: "w-[165px] min-h-[90px] px-[6px] py-[5px] absolute bg-white rounded-[6px] z-[20] search-float transition-all duration-300 overflow-hidden"
-        }, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_15, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withDirectives)((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("input", {
+        }, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_19, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withDirectives)((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("input", {
           type: "text",
           class: "w-[100px] border rounded-[3px] focus:border-violet-300 outline-none px-[5px] py-[3px] text-[12px] mr-[5px]",
           "onUpdate:modelValue": _cache[7] || (_cache[7] = $event => searchKey.value = $event),
@@ -19156,7 +19189,7 @@ const _hoisted_17 = {
         }), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
           class: "icon iconfont icon-jiantou_xiangxia pdf-search-toggle",
           onClick: findNext
-        })]), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_16, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
+        })]), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_20, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
           class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["pdf-search-option", [searchOptions.highlightAll && 'toolbar-item-active']]),
           onClick: _cache[9] || (_cache[9] = $event => toggleSearchOption('highlightAll'))
         }, "全部高亮显示", 2), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
@@ -19168,7 +19201,7 @@ const _hoisted_17 = {
         }, "匹配变音符号", 2), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
           class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["pdf-search-option ml-[1px]", [searchOptions.entireWord && 'toolbar-item-active']]),
           onClick: _cache[12] || (_cache[12] = $event => toggleSearchOption('entireWord'))
-        }, "全词匹配", 2)]), searchTotal.value > 0 ? ((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)("div", _hoisted_17, " 第" + (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.toDisplayString)(searchIndex.value) + "项，共" + (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.toDisplayString)(searchTotal.value) + "项 ", 1)) : (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createCommentVNode)("", true)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.vShow, showSearch.value]])]),
+        }, "全词匹配", 2)]), searchTotal.value > 0 ? ((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)("div", _hoisted_21, " 第" + (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.toDisplayString)(searchIndex.value) + "项，共" + (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.toDisplayString)(searchTotal.value) + "项 ", 1)) : (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createCommentVNode)("", true)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.vShow, showSearch.value]])]),
         _: 1
       })]);
     };
@@ -19176,10 +19209,10 @@ const _hoisted_17 = {
 });
 ;// ./lib/PDF.vue?vue&type=script&setup=true&lang=js
  
-;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-12.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./lib/PDF.vue?vue&type=style&index=0&id=0bd8f6df&lang=css
+;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-12.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./lib/PDF.vue?vue&type=style&index=0&id=20ee4bfa&lang=css
 // extracted by mini-css-extract-plugin
 
-;// ./lib/PDF.vue?vue&type=style&index=0&id=0bd8f6df&lang=css
+;// ./lib/PDF.vue?vue&type=style&index=0&id=20ee4bfa&lang=css
 
 ;// ./lib/PDF.vue
 

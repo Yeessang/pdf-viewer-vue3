@@ -104,12 +104,13 @@ export class PDF {
         this.listeners?.onPageChanging?.(pageInfo)
       })
       const loadingTask = PDFJS.getDocument(options)
-      loadingTask.onProgress = function(progressData) {
+      loadingTask.onProgress = (progressData) => {
         percentLoaded = Math.min(100, Math.round(
           (progressData.loaded / progressData.total) * 100
         ));
         total = progressData.total
         loaded = Math.min(progressData.loaded, total)
+        this.listeners?.onLoadProgress?.(percentLoaded)
       };
       loadingTask.promise.then(ins => {
         console.log(ins, 'ins')
