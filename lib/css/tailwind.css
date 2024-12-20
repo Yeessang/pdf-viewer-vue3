@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer components {
+  .pdf-toolbar {
+    @apply flex justify-between;
+  }
+  .toolbar-group {
+    @apply flex items-center text-[11px] leading-[16px];
+  }
+  .toolbar-item {
+    @apply flex flex-col mx-[5px] px-[6px] pt-[6px] pb-[3px] h-[45px] justify-between items-center text-gray-700 cursor-pointer hover:text-indigo-500 transition-all rounded-[5px] hover:bg-slate-100;
+  }
+  .toolbar-item-active {
+    @apply text-indigo-500
+  }
+  .toolbar-page {
+    @apply flex items-center rounded-[3px] bg-slate-100 py-[3px] px-[6px] leading-[20px] text-center
+  }
+  .pdf-input {
+    @apply border-none outline-none h-[20px] w-[20px] bg-transparent text-center
+  }
+  .toolbar-page-divide {
+    @apply ml-[5px]
+  }
+  .toolbar-page-sum {
+    @apply w-[16px]
+  }
+  .pdf-thumbnail {
+    @apply bg-slate-100 w-[200px] z-20 shadow-lg text-center py-[10px] h-full transition-all
+  }
+  .pdf-thumbnail-container {
+    @apply h-full overflow-auto relative
+  }
+  .pdf-thumbnail .thumbnail {
+    @apply mb-[20px] box-content rounded-[6px]
+  }
+  .pdf-thumbnail .thumbnail.selected {
+    @apply border-indigo-500/10
+  }
+  .pdf-thumbnail .thumbnail .pageLabelDiv {
+    @apply mt-[10px]
+  }
+  .pdf-thumbnail .selected .pageLabelDiv {
+    @apply text-violet-400
+  }
+  .pdf-search-option {
+    @apply mt-[3px] px-[5px] py-[3px] cursor-pointer hover:text-indigo-500 transition-all rounded-[5px] hover:bg-slate-100
+  }
+  .pdf-search-toggle {
+    @apply px-[1px] py-[2px] text-slate-500 hover:text-indigo-500 transition-all rounded-[5px] hover:bg-slate-100 cursor-pointer
+  }
+}
+
+
+.pdf-input::-webkit-outer-spin-button,
+.pdf-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.pdf-input {
+  -moz-appearance: textfield;
+}
+
+.pdf-input::-ms-clear {
+  display: none;
+}
