@@ -18797,49 +18797,47 @@ function calculateFileSize(bytes) {
 
 
 const PDFvue_type_script_setup_true_lang_js_hoisted_1 = {
-  class: "pdf-toolbar flex pdf-menu w-full h-[50px] absolute top-0 bg-[#fff] shadow-lg z-10"
+  class: "pdf-wrapper"
 };
 const PDFvue_type_script_setup_true_lang_js_hoisted_2 = {
-  class: "toolbar-group"
+  class: "pdf-toolbar"
 };
 const PDFvue_type_script_setup_true_lang_js_hoisted_3 = {
   class: "toolbar-group"
 };
 const PDFvue_type_script_setup_true_lang_js_hoisted_4 = {
-  class: "toolbar-page"
-};
-const _hoisted_5 = ["value"];
-const _hoisted_6 = {
-  class: "toolbar-page-sum"
-};
-const _hoisted_7 = {
   class: "toolbar-group"
 };
+const _hoisted_5 = {
+  class: "toolbar-page"
+};
+const _hoisted_6 = ["value"];
+const _hoisted_7 = {
+  class: "toolbar-page-sum"
+};
 const _hoisted_8 = {
-  class: "absolute w-full bottom-[0] top-[50px] flex bg-slate-100"
+  class: "toolbar-group"
 };
 const _hoisted_9 = {
-  class: "pdf-thumbnail"
-};
-const _hoisted_10 = {
-  class: "flex-1 relative"
-};
-const _hoisted_11 = {
   key: 0,
-  class: "absolute top-0 bottom-0 w-full bg-[rgba(255,255,255,.9)] z-[100]"
+  class: "toolbar-page text-[11px] pdf-small-menu"
+};
+const _hoisted_10 = ["value"];
+const _hoisted_11 = {
+  class: "toolbar-page-sum"
 };
 const _hoisted_12 = {
-  class: "absolute left-1/2 top-1/2 translate-y-[-50%] translate-x-[-50%]"
+  class: "absolute w-full bottom-[0] top-[50px] flex bg-slate-100"
 };
 const _hoisted_13 = {
-  class: "relative w-[230px] h-[24px] rounded-[12px] overflow-hidden bg-slate-200"
+  class: "pdf-thumbnail"
 };
 const _hoisted_14 = {
-  class: "mt-[10px] text-[12px] text-center text-gray-500"
+  class: "flex-1 relative"
 };
 const _hoisted_15 = {
-  key: 1,
-  class: "absolute top-0 bottom-0 w-full bg-[rgba(255,255,255,.9)] z-[100]"
+  key: 0,
+  class: "absolute top-0 bottom-0 right-0 left-0 bg-[rgba(255,255,255,.9)] z-[100]"
 };
 const _hoisted_16 = {
   class: "absolute left-1/2 top-1/2 translate-y-[-50%] translate-x-[-50%]"
@@ -18851,12 +18849,25 @@ const _hoisted_18 = {
   class: "mt-[10px] text-[12px] text-center text-gray-500"
 };
 const _hoisted_19 = {
-  class: "flex items-center"
+  key: 1,
+  class: "absolute top-0 bottom-0 right-0 left-0 bg-[rgba(255,255,255,.9)] z-[100]"
 };
 const _hoisted_20 = {
-  class: "flex flex-wrap text-[12px] m-auto text-slate-500"
+  class: "pdf-small-menu"
 };
 const _hoisted_21 = {
+  class: "relative w-[230px] h-[24px] rounded-[12px] overflow-hidden bg-slate-200"
+};
+const _hoisted_22 = {
+  class: "mt-[10px] text-[12px] text-center text-gray-500"
+};
+const _hoisted_23 = {
+  class: "flex items-center"
+};
+const _hoisted_24 = {
+  class: "flex flex-wrap text-[12px] m-auto text-slate-500"
+};
+const _hoisted_25 = {
   key: 0,
   class: "text-[12px] text-slate-500 px-[5px] mt-[3px]"
 };
@@ -18874,6 +18885,7 @@ const _hoisted_21 = {
     emit: __emit
   }) {
     let pdfInstance = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.shallowRef)();
+    const pdfWrapper = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)();
     const pdfContainer = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)();
     const thumbnailContainer = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)();
     const renderKey = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(0);
@@ -18882,6 +18894,8 @@ const _hoisted_21 = {
     const totalPage = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(0);
     const loadingPercent = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(0);
     const loadingPercentVisible = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(false);
+    const smallMenu = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(false);
+    const showSmallMenu = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(false);
     const emits = __emit;
     function pagePressHandler(e) {
       let value = Number(e.target.value);
@@ -18921,6 +18935,19 @@ const _hoisted_21 = {
         ro.unobserve(dom);
       };
     }
+    (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.watch)(pdfWrapper, dom => {
+      if (dom) {
+        bindSize(dom, () => {
+          const isSmallMenu = dom.clientWidth < 610;
+          showSmallMenu.value = !isSmallMenu;
+          setTimeout(() => {
+            smallMenu.value = isSmallMenu;
+          }, 200);
+        });
+      }
+    }, {
+      immediate: true
+    });
     function loadFile(data) {
       const config = {};
       if (typeof data == 'string') {
@@ -19056,13 +19083,34 @@ const _hoisted_21 = {
           }) => {
             Object.assign(floating.value.style, {
               top: `${y}px`,
-              left: `${x}px`
+              left: `${x - 3}px`
             });
           });
         });
       } else {
         resetSearch();
         input();
+      }
+    }
+    const menuReference = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)();
+    const menuFloating = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)();
+    function toggleMenu() {
+      showSmallMenu.value = !showSmallMenu.value;
+      if (showSmallMenu.value) {
+        (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.nextTick)(() => {
+          floating_ui_dom_computePosition(menuReference.value, menuFloating.value, {
+            placement: "bottom",
+            middleware: [floating_ui_dom_flip(), floating_ui_dom_shift()]
+          }).then(({
+            x,
+            y
+          }) => {
+            Object.assign(menuFloating.value.style, {
+              top: `${y + 10}px`,
+              left: `${x - 3}px`
+            });
+          });
+        });
       }
     }
     function destroy() {
@@ -19077,69 +19125,97 @@ const _hoisted_21 = {
       destroy
     });
     return (_ctx, _cache) => {
-      return (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)("section", {
-        class: "relative pt-[50px] rounded-[10px] overflow-hidden border border-slate-100",
+      return (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)("section", PDFvue_type_script_setup_true_lang_js_hoisted_1, [((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)("section", {
+        ref_key: "pdfWrapper",
+        ref: pdfWrapper,
+        class: "relative w-full h-full pt-[50px] rounded-[10px] overflow-hidden border border-slate-100",
         key: renderKey.value
-      }, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", PDFvue_type_script_setup_true_lang_js_hoisted_1, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("ul", PDFvue_type_script_setup_true_lang_js_hoisted_2, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", {
-        class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["toolbar-item", [showThumbnail.value && 'toolbar-item-active']]),
-        onClick: _cache[0] || (_cache[0] = $event => showThumbnail.value = !showThumbnail.value)
-      }, _cache[13] || (_cache[13] = [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
-        class: "icon iconfont icon-xiaosuolvetu"
-      }, null, -1), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", null, "缩略图", -1)]), 2), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", {
-        class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["toolbar-item", [showCatalog.value && 'toolbar-item-active']]),
-        onClick: _cache[1] || (_cache[1] = $event => showCatalog.value = !showCatalog.value)
-      }, _cache[14] || (_cache[14] = [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
-        class: "icon iconfont icon-mulu"
-      }, null, -1), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", null, "目录", -1)]), 2)]), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("ul", PDFvue_type_script_setup_true_lang_js_hoisted_3, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", {
-        class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["toolbar-item", [pageScale.value === 'page-actual' && 'toolbar-item-active']]),
-        onClick: _cache[2] || (_cache[2] = $event => changePageScale('page-actual'))
-      }, _cache[15] || (_cache[15] = [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
-        class: "icon iconfont icon-yuanchicun"
-      }, null, -1), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", null, "原尺寸", -1)]), 2), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", {
-        class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["toolbar-item", [pageScale.value === 'page-width' && 'toolbar-item-active']]),
-        onClick: _cache[3] || (_cache[3] = $event => changePageScale('page-width'))
-      }, _cache[16] || (_cache[16] = [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
-        class: "icon iconfont icon-zishiyingkuandu"
-      }, null, -1), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", null, "适应宽度", -1)]), 2), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", {
-        class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["toolbar-item", [pageScale.value === 'page-height' && 'toolbar-item-active']]),
-        onClick: _cache[4] || (_cache[4] = $event => changePageScale('page-height'))
-      }, _cache[17] || (_cache[17] = [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
-        class: "icon iconfont icon-zishiyinggaodu"
-      }, null, -1), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", null, "适应高度", -1)]), 2), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", PDFvue_type_script_setup_true_lang_js_hoisted_4, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("input", {
+      }, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", PDFvue_type_script_setup_true_lang_js_hoisted_2, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createVNode)(external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.Transition, {
+        name: "float-fade"
+      }, {
+        default: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withCtx)(() => [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withDirectives)((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
+          ref_key: "menuFloating",
+          ref: menuFloating,
+          class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)([smallMenu.value ? 'pdf-toolbar-container-small' : 'pdf-toolbar-container'])
+        }, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("ul", PDFvue_type_script_setup_true_lang_js_hoisted_3, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", {
+          class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["toolbar-item", [showThumbnail.value && 'toolbar-item-active']]),
+          onClick: _cache[0] || (_cache[0] = $event => showThumbnail.value = !showThumbnail.value)
+        }, _cache[13] || (_cache[13] = [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
+          class: "icon iconfont icon-xiaosuolvetu"
+        }, null, -1), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", null, "缩略图", -1)]), 2), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", {
+          class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["toolbar-item", [showCatalog.value && 'toolbar-item-active']]),
+          onClick: _cache[1] || (_cache[1] = $event => showCatalog.value = !showCatalog.value)
+        }, _cache[14] || (_cache[14] = [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
+          class: "icon iconfont icon-mulu"
+        }, null, -1), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", null, "目录", -1)]), 2)]), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("ul", PDFvue_type_script_setup_true_lang_js_hoisted_4, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", {
+          class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["toolbar-item", [pageScale.value === 'page-actual' && 'toolbar-item-active']]),
+          onClick: _cache[2] || (_cache[2] = $event => changePageScale('page-actual'))
+        }, _cache[15] || (_cache[15] = [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
+          class: "icon iconfont icon-yuanchicun"
+        }, null, -1), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", null, "原尺寸", -1)]), 2), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", {
+          class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["toolbar-item", [pageScale.value === 'page-width' && 'toolbar-item-active']]),
+          onClick: _cache[3] || (_cache[3] = $event => changePageScale('page-width'))
+        }, _cache[16] || (_cache[16] = [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
+          class: "icon iconfont icon-zishiyingkuandu"
+        }, null, -1), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", null, "适应宽度", -1)]), 2), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", {
+          class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["toolbar-item", [pageScale.value === 'page-height' && 'toolbar-item-active']]),
+          onClick: _cache[4] || (_cache[4] = $event => changePageScale('page-height'))
+        }, _cache[17] || (_cache[17] = [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
+          class: "icon iconfont icon-zishiyinggaodu"
+        }, null, -1), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", null, "适应高度", -1)]), 2), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withDirectives)((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", _hoisted_5, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("input", {
+          type: "number",
+          class: "pdf-input text-slate-600",
+          max: "40",
+          min: "1",
+          value: currentPage.value,
+          onKeyup: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withKeys)(pagePressHandler, ["enter"])
+        }, null, 40, _hoisted_6), _cache[18] || (_cache[18] = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", {
+          class: "align-top mx-[5px]"
+        }, "/", -1)), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", _hoisted_7, (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.toDisplayString)(totalPage.value), 1)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.vShow, !smallMenu.value]]), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", {
+          class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["toolbar-item", [spreadMode.value === 0 && 'toolbar-item-active']]),
+          onClick: _cache[5] || (_cache[5] = $event => changeSpreadMode(0))
+        }, _cache[19] || (_cache[19] = [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
+          class: "icon iconfont icon-danyeshitu"
+        }, null, -1), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", null, "单页视图", -1)]), 2), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", {
+          class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["toolbar-item", [spreadMode.value === 1 && 'toolbar-item-active']]),
+          onClick: _cache[6] || (_cache[6] = $event => changeSpreadMode(1))
+        }, _cache[20] || (_cache[20] = [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
+          class: "icon iconfont icon-shuangyeshitu"
+        }, null, -1), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", null, "双页视图", -1)]), 2)]), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("ul", _hoisted_8, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", {
+          class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["toolbar-item", [showSearch.value && 'toolbar-item-active']]),
+          ref_key: "reference",
+          ref: reference,
+          onClick: toggleSearch
+        }, _cache[21] || (_cache[21] = [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
+          class: "icon iconfont icon-chaxun"
+        }, null, -1), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", null, "查询", -1)]), 2), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", {
+          class: "toolbar-item",
+          onClick: print
+        }, _cache[22] || (_cache[22] = [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
+          class: "icon iconfont icon-dayinji_o"
+        }, null, -1), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", null, "打印", -1)]))])], 2), [[external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.vShow, showSmallMenu.value]])]),
+        _: 1
+      }), smallMenu.value ? ((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)("div", _hoisted_9, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("input", {
         type: "number",
-        class: "pdf-input",
+        class: "pdf-input text-slate-600",
         max: "40",
         min: "1",
         value: currentPage.value,
         onKeyup: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withKeys)(pagePressHandler, ["enter"])
-      }, null, 40, _hoisted_5), _cache[18] || (_cache[18] = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", {
+      }, null, 40, _hoisted_10), _cache[23] || (_cache[23] = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", {
         class: "align-top mx-[5px]"
-      }, "/", -1)), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", _hoisted_6, (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.toDisplayString)(totalPage.value), 1)]), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", {
-        class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["toolbar-item", [spreadMode.value === 0 && 'toolbar-item-active']]),
-        onClick: _cache[5] || (_cache[5] = $event => changeSpreadMode(0))
-      }, _cache[19] || (_cache[19] = [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
-        class: "icon iconfont icon-danyeshitu"
-      }, null, -1), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", null, "单页视图", -1)]), 2), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", {
-        class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["toolbar-item", [spreadMode.value === 1 && 'toolbar-item-active']]),
-        onClick: _cache[6] || (_cache[6] = $event => changeSpreadMode(1))
-      }, _cache[20] || (_cache[20] = [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
-        class: "icon iconfont icon-shuangyeshitu"
-      }, null, -1), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", null, "双页视图", -1)]), 2)]), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("ul", _hoisted_7, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", {
-        class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["toolbar-item", [showSearch.value && 'toolbar-item-active']]),
-        ref_key: "reference",
-        ref: reference,
-        onClick: toggleSearch
-      }, _cache[21] || (_cache[21] = [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
-        class: "icon iconfont icon-chaxun"
-      }, null, -1), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", null, "查询", -1)]), 2), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", {
-        class: "toolbar-item",
-        onClick: print
-      }, _cache[22] || (_cache[22] = [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
-        class: "icon iconfont icon-dayinji_o"
-      }, null, -1), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", null, "打印", -1)]))])]), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_8, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createVNode)(external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.Transition, {
+      }, "/", -1)), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", _hoisted_11, (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.toDisplayString)(totalPage.value), 1)])) : (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createCommentVNode)("", true), smallMenu.value ? ((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)("div", {
+        key: 1,
+        ref_key: "menuReference",
+        ref: menuReference,
+        class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["toolbar-item w-[30px] absolute right-0 h-[30px] leading-[30px] py-0 mt-[10px]", [showSmallMenu.value && 'toolbar-item-active']]),
+        onClick: toggleMenu
+      }, _cache[24] || (_cache[24] = [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
+        class: "icon iconfont icon-gengduo"
+      }, null, -1)]), 2)) : (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createCommentVNode)("", true)]), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_12, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createVNode)(external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.Transition, {
         name: "transform"
       }, {
-        default: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withCtx)(() => [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withDirectives)((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_9, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withDirectives)((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createVNode)(PDFTree, {
+        default: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withCtx)(() => [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withDirectives)((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_13, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withDirectives)((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createVNode)(PDFTree, {
           "tree-data": catalogTreeData.value,
           "node-key": "title",
           onNodeClick: clickCatalog
@@ -19149,26 +19225,26 @@ const _hoisted_21 = {
           ref: thumbnailContainer
         }, null, 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.vShow, showThumbnail.value]])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.vShow, showThumbnail.value || showCatalog.value]])]),
         _: 1
-      }), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_10, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
+      }), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_14, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
         ref_key: "pdfContainer",
         ref: pdfContainer,
         class: "pdf-container absolute w-full h-full overflow-auto"
-      }, _cache[23] || (_cache[23] = [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
+      }, _cache[25] || (_cache[25] = [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
         class: "pdfViewer"
-      }, null, -1)]), 512)])]), loadingPercentVisible.value ? ((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)("div", _hoisted_11, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_12, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_13, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
+      }, null, -1)]), 512)])]), loadingPercentVisible.value ? ((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)("div", _hoisted_15, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_16, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_17, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
         class: "absolute w-full h-full bg-violet-300 transition-all",
         style: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeStyle)({
           transform: `translateX(${loadingPercent.value - 100}%)`
         })
-      }, null, 4)]), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_14, " 准备加载文档中，当前进度：" + (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.toDisplayString)(loadingPercent.value) + "% ", 1)])])) : (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createCommentVNode)("", true), showPrint.value ? ((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)("div", _hoisted_15, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_16, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_17, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
+      }, null, 4)]), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_18, " 准备加载文档中，当前进度：" + (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.toDisplayString)(loadingPercent.value) + "% ", 1)])])) : (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createCommentVNode)("", true), showPrint.value ? ((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)("div", _hoisted_19, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_20, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_21, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
         class: "absolute w-full h-full bg-violet-300 transition-all",
         style: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeStyle)({
           transform: `translateX(${progress.value - 100}%)`
         })
-      }, null, 4)]), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_18, " 准备打印文档中，当前进度：" + (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.toDisplayString)(progress.value) + "% ", 1), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
+      }, null, 4)]), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_22, " 准备打印文档中，当前进度：" + (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.toDisplayString)(progress.value) + "% ", 1), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
         class: "mt-[10px] text-center"
       }, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("button", {
-        class: "text-[12px] text-violet-400 py-[3px] px-[5px] rounded-[5px] transition-all hover:text-purple-400",
+        class: "text-[12px] text-violet-400 py-[3px] px-[5px] rounded-[5px] transition-all hover:text-purple-400 bg-transparent border-none outline-none bg-transparent",
         onClick: abort
       }, "取消打印")])])])) : (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createCommentVNode)("", true), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createVNode)(external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.Transition, {
         name: "float-fade"
@@ -19177,9 +19253,9 @@ const _hoisted_21 = {
           ref_key: "floating",
           ref: floating,
           class: "w-[165px] min-h-[90px] px-[6px] py-[5px] absolute bg-white rounded-[6px] z-[20] search-float transition-all duration-300 overflow-hidden"
-        }, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_19, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withDirectives)((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("input", {
+        }, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_23, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withDirectives)((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("input", {
           type: "text",
-          class: "w-[100px] border rounded-[3px] focus:border-violet-300 outline-none px-[5px] py-[3px] text-[12px] mr-[5px]",
+          class: "w-[100px] rounded-[3px] h-[27px] focus:border-violet-300 outline-none px-[5px] py-[3px] text-[12px] mr-[5px]",
           "onUpdate:modelValue": _cache[7] || (_cache[7] = $event => searchKey.value = $event),
           onInput: _cache[8] || (_cache[8] = (...args) => (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.unref)(input) && (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.unref)(input)(...args)),
           onKeyup: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withKeys)(findNext, ["enter"])
@@ -19189,7 +19265,7 @@ const _hoisted_21 = {
         }), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
           class: "icon iconfont icon-jiantou_xiangxia pdf-search-toggle",
           onClick: findNext
-        })]), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_20, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
+        })]), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_24, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
           class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["pdf-search-option", [searchOptions.highlightAll && 'toolbar-item-active']]),
           onClick: _cache[9] || (_cache[9] = $event => toggleSearchOption('highlightAll'))
         }, "全部高亮显示", 2), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
@@ -19201,18 +19277,18 @@ const _hoisted_21 = {
         }, "匹配变音符号", 2), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
           class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["pdf-search-option ml-[1px]", [searchOptions.entireWord && 'toolbar-item-active']]),
           onClick: _cache[12] || (_cache[12] = $event => toggleSearchOption('entireWord'))
-        }, "全词匹配", 2)]), searchTotal.value > 0 ? ((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)("div", _hoisted_21, " 第" + (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.toDisplayString)(searchIndex.value) + "项，共" + (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.toDisplayString)(searchTotal.value) + "项 ", 1)) : (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createCommentVNode)("", true)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.vShow, showSearch.value]])]),
+        }, "全词匹配", 2)]), searchTotal.value > 0 ? ((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)("div", _hoisted_25, " 第" + (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.toDisplayString)(searchIndex.value) + "项，共" + (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.toDisplayString)(searchTotal.value) + "项 ", 1)) : (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createCommentVNode)("", true)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.vShow, showSearch.value]])]),
         _: 1
-      })]);
+      })]))]);
     };
   }
 });
 ;// ./lib/PDF.vue?vue&type=script&setup=true&lang=js
  
-;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-12.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./lib/PDF.vue?vue&type=style&index=0&id=20ee4bfa&lang=css
+;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-12.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./lib/PDF.vue?vue&type=style&index=0&id=5820fe84&lang=css
 // extracted by mini-css-extract-plugin
 
-;// ./lib/PDF.vue?vue&type=style&index=0&id=20ee4bfa&lang=css
+;// ./lib/PDF.vue?vue&type=style&index=0&id=5820fe84&lang=css
 
 ;// ./lib/PDF.vue
 
