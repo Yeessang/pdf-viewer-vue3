@@ -61,5 +61,9 @@
     "vue-pdf-viewer",
     "pdf.js",
     "javascript"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yeessang/pdf-viewer-vue3"
+  }
 }
