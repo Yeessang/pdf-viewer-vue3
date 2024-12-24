@@ -17,7 +17,7 @@
           <i 
             v-if="node.items?.length"
             class="icon iconfont icon-expand text-[12px] transition-all" 
-            :class="[expandKeys.includes(node[nodeKey]) ? 'rotate-0' : 'rotate-[-90deg]']"
+            :style="{ transform: `rotate(${expandKeys.includes(node[nodeKey]) ? '0deg' : '-90deg'})` }"
             @click.stop="expandNode(node)"
           ></i>
           <span class="ml-[3px] inline-block whitespace-nowrap overflow-hidden text-ellipsis" :title="node.title">{{ node.title }}</span>

@@ -13641,9 +13641,12 @@ const _hoisted_4 = ["title"];
           onClick: (0,external_commonjs_vue_commonjs2_vue_root_Vue_.withModifiers)($event => _ctx.$emit('nodeClick', node), ["stop"])
         }, [node.items?.length ? ((0,external_commonjs_vue_commonjs2_vue_root_Vue_.openBlock)(), (0,external_commonjs_vue_commonjs2_vue_root_Vue_.createElementBlock)("i", {
           key: 0,
-          class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_.normalizeClass)(["icon iconfont icon-expand text-[12px] transition-all", [expandKeys.value.includes(node[__props.nodeKey]) ? 'rotate-0' : 'rotate-[-90deg]']]),
+          class: "icon iconfont icon-expand text-[12px] transition-all",
+          style: (0,external_commonjs_vue_commonjs2_vue_root_Vue_.normalizeStyle)({
+            transform: `rotate(${expandKeys.value.includes(node[__props.nodeKey]) ? '0deg' : '-90deg'})`
+          }),
           onClick: (0,external_commonjs_vue_commonjs2_vue_root_Vue_.withModifiers)($event => expandNode(node), ["stop"])
-        }, null, 10, _hoisted_3)) : (0,external_commonjs_vue_commonjs2_vue_root_Vue_.createCommentVNode)("", true), (0,external_commonjs_vue_commonjs2_vue_root_Vue_.createElementVNode)("span", {
+        }, null, 12, _hoisted_3)) : (0,external_commonjs_vue_commonjs2_vue_root_Vue_.createCommentVNode)("", true), (0,external_commonjs_vue_commonjs2_vue_root_Vue_.createElementVNode)("span", {
           class: "ml-[3px] inline-block whitespace-nowrap overflow-hidden text-ellipsis",
           title: node.title
         }, (0,external_commonjs_vue_commonjs2_vue_root_Vue_.toDisplayString)(node.title), 9, _hoisted_4)], 8, _hoisted_2), node.items?.length && expandKeys.value.includes(node[__props.nodeKey]) ? ((0,external_commonjs_vue_commonjs2_vue_root_Vue_.openBlock)(), (0,external_commonjs_vue_commonjs2_vue_root_Vue_.createBlock)(_component_PDFTree, {
@@ -19087,6 +19090,10 @@ const _hoisted_25 = {
       searchIndex.value = 0;
       searchTotal.value = 0;
     }
+    const searchFloatXY = (0,external_commonjs_vue_commonjs2_vue_root_Vue_.reactive)({
+      x: 0,
+      y: 0
+    });
     function toggleSearch() {
       showSearch.value = !showSearch.value;
       if (showSearch.value) {
@@ -19097,8 +19104,16 @@ const _hoisted_25 = {
             middleware: [floating_ui_dom_flip(), floating_ui_dom_shift()]
           }).then(({
             x,
-            y
+            y,
+            placement
           }) => {
+            if (placement.includes("bottom")) {
+              searchFloatXY.x = 120;
+              searchFloatXY.y = -10;
+            } else if (placement.includes("top")) {
+              searchFloatXY.x = 120;
+              searchFloatXY.y = floating.value.offsetHeight + 10;
+            }
             Object.assign(floating.value.style, {
               top: `${y}px`,
               left: `${x - 3}px`
@@ -19112,6 +19127,10 @@ const _hoisted_25 = {
     }
     const menuReference = (0,external_commonjs_vue_commonjs2_vue_root_Vue_.ref)();
     const menuFloating = (0,external_commonjs_vue_commonjs2_vue_root_Vue_.ref)();
+    const menuFloatXY = (0,external_commonjs_vue_commonjs2_vue_root_Vue_.reactive)({
+      x: 0,
+      y: 0
+    });
     function toggleMenu() {
       showSmallMenu.value = !showSmallMenu.value;
       if (showSmallMenu.value) {
@@ -19121,11 +19140,21 @@ const _hoisted_25 = {
             middleware: [floating_ui_dom_flip(), floating_ui_dom_shift()]
           }).then(({
             x,
-            y
+            y,
+            placement
           }) => {
-            Object.assign(menuFloating.value.style, {
-              top: `${y + 10}px`,
-              left: `${x - 3}px`
+            if (placement.includes("bottom")) {
+              menuFloatXY.x = x / 2;
+              menuFloatXY.y = 10;
+            } else if (placement.includes("top")) {
+              menuFloatXY.x = x / 2;
+              menuFloatXY.y = menuFloating.value.offsetHeight + 10;
+            }
+            (0,external_commonjs_vue_commonjs2_vue_root_Vue_.nextTick)(() => {
+              Object.assign(menuFloating.value.style, {
+                top: `${y + 10}px`,
+                left: `${x - 3}px`
+              });
             });
           });
         });
@@ -19154,7 +19183,10 @@ const _hoisted_25 = {
         default: (0,external_commonjs_vue_commonjs2_vue_root_Vue_.withCtx)(() => [(0,external_commonjs_vue_commonjs2_vue_root_Vue_.withDirectives)((0,external_commonjs_vue_commonjs2_vue_root_Vue_.createElementVNode)("div", {
           ref_key: "menuFloating",
           ref: menuFloating,
-          class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_.normalizeClass)([smallMenu.value ? 'pdf-toolbar-container-small' : 'pdf-toolbar-container'])
+          class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_.normalizeClass)([smallMenu.value ? 'pdf-toolbar-container-small' : 'pdf-toolbar-container']),
+          style: (0,external_commonjs_vue_commonjs2_vue_root_Vue_.normalizeStyle)({
+            transformOrigin: `${menuFloatXY.x}px ${menuFloatXY.y}px`
+          })
         }, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_.createElementVNode)("ul", PDFvue_type_script_setup_true_lang_js_hoisted_3, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_.createElementVNode)("li", {
           class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_.normalizeClass)(["toolbar-item", [showThumbnail.value && 'toolbar-item-active']]),
           onClick: _cache[0] || (_cache[0] = $event => showThumbnail.value = !showThumbnail.value)
@@ -19211,7 +19243,7 @@ const _hoisted_25 = {
           onClick: print
         }, _cache[22] || (_cache[22] = [(0,external_commonjs_vue_commonjs2_vue_root_Vue_.createElementVNode)("i", {
           class: "icon iconfont icon-dayinji_o"
-        }, null, -1), (0,external_commonjs_vue_commonjs2_vue_root_Vue_.createElementVNode)("span", null, "打印", -1)]))])], 2), [[external_commonjs_vue_commonjs2_vue_root_Vue_.vShow, showSmallMenu.value]])]),
+        }, null, -1), (0,external_commonjs_vue_commonjs2_vue_root_Vue_.createElementVNode)("span", null, "打印", -1)]))])], 6), [[external_commonjs_vue_commonjs2_vue_root_Vue_.vShow, showSmallMenu.value]])]),
         _: 1
       }), smallMenu.value ? ((0,external_commonjs_vue_commonjs2_vue_root_Vue_.openBlock)(), (0,external_commonjs_vue_commonjs2_vue_root_Vue_.createElementBlock)("div", _hoisted_9, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_.createElementVNode)("input", {
         type: "number",
@@ -19270,6 +19302,9 @@ const _hoisted_25 = {
         default: (0,external_commonjs_vue_commonjs2_vue_root_Vue_.withCtx)(() => [(0,external_commonjs_vue_commonjs2_vue_root_Vue_.withDirectives)((0,external_commonjs_vue_commonjs2_vue_root_Vue_.createElementVNode)("div", {
           ref_key: "floating",
           ref: floating,
+          style: (0,external_commonjs_vue_commonjs2_vue_root_Vue_.normalizeStyle)({
+            transformOrigin: `${searchFloatXY.x}px ${searchFloatXY.y}px`
+          }),
           class: "w-[165px] min-h-[90px] px-[6px] py-[5px] absolute bg-white rounded-[6px] z-[20] search-float transition-all duration-300 overflow-hidden"
         }, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_.createElementVNode)("div", _hoisted_23, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_.withDirectives)((0,external_commonjs_vue_commonjs2_vue_root_Vue_.createElementVNode)("input", {
           type: "text",
@@ -19295,7 +19330,7 @@ const _hoisted_25 = {
         }, "匹配变音符号", 2), (0,external_commonjs_vue_commonjs2_vue_root_Vue_.createElementVNode)("div", {
           class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_.normalizeClass)(["pdf-search-option ml-[1px]", [searchOptions.entireWord && 'toolbar-item-active']]),
           onClick: _cache[12] || (_cache[12] = $event => toggleSearchOption('entireWord'))
-        }, "全词匹配", 2)]), searchTotal.value > 0 ? ((0,external_commonjs_vue_commonjs2_vue_root_Vue_.openBlock)(), (0,external_commonjs_vue_commonjs2_vue_root_Vue_.createElementBlock)("div", _hoisted_25, " 第" + (0,external_commonjs_vue_commonjs2_vue_root_Vue_.toDisplayString)(searchIndex.value) + "项，共" + (0,external_commonjs_vue_commonjs2_vue_root_Vue_.toDisplayString)(searchTotal.value) + "项 ", 1)) : (0,external_commonjs_vue_commonjs2_vue_root_Vue_.createCommentVNode)("", true)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_.vShow, showSearch.value]])]),
+        }, "全词匹配", 2)]), searchTotal.value > 0 ? ((0,external_commonjs_vue_commonjs2_vue_root_Vue_.openBlock)(), (0,external_commonjs_vue_commonjs2_vue_root_Vue_.createElementBlock)("div", _hoisted_25, " 第" + (0,external_commonjs_vue_commonjs2_vue_root_Vue_.toDisplayString)(searchIndex.value) + "项，共" + (0,external_commonjs_vue_commonjs2_vue_root_Vue_.toDisplayString)(searchTotal.value) + "项 ", 1)) : (0,external_commonjs_vue_commonjs2_vue_root_Vue_.createCommentVNode)("", true)], 4), [[external_commonjs_vue_commonjs2_vue_root_Vue_.vShow, showSearch.value]])]),
         _: 1
       })]))]);
     };
@@ -19303,10 +19338,10 @@ const _hoisted_25 = {
 });
 ;// ./lib/PDF.vue?vue&type=script&setup=true&lang=js
  
-;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-54.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-54.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-54.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./lib/PDF.vue?vue&type=style&index=0&id=5820fe84&lang=css
+;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-54.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-54.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-54.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./lib/PDF.vue?vue&type=style&index=0&id=47341208&lang=css
 // extracted by mini-css-extract-plugin
 
-;// ./lib/PDF.vue?vue&type=style&index=0&id=5820fe84&lang=css
+;// ./lib/PDF.vue?vue&type=style&index=0&id=47341208&lang=css
 
 ;// ./lib/PDF.vue
 

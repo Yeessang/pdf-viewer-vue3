@@ -12,7 +12,8 @@
           <div
             v-show="showSmallMenu"
             ref="menuFloating"
-            :class="[smallMenu ? 'pdf-toolbar-container-small' : 'pdf-toolbar-container']"
+            :class="[ smallMenu ? 'pdf-toolbar-container-small' : 'pdf-toolbar-container' ]"
+            :style="{ transformOrigin: `${menuFloatXY.x}px ${menuFloatXY.y}px` }"
           >
             <ul class="toolbar-group">
               <li class="toolbar-item" :class="[showThumbnail && 'toolbar-item-active']" @click="showThumbnail = !showThumbnail">
@@ -153,6 +154,7 @@
         <div
           v-show="showSearch"
           ref="floating" 
+          :style="{ transformOrigin: `${searchFloatXY.x}px ${searchFloatXY.y}px` }"
           class="w-[165px] min-h-[90px] px-[6px] py-[5px] absolute bg-white rounded-[6px] z-[20] search-float transition-all duration-300 overflow-hidden"
         >
           <div class="flex items-center">
@@ -380,6 +382,11 @@ function resetSearch() {
   searchIndex.value = 0;
   searchTotal.value = 0;
 }
+
+const searchFloatXY = reactive({
+  x: 0,
+  y: 0
+})
 function toggleSearch() {
   showSearch.value = !showSearch.value;
   if (showSearch.value) {
@@ -388,7 +395,14 @@ function toggleSearch() {
       computePosition(reference.value, floating.value, {
         placement: "bottom",
         middleware: [flip(), shift()]
-      }).then(({ x, y }) => {
+      }).then(({ x, y, placement }) => {
+        if (placement.includes("bottom")) {
+          searchFloatXY.x = 120
+          searchFloatXY.y = -10
+        } else if (placement.includes("top")) {
+          searchFloatXY.x = 120
+          searchFloatXY.y = floating.value.offsetHeight + 10
+        }
         Object.assign(floating.value.style, {
           top: `${y}px`,
           left: `${x - 3}px`
@@ -404,6 +418,10 @@ function toggleSearch() {
 
 const menuReference = ref();
 const menuFloating = ref();
+const menuFloatXY = reactive({
+  x: 0,
+  y: 0
+})
 function toggleMenu() {
   showSmallMenu.value = !showSmallMenu.value;
   if (showSmallMenu.value) {
@@ -411,11 +429,20 @@ function toggleMenu() {
       computePosition(menuReference.value, menuFloating.value, {
         placement: "bottom",
         middleware: [flip(), shift()]
-      }).then(({ x, y }) => {
-        Object.assign(menuFloating.value.style, {
-          top: `${y + 10}px`,
-          left: `${x - 3}px`
-        });
+      }).then(({ x, y, placement }) => {
+        if (placement.includes("bottom")) {
+          menuFloatXY.x = x / 2
+          menuFloatXY.y = 10
+        } else if (placement.includes("top")) {
+          menuFloatXY.x = x / 2
+          menuFloatXY.y = menuFloating.value.offsetHeight + 10
+        }
+        nextTick(() => {
+          Object.assign(menuFloating.value.style, {
+            top: `${y + 10}px`,
+            left: `${x - 3}px`
+          });
+        })
       });
     })
   }
@@ -451,11 +478,19 @@ defineExpose({
 .float-fade-enter-active,
 .float-fade-leave-active {
   opacity: 0;
+  transform: scale(0);
 }
 
 .float-fade-enter-from,
 .float-fade-leave-to {
   opacity: 0;
+  transform: scale(0);
+}
+
+.float-fade-enter-to,
+.float-fade-leave-from {
+  opacity: 1;
+  transform: scale(1);
 }
 
 

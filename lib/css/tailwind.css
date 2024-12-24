@@ -32,7 +32,7 @@ button,
     @apply flex items-center text-[11px] leading-[16px];
   }
   .pdf-toolbar-container-small .toolbar-group {
-    @apply flex-col items-start w-full pr-[6px];
+    @apply flex-col items-start w-full pr-[3px];
   }
   .pdf-toolbar-container-small .toolbar-item {
     @apply flex-row h-[30px] w-full mr-[6px] my-[1px] justify-start py-[6px];

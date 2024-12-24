@@ -1,6 +1,6 @@
 {
   "name": "pdf-viewer-vue3",
-  "version": "0.1.34",
+  "version": "0.1.38",
   "private": false,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -55,6 +55,7 @@
   "keywords": [
     "pdf",
     "vue3",
+    "vue",
     "pdf-viewer",
     "web",
     "pdf viewer",
