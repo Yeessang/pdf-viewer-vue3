@@ -19369,4 +19369,3 @@ const PDF_exports_ = PDFvue_type_script_setup_true_lang_js;
 /******/ })()
 ;
 });
-//# sourceMappingURL=pdf-viewer.umd.js.map

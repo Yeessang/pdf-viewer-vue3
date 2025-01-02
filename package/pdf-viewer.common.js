@@ -19350,4 +19350,3 @@ const PDF_exports_ = PDFvue_type_script_setup_true_lang_js;
 module.exports = __webpack_exports__;
 /******/ })()
 ;
-//# sourceMappingURL=pdf-viewer.common.js.map
