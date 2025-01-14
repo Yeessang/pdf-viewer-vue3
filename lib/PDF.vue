@@ -266,7 +266,7 @@ function bindSize(dom, callback) {
 watch(pdfWrapper, (dom) => {
   if (dom) {
     bindSize(dom, () => {
-      const isSmallMenu = dom.clientWidth < 610
+      const isSmallMenu = dom.clientWidth < 700
       showSmallMenu.value = !isSmallMenu
       setTimeout(() => {
         smallMenu.value = isSmallMenu

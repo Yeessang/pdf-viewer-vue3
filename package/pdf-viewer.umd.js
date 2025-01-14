@@ -18966,7 +18966,7 @@ const _hoisted_27 = {
     (0,external_commonjs_vue_commonjs2_vue_root_Vue_.watch)(pdfWrapper, dom => {
       if (dom) {
         bindSize(dom, () => {
-          const isSmallMenu = dom.clientWidth < 610;
+          const isSmallMenu = dom.clientWidth < 700;
           showSmallMenu.value = !isSmallMenu;
           setTimeout(() => {
             smallMenu.value = isSmallMenu;
@@ -19403,10 +19403,10 @@ const _hoisted_27 = {
 });
 ;// ./lib/PDF.vue?vue&type=script&setup=true&lang=js
  
-;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-54.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-54.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-54.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./lib/PDF.vue?vue&type=style&index=0&id=0d622943&lang=css
+;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-54.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-54.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-54.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./lib/PDF.vue?vue&type=style&index=0&id=133fb736&lang=css
 // extracted by mini-css-extract-plugin
 
-;// ./lib/PDF.vue?vue&type=style&index=0&id=0d622943&lang=css
+;// ./lib/PDF.vue?vue&type=style&index=0&id=133fb736&lang=css
 
 ;// ./lib/PDF.vue
 
