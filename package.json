@@ -1,6 +1,6 @@
 {
   "name": "pdf-viewer-vue3",
-  "version": "0.1.39",
+  "version": "0.1.42",
   "private": false,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -31,7 +31,7 @@
   "files": [
     "package"
   ],
-  "main": "package/pdf-viewer.umd.js",
+  "main": "package/pdf-viewer.umd.min.js",
   "eslintConfig": {
     "root": true,
     "env": {

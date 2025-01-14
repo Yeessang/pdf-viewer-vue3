@@ -1,12 +1,12 @@
 
-import * as PDFJS from 'pdfjs-dist'
+import { GlobalWorkerOptions, getDocument } from 'pdfjs-dist'
 import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.entry.js'
 import { PDFViewer, PDFFindController, PDFLinkService, EventBus, DownloadManager } from "./pdf_viewer";
 import { PDFThumbnailViewer } from './pdf_thumbnail_viewer'
 import { createPrintService, abort } from './print_service.js'
 
 
-PDFJS.GlobalWorkerOptions.workerSrc = pdfjsWorker
+GlobalWorkerOptions.workerSrc = pdfjsWorker
 
 
 export class PDF {
@@ -103,7 +103,10 @@ export class PDF {
       this.eventBus.on("pagechanging", (pageInfo) => {
         this.listeners?.onPageChanging?.(pageInfo)
       })
-      const loadingTask = PDFJS.getDocument(options)
+      this.eventBus.on("scalechanging", (scaleInfo) => {
+        this.listeners?.onScaleChanging?.(scaleInfo)
+      })
+      const loadingTask = getDocument(options)
       loadingTask.onProgress = (progressData) => {
         percentLoaded = Math.min(100, Math.round(
           (progressData.loaded / progressData.total) * 100

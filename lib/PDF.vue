@@ -34,6 +34,17 @@
                 <i class="icon iconfont icon-zishiyingkuandu"></i>
                 <span>适应宽度</span>
               </li>
+              <li class="toolbar-page">
+                <input
+                  type="number" 
+                  class="pdf-input text-slate-600" 
+                  max="40" 
+                  min="1" 
+                  :value="currentScale" 
+                  @keyup.enter="inputScaleHandler"
+                />
+                <span class="toolbar-page-percent">%</span>
+              </li>
               <li class="toolbar-item" :class="[pageScale === 'page-height' && 'toolbar-item-active']" @click="changePageScale('page-height')">
                 <i class="icon iconfont icon-zishiyinggaodu"></i>
                 <span>适应高度</span>
@@ -57,6 +68,14 @@
               <li class="toolbar-item" :class="[spreadMode === 1 && 'toolbar-item-active']" @click="changeSpreadMode(1)">
                 <i class="icon iconfont icon-shuangyeshitu"></i>
                 <span>双页视图</span>
+              </li>
+              <li class="toolbar-item" :class="[rotation > 0 && 'toolbar-item-active']" @click="changeRotation">
+                <i class="icon iconfont icon-rotate" :style="{ transform: `rotate(${rotation}deg)` }"></i>
+                <span>旋转</span>
+              </li>
+              <li class="toolbar-item toolbar-item-active" @click="changeScrollMode">
+                <i class="icon iconfont icon-hengxianggundong1" :class="[scrollMode === 0 && 'pdf-rotate-90']"></i>
+                <span>{{ scrollMode === 0 ? '竖向滚动' : '横向滚动' }}</span>
               </li>
             </ul>
             <ul class="toolbar-group">
@@ -188,7 +207,7 @@ import PDFTree from './PDFTree.vue';
 import { PDF } from '../core/pdf';
 import { ref, nextTick, defineExpose, defineEmits, watch, reactive, toRaw, shallowRef, onBeforeUnmount } from 'vue';
 import ResizeObserver from 'resize-observer-polyfill';
-import { computePosition, flip, shift } from "@floating-ui/dom";
+import { computePosition, flip, shift, size } from "@floating-ui/dom";
 import { debounce } from '../core';
 let pdfInstance = shallowRef();
 const pdfWrapper = ref();
@@ -202,7 +221,7 @@ const loadingPercent = ref(0);
 const loadingPercentVisible = ref(false);
 const smallMenu = ref(false);
 const showSmallMenu = ref(false);
-const emits = defineEmits(["pagesLoaded", "pageRendered", "pageChanging", "findChange"]);
+const emits = defineEmits(["pagesLoaded", "pageRendered", "pageChanging", "findChange", "scaleChanging"]);
 function pagePressHandler(e) {
   let value = Number(e.target.value);
   value = Math.min(Math.max(0, value), totalPage.value);
@@ -271,6 +290,9 @@ function loadFile(data) {
   catalogTreeData.value = [];
   showSearch.value = false;
   loadingPercent.value = 0;
+  rotation.value = 0;
+  scrollMode.value = 0;
+  currentScale.value = 100;
   resetSearch();
   nextTick(() => {
     pdfInstance.value = new PDF({
@@ -297,6 +319,10 @@ function loadFile(data) {
         onLoadProgress: (v) => {
           loadingPercentVisible.value = v < 100
           loadingPercent.value = v
+        },
+        onScaleChanging: (v) => {
+          currentScale.value = parseInt(v.scale * 100)
+          emits("scaleChanging", v)
         }
       }
     });
@@ -428,7 +454,14 @@ function toggleMenu() {
     nextTick(() => {
       computePosition(menuReference.value, menuFloating.value, {
         placement: "bottom",
-        middleware: [flip(), shift()]
+        middleware: [flip(), shift(), size({
+          apply({availableHeight, elements}) {
+            Object.assign(elements.floating.style, {
+              maxHeight: `${Math.max(100, availableHeight - 15)}px`,
+              overflowY: 'auto'
+            });
+          },
+        })]
       }).then(({ x, y, placement }) => {
         if (placement.includes("bottom")) {
           menuFloatXY.x = x / 2
@@ -448,6 +481,25 @@ function toggleMenu() {
   }
 }
 
+const rotation = ref(0)
+const scrollMode = ref(0)
+const currentScale = ref(100)
+function inputScaleHandler(e) {
+  let value = Number(e.target.value);
+  changePageScale(value / 100)
+}
+function changeScrollMode() {
+  scrollMode.value = scrollMode.value === 0 ? 1 : 0
+  if (pdfInstance.value) {
+    pdfInstance.value.viewer.scrollMode = scrollMode.value
+  }
+}
+function changeRotation() {
+  rotation.value = (rotation.value + 90) % 360
+  if (pdfInstance.value) {
+    pdfInstance.value.viewer.pagesRotation = rotation.value
+  }
+}
 function destroy() {
   if (pdfInstance.value) pdfInstance.value.pdf?.destroy?.()
 }
@@ -493,7 +545,9 @@ defineExpose({
   transform: scale(1);
 }
 
-
+.pdf-rotate-90 {
+  transform: rotate(-90deg);
+}
 .search-float {
   box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.06);
 }

@@ -13,9 +13,11 @@
 - 目录
 - 翻页、跳转页
 - 单页/双页视图
-- 缩放（同样也支持比例缩放，未来会加）
+- 缩放/容器宽/容器高/原尺寸/自定义尺寸
 - 打印
 - 搜索文本
+- 旋转
+- 横向/竖向滚动
 - 移动端
 
 ## usage
@@ -54,6 +56,7 @@ function openFile() {
       @pageRendered="(v) => console.log('pageRendered 单页渲染', v)"
       @pageChanging="(v) => console.log('pageChanging 当前页改变', v)"
       @findChange="(v) => console.log('findChange 查找改变', v)"
+      @scaleChanging="(v) => console.log('scaleChanging 缩放比例改变', v)"
       style="width: 800px; height: 500px; margin: auto;"
     ></PDF>
   </div>

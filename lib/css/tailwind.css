@@ -26,7 +26,7 @@ button,
     @apply flex w-full h-[50px] bg-[#fff] justify-between transition-all duration-200 overflow-hidden;
   }
   .pdf-toolbar-container-small {
-    @apply flex w-[100px] h-auto bg-[#fff] rounded-[5px] flex-col absolute top-[50px] z-30 right-0 py-[6px] pr-[6px] pl-[3px] shadow-[0_0_3px_3px_rgba(0,0,0,0.06)] transition-all duration-200 overflow-hidden;
+    @apply flex w-[108px] h-auto bg-[#fff] rounded-[5px] flex-col absolute top-[50px] z-30 right-0 py-[6px] pr-[6px] pl-[3px] shadow-[0_0_3px_3px_rgba(0,0,0,0.06)] transition-all duration-200 overflow-hidden;
   }
   .toolbar-group {
     @apply flex items-center text-[11px] leading-[16px];
@@ -35,13 +35,19 @@ button,
     @apply flex-col items-start w-full pr-[3px];
   }
   .pdf-toolbar-container-small .toolbar-item {
-    @apply flex-row h-[30px] w-full mr-[6px] my-[1px] justify-start py-[6px];
+    @apply flex-row h-[30px] w-full mr-[6px] my-[1px] justify-start py-[6px] overflow-hidden text-ellipsis whitespace-nowrap;
   }
   .pdf-toolbar-container-small .iconfont {
     @apply mr-[6px];
   }
+  .pdf-toolbar-container-small .toolbar-page {
+    @apply m-auto;
+  }
   .toolbar-item {
     @apply flex flex-col mx-[3px] px-[6px] pt-[6px] pb-[3px] h-[45px] justify-between items-center text-gray-700 cursor-pointer hover:text-indigo-500 transition-all rounded-[5px] hover:bg-slate-100;
+  }
+  .toolbar-item i {
+    @apply transition-all;
   }
   .toolbar-item-active {
     @apply text-indigo-500
@@ -50,13 +56,16 @@ button,
     @apply flex items-center rounded-[3px] bg-slate-100 py-[3px] px-[6px] leading-[20px] text-center text-slate-600;
   }
   .pdf-input {
-    @apply border-none outline-none h-[20px] w-[20px] bg-transparent text-center text-[12px] p-0 mt-[1px];
+    @apply border-none outline-none h-[20px] w-[20px] bg-transparent text-center text-[12px] p-0;
   }
   .toolbar-page-divide {
-    @apply ml-[5px]
+    @apply ml-[5px] leading-[20px]
   }
   .toolbar-page-sum {
-    @apply w-[20px]
+    @apply w-[20px] leading-[20px]
+  }
+  .toolbar-page-percent {
+    @apply w-[16px] leading-[20px]
   }
   .pdf-thumbnail {
     @apply bg-slate-100 w-[200px] z-20 shadow-lg text-center py-[10px] h-full transition-all

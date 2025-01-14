@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "15974170",
+      "name": "横向滚动1",
+      "font_class": "hengxianggundong1",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    },
+    {
+      "icon_id": "39097250",
+      "name": "rotate",
+      "font_class": "rotate",
+      "unicode": "e782",
+      "unicode_decimal": 59266
+    },
+    {
       "icon_id": "5387588",
       "name": "箭头_向下",
       "font_class": "jiantou_xiangxia",
