@@ -18868,7 +18868,7 @@ const _hoisted_17 = {
   class: "absolute top-0 bottom-0 right-0 left-0 bg-[rgba(255,255,255,.9)] z-[100]"
 };
 const _hoisted_18 = {
-  class: "absolute left-1/2 top-1/2 translate-y-[-50%] translate-x-[-50%]"
+  class: "pdf-small-menu"
 };
 const _hoisted_19 = {
   class: "relative w-[230px] h-[24px] rounded-[12px] overflow-hidden bg-slate-200"
@@ -19321,13 +19321,13 @@ const _hoisted_27 = {
         class: "align-top mx-[5px]"
       }, "/", -1)), (0,external_commonjs_vue_commonjs2_vue_root_Vue_.createElementVNode)("span", _hoisted_13, (0,external_commonjs_vue_commonjs2_vue_root_Vue_.toDisplayString)(totalPage.value), 1)])) : (0,external_commonjs_vue_commonjs2_vue_root_Vue_.createCommentVNode)("", true), smallMenu.value ? ((0,external_commonjs_vue_commonjs2_vue_root_Vue_.openBlock)(), (0,external_commonjs_vue_commonjs2_vue_root_Vue_.createElementBlock)("div", {
         key: 1,
+        class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_.normalizeClass)(["pdf-menu-setting toolbar-item", [showSmallMenu.value && 'toolbar-item-active']]),
         ref_key: "menuReference",
         ref: menuReference,
-        class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_.normalizeClass)(["toolbar-item w-[30px] absolute right-0 h-[30px] leading-[30px] py-0 mt-[10px]", [showSmallMenu.value && 'toolbar-item-active']]),
         onClick: toggleMenu
-      }, _cache[26] || (_cache[26] = [(0,external_commonjs_vue_commonjs2_vue_root_Vue_.createElementVNode)("i", {
-        class: "icon iconfont icon-gengduo"
-      }, null, -1)]), 2)) : (0,external_commonjs_vue_commonjs2_vue_root_Vue_.createCommentVNode)("", true)]), (0,external_commonjs_vue_commonjs2_vue_root_Vue_.createElementVNode)("div", _hoisted_14, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_.createVNode)(external_commonjs_vue_commonjs2_vue_root_Vue_.Transition, {
+      }, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_.createElementVNode)("div", {
+        class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_.normalizeClass)(["menu-group-setting", [showSmallMenu.value && 'menu-group-setting-active']])
+      }, null, 2)], 2)) : (0,external_commonjs_vue_commonjs2_vue_root_Vue_.createCommentVNode)("", true)]), (0,external_commonjs_vue_commonjs2_vue_root_Vue_.createElementVNode)("div", _hoisted_14, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_.createVNode)(external_commonjs_vue_commonjs2_vue_root_Vue_.Transition, {
         name: "transform"
       }, {
         default: (0,external_commonjs_vue_commonjs2_vue_root_Vue_.withCtx)(() => [(0,external_commonjs_vue_commonjs2_vue_root_Vue_.withDirectives)((0,external_commonjs_vue_commonjs2_vue_root_Vue_.createElementVNode)("div", _hoisted_15, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_.withDirectives)((0,external_commonjs_vue_commonjs2_vue_root_Vue_.createVNode)(PDFTree, {
@@ -19344,7 +19344,7 @@ const _hoisted_27 = {
         ref_key: "pdfContainer",
         ref: pdfContainer,
         class: "pdf-container absolute w-full h-full overflow-auto"
-      }, _cache[27] || (_cache[27] = [(0,external_commonjs_vue_commonjs2_vue_root_Vue_.createElementVNode)("div", {
+      }, _cache[26] || (_cache[26] = [(0,external_commonjs_vue_commonjs2_vue_root_Vue_.createElementVNode)("div", {
         class: "pdfViewer"
       }, null, -1)]), 512)])]), loadingPercentVisible.value ? ((0,external_commonjs_vue_commonjs2_vue_root_Vue_.openBlock)(), (0,external_commonjs_vue_commonjs2_vue_root_Vue_.createElementBlock)("div", _hoisted_17, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_.createElementVNode)("div", _hoisted_18, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_.createElementVNode)("div", _hoisted_19, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_.createElementVNode)("div", {
         class: "absolute w-full h-full bg-violet-300 transition-all",
@@ -19403,10 +19403,10 @@ const _hoisted_27 = {
 });
 ;// ./lib/PDF.vue?vue&type=script&setup=true&lang=js
  
-;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-54.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-54.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-54.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./lib/PDF.vue?vue&type=style&index=0&id=133fb736&lang=css
+;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-54.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-54.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-54.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./lib/PDF.vue?vue&type=style&index=0&id=6dc6d7ae&lang=css
 // extracted by mini-css-extract-plugin
 
-;// ./lib/PDF.vue?vue&type=style&index=0&id=133fb736&lang=css
+;// ./lib/PDF.vue?vue&type=style&index=0&id=6dc6d7ae&lang=css
 
 ;// ./lib/PDF.vue
 

@@ -105,7 +105,10 @@
           <span class="align-top mx-[5px]">/</span>
           <span class="toolbar-page-sum">{{ totalPage }}</span>
         </div>
-        <div 
+        <div class="pdf-menu-setting toolbar-item" v-if="smallMenu" ref="menuReference" :class="[showSmallMenu && 'toolbar-item-active']" @click="toggleMenu">
+          <div class="menu-group-setting" :class="[showSmallMenu && 'menu-group-setting-active']"></div>
+        </div>
+        <!-- <div 
           v-if="smallMenu" 
           ref="menuReference" 
           class="toolbar-item w-[30px] absolute right-0 h-[30px] leading-[30px] py-0 mt-[10px]" 
@@ -113,7 +116,7 @@
           @click="toggleMenu"
         >
           <i class="icon iconfont icon-gengduo"></i>
-        </div>
+        </div> -->
       </div>
       <div class="absolute w-full bottom-[0] top-[50px] flex bg-slate-100">
         <Transition name="transform">
@@ -144,7 +147,7 @@
         v-if="loadingPercentVisible"
         class="absolute top-0 bottom-0 right-0 left-0 bg-[rgba(255,255,255,.9)] z-[100]"
       >
-        <div class="absolute left-1/2 top-1/2 translate-y-[-50%] translate-x-[-50%]">
+        <div class="pdf-small-menu">
           <div class="relative w-[230px] h-[24px] rounded-[12px] overflow-hidden bg-slate-200">
             <div class="absolute w-full h-full bg-violet-300 transition-all" :style="{ transform: `translateX(${loadingPercent - 100}%)` }"></div>
           </div>
@@ -559,5 +562,52 @@ defineExpose({
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+}
+.pdf-menu-setting { 
+  position: absolute; 
+  right: 0; 
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  margin-top: 10px;
+}
+ 
+.pdf-menu-setting .menu-group-setting { 
+  width: 16px; 
+  height: 17px; 
+  position: relative;
+  top: -1px;
+}
+.pdf-menu-setting .menu-group-setting:before, .pdf-menu-setting .menu-group-setting:after { 
+  content: ""; 
+  display: block; 
+  width: 16px; 
+  height: 2px; 
+  background: #000; 
+  border-radius: 2px; 
+  position: absolute; 
+  left: 0; 
+  -webkit-transition: all 0.35s ease-in-out; 
+  transition: all 0.35s ease-in-out;
+}
+.pdf-menu-setting .menu-group-setting:before { 
+  top: 5px; 
+  box-shadow: 0 10px #000;
+}
+.pdf-menu-setting .menu-group-setting:after { 
+  bottom: 5px; 
+}
+
+
+.pdf-menu-setting .menu-group-setting-active:before { 
+  top: 10px; 
+  box-shadow: none; 
+  -webkit-transform: rotate(225deg); 
+  transform: rotate(225deg); 
+}
+.pdf-menu-setting .menu-group-setting-active:after { 
+  bottom: 5px; 
+  -webkit-transform: rotate(135deg); 
+  transform: rotate(135deg); 
 }
 </style>
