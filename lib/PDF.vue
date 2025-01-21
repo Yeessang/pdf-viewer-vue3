@@ -271,9 +271,8 @@ watch(pdfWrapper, (dom) => {
     bindSize(dom, () => {
       const isSmallMenu = dom.clientWidth < 700
       showSmallMenu.value = !isSmallMenu
-      setTimeout(() => {
-        smallMenu.value = isSmallMenu
-      }, 200)
+      smallMenu.value = isSmallMenu
+      if (isSmallMenu && menuFloating.value) menuFloating.value.style.display = 'none'
     })
   }
 }, {
@@ -498,9 +497,9 @@ function changeScrollMode() {
   }
 }
 function changeRotation() {
-  rotation.value = (rotation.value + 90) % 360
+  rotation.value += 90
   if (pdfInstance.value) {
-    pdfInstance.value.viewer.pagesRotation = rotation.value
+    pdfInstance.value.viewer.pagesRotation = rotation.value % 360
   }
 }
 function destroy() {
