@@ -2,16 +2,14 @@
   <div 
     class="w-full h-full overflow-auto"
   > 
-    <ul
-      
-    >
+    <ul>
       <li
         v-for="node in treeData"
         :key="node[nodeKey]"
-        class="pl-[6px] overflow-hidden"
+        class="pl-[6px] overflow-hidden text-[--pdf-catalogue-text-color]"
       >
         <div 
-          class="flex h-[20px] text-[12px] cursor-pointer hover:text-indigo-500 leading-[20px] text-left mb-[6px]"
+          class="flex h-[20px] text-[12px] cursor-pointer hover:text-[--pdf-catalogue-text-highlight] leading-[20px] text-left mb-[6px]"
           @click.stop="$emit('nodeClick', node)"  
         >
           <i 

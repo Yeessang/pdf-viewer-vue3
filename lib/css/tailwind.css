@@ -20,13 +20,13 @@ button,
 
 @layer components {
   .pdf-toolbar {
-    @apply w-full h-[50px] bg-[#fff] shadow-lg z-10 absolute top-0;
+    @apply w-full h-[50px] bg-[--pdf-toolbar-bg] shadow-lg z-10 absolute top-0;
   }
   .pdf-toolbar-container {
-    @apply flex w-full h-[50px] bg-[#fff] justify-between transition-all duration-200 overflow-hidden;
+    @apply flex w-full h-[50px] bg-[--pdf-toolbar-bg] justify-between transition-all duration-200 overflow-hidden;
   }
   .pdf-toolbar-container-small {
-    @apply flex w-[108px] h-auto bg-[#fff] rounded-[5px] flex-col absolute top-[50px] z-30 right-0 py-[6px] pr-[6px] pl-[3px] shadow-[0_0_3px_3px_rgba(0,0,0,0.06)] transition-all duration-200 overflow-hidden;
+    @apply flex w-[108px] h-auto bg-[--pdf-toolbar-bg] rounded-[5px] flex-col absolute top-[50px] z-30 right-0 py-[6px] pr-[6px] pl-[3px] shadow-[0_0_3px_3px_rgba(0,0,0,0.06)] transition-all duration-200 overflow-hidden;
   }
   .toolbar-group {
     @apply flex items-center text-[11px] leading-[16px];
@@ -44,19 +44,19 @@ button,
     @apply m-auto;
   }
   .toolbar-item {
-    @apply flex flex-col mx-[3px] px-[6px] pt-[6px] pb-[3px] h-[45px] justify-between items-center text-gray-700 cursor-pointer hover:text-indigo-500 transition-all rounded-[5px] hover:bg-slate-100;
+    @apply flex flex-col mx-[3px] px-[6px] pt-[6px] pb-[3px] h-[45px] justify-between items-center text-[--pdf-toolbar-text-color] cursor-pointer hover:text-[--pdf-toolbar-text-highlight] transition-all rounded-[5px] hover:bg-[--pdf-toolbar-bg-highlight];
   }
-  .toolbar-item i {
+  .toolbar-item * {
     @apply transition-all;
   }
   .toolbar-item-active {
-    @apply text-indigo-500
+    @apply text-[--pdf-toolbar-text-highlight]
   }
   .toolbar-page {
-    @apply flex items-center rounded-[3px] bg-slate-100 py-[3px] px-[6px] leading-[20px] text-center text-slate-600;
+    @apply flex items-center rounded-[3px] bg-[--pdf-toolbar-input-bg] py-[3px] px-[6px] leading-[20px] text-center text-[--pdf-toolbar-text-color];
   }
   .pdf-input {
-    @apply border-none outline-none h-[20px] w-[20px] bg-transparent text-center text-[12px] p-0;
+    @apply border-none outline-none h-[20px] w-[20px] bg-transparent text-center text-[12px] p-0 text-[--pdf-toolbar-text-color];
   }
   .toolbar-page-divide {
     @apply ml-[5px] leading-[20px]
@@ -68,7 +68,7 @@ button,
     @apply w-[16px] leading-[20px]
   }
   .pdf-thumbnail {
-    @apply bg-slate-100 w-[200px] z-20 shadow-lg text-center py-[10px] h-full transition-all
+    @apply bg-[--pdf-thumbnail-bg] w-[200px] z-20 shadow-lg text-center py-[10px] h-full transition-all
   }
   .pdf-thumbnail-container {
     @apply h-full overflow-auto relative
@@ -77,19 +77,19 @@ button,
     @apply mb-[20px] box-content rounded-[6px]
   }
   .pdf-thumbnail .thumbnail.selected {
-    @apply border-indigo-500/10
+    @apply border-[--pdf-thumbnail-border-color]
   }
   .pdf-thumbnail .thumbnail .pageLabelDiv {
-    @apply mt-[10px]
+    @apply mt-[10px] text-[--pdf-thumbnail-text-color]
   }
   .pdf-thumbnail .selected .pageLabelDiv {
-    @apply text-violet-400
+    @apply text-[--pdf-thumbnail-text-color-highlight]
   }
   .pdf-search-option {
-    @apply mt-[4px] px-[5px] py-[3px] cursor-pointer hover:text-indigo-500 transition-all rounded-[5px] hover:bg-slate-100
+    @apply mt-[4px] px-[5px] py-[3px] cursor-pointer hover:text-[--pdf-toolbar-text-highlight] transition-all rounded-[5px] hover:bg-[--pdf-toolbar-bg-highlight]
   }
   .pdf-search-toggle {
-    @apply px-[1px] py-[2px] text-slate-500 hover:text-indigo-500 transition-all rounded-[5px] hover:bg-slate-100 cursor-pointer
+    @apply px-[1px] py-[2px] text-[--pdf-toolbar-text-color] hover:text-[--pdf-toolbar-text-highlight] transition-all rounded-[5px] hover:bg-[--pdf-toolbar-bg-highlight] cursor-pointer
   }
 }
 

@@ -2024,9 +2024,6 @@
   color: #000;
   font-size: 12px;
 }
-.thumbnail.selected .pageLabelDiv {
-  color: rgba(6, 168, 255, 0.615);
-}
 /* a:focus > .thumbnail,
 .thumbnail:hover {
   border-color: var(--thumbnail-hover-color);
