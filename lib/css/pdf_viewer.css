@@ -1974,6 +1974,10 @@
   background-color: #fff;
 }
 
+.pdfViewer .page.loading {
+  z-index: 10;
+}
+
 .pdfViewer .page.loading::after {
   display: block;
 }

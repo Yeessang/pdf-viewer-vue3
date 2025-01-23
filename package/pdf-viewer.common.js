@@ -588,27 +588,34 @@ __webpack_require__(8721);
         for (let i = 0, ii = this._linkService.pagesCount; i < ii; i++) {
           const extractTextCapability = new _pdfjsLib.PromiseCapability();
           this._extractTextPromises[i] = extractTextCapability.promise;
-          promise = promise.then(() => {
-            return this._pdfDocument.getPage(i + 1).then(pdfPage => {
-              return pdfPage.getTextContent(textOptions);
-            }).then(textContent => {
-              const strBuf = [];
-              for (const textItem of textContent.items) {
-                strBuf.push(textItem.str);
-                if (textItem.hasEOL) {
-                  strBuf.push("\n");
-                }
-              }
-              [this._pageContents[i], this._pageDiffs[i], this._hasDiacritics[i]] = normalize(strBuf.join(""));
-              extractTextCapability.resolve();
-            }, reason => {
-              console.error(`Unable to get text content for page ${i + 1}`, reason);
-              this._pageContents[i] = "";
-              this._pageDiffs[i] = null;
-              this._hasDiacritics[i] = false;
-              extractTextCapability.resolve();
-            });
-          });
+          const callback = deadline => {
+            if (deadline.timeRemaining() > 5) {
+              promise = promise.then(() => {
+                return this._pdfDocument.getPage(i + 1).then(pdfPage => {
+                  return pdfPage.getTextContent(textOptions);
+                }).then(textContent => {
+                  const strBuf = [];
+                  for (const textItem of textContent.items) {
+                    strBuf.push(textItem.str);
+                    if (textItem.hasEOL) {
+                      strBuf.push("\n");
+                    }
+                  }
+                  [this._pageContents[i], this._pageDiffs[i], this._hasDiacritics[i]] = normalize(strBuf.join(""));
+                  extractTextCapability.resolve();
+                }, reason => {
+                  console.error(`Unable to get text content for page ${i + 1}`, reason);
+                  this._pageContents[i] = "";
+                  this._pageDiffs[i] = null;
+                  this._hasDiacritics[i] = false;
+                  extractTextCapability.resolve();
+                });
+              });
+            } else {
+              requestIdleCallback(callback);
+            }
+          };
+          requestIdleCallback(callback);
         }
       }
       function _updatePage(index) {
@@ -7810,6 +7817,26 @@ __webpack_require__(8721);
 
 /***/ }),
 
+/***/ 2884:
+/***/ (function() {
+
+window.requestIdleCallback = window.requestIdleCallback || function (cb) {
+  var start = Date.now();
+  return setTimeout(function () {
+    cb({
+      didTimeout: false,
+      timeRemaining: function () {
+        return Math.max(0, 50 - (Date.now() - start));
+      }
+    });
+  }, 1);
+};
+window.cancelIdleCallback = window.cancelIdleCallback || function (id) {
+  clearTimeout(id);
+};
+
+/***/ }),
+
 /***/ 5279:
 /***/ (function(module, __unused_webpack_exports, __webpack_require__) {
 
@@ -13541,7 +13568,7 @@ __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
-  "default": function() { return /* binding */ entry_lib; }
+  "default": function() { return /* binding */ entry_lib_entry_lib; }
 });
 
 ;// ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
@@ -13549,41 +13576,41 @@ __webpack_require__.d(__webpack_exports__, {
 // This file is imported into lib/wc client bundles.
 
 if (typeof window !== 'undefined') {
-  var currentScript = window.document.currentScript
-  if (false) { var getCurrentScript; }
+  var entry_lib_currentScript = window.document.currentScript
+  if (false) { var entry_lib_getCurrentScript; }
 
-  var src = currentScript && currentScript.src.match(/(.+\/)[^/]+\.js(\?.*)?$/)
-  if (src) {
-    __webpack_require__.p = src[1] // eslint-disable-line
+  var entry_lib_src = entry_lib_currentScript && entry_lib_currentScript.src.match(/(.+\/)[^/]+\.js(\?.*)?$/)
+  if (entry_lib_src) {
+    __webpack_require__.p = entry_lib_src[1] // eslint-disable-line
   }
 }
 
 // Indicate to webpack that this file can be concatenated
-/* harmony default export */ var setPublicPath = (null);
+/* harmony default export */ var entry_lib_setPublicPath = (null);
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/esnext.iterator.constructor.js
-var esnext_iterator_constructor = __webpack_require__(8992);
+var entry_lib_esnext_iterator_constructor = __webpack_require__(8992);
 // EXTERNAL MODULE: ./node_modules/core-js/modules/esnext.iterator.find.js
-var esnext_iterator_find = __webpack_require__(2577);
+var entry_lib_esnext_iterator_find = __webpack_require__(2577);
 ;// external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
-var external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject = require("vue");
+var entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject = require("vue");
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.push.js
-var es_array_push = __webpack_require__(4114);
+var entry_lib_es_array_push = __webpack_require__(4114);
 ;// ./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib/index.js??clonedRuleSet-40.use[1]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./lib/PDFTree.vue?vue&type=script&setup=true&lang=js
 
 
-const _hoisted_1 = {
+const entry_lib_hoisted_1 = {
   class: "w-full h-full overflow-auto"
 };
-const _hoisted_2 = ["onClick"];
-const _hoisted_3 = ["onClick"];
-const _hoisted_4 = ["title"];
+const entry_lib_hoisted_2 = ["onClick"];
+const entry_lib_hoisted_3 = ["onClick"];
+const entry_lib_hoisted_4 = ["title"];
 
 
-(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.defineComponent)({
+(0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.defineComponent)({
   name: 'pdf-tree'
 });
-/* harmony default export */ var PDFTreevue_type_script_setup_true_lang_js = ({
+/* harmony default export */ var entry_lib_PDFTreevue_type_script_setup_true_lang_js = ({
   __name: 'PDFTree',
   props: {
     treeData: {
@@ -13602,7 +13629,7 @@ const _hoisted_4 = ["title"];
   emits: ["nodeClick"],
   setup(__props) {
     const props = __props;
-    const expandKeys = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)([]);
+    const expandKeys = (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)([]);
     function expandNode(node) {
       const key = node[props.nodeKey];
       const index = expandKeys.value.indexOf(key);
@@ -13613,31 +13640,31 @@ const _hoisted_4 = ["title"];
       }
     }
     return (_ctx, _cache) => {
-      const _component_PDFTree = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.resolveComponent)("PDFTree", true);
-      return (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)("div", _hoisted_1, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("ul", null, [((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(true), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)(external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.Fragment, null, (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.renderList)(__props.treeData, node => {
-        return (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)("li", {
+      const _component_PDFTree = (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.resolveComponent)("PDFTree", true);
+      return (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)("div", entry_lib_hoisted_1, [(0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("ul", null, [((0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(true), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)(entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.Fragment, null, (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.renderList)(__props.treeData, node => {
+        return (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)("li", {
           key: node[__props.nodeKey],
           class: "pl-[6px] overflow-hidden text-[--pdf-catalogue-text-color]"
-        }, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
+        }, [(0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
           class: "flex h-[20px] text-[12px] cursor-pointer hover:text-[--pdf-catalogue-text-highlight] leading-[20px] text-left mb-[6px]",
-          onClick: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withModifiers)($event => _ctx.$emit('nodeClick', node), ["stop"])
-        }, [node.items?.length ? ((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)("i", {
+          onClick: (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withModifiers)($event => _ctx.$emit('nodeClick', node), ["stop"])
+        }, [node.items?.length ? ((0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)("i", {
           key: 0,
           class: "icon iconfont icon-expand text-[12px] transition-all",
-          style: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeStyle)({
+          style: (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeStyle)({
             transform: `rotate(${expandKeys.value.includes(node[__props.nodeKey]) ? '0deg' : '-90deg'})`
           }),
-          onClick: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withModifiers)($event => expandNode(node), ["stop"])
-        }, null, 12, _hoisted_3)) : (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createCommentVNode)("", true), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", {
+          onClick: (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withModifiers)($event => expandNode(node), ["stop"])
+        }, null, 12, entry_lib_hoisted_3)) : (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createCommentVNode)("", true), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", {
           class: "ml-[3px] inline-block whitespace-nowrap overflow-hidden text-ellipsis",
           title: node.title
-        }, (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.toDisplayString)(node.title), 9, _hoisted_4)], 8, _hoisted_2), node.items?.length && expandKeys.value.includes(node[__props.nodeKey]) ? ((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createBlock)(_component_PDFTree, {
+        }, (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.toDisplayString)(node.title), 9, entry_lib_hoisted_4)], 8, entry_lib_hoisted_2), node.items?.length && expandKeys.value.includes(node[__props.nodeKey]) ? ((0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createBlock)(_component_PDFTree, {
           key: 0,
           "tree-data": node.items,
           "node-key": __props.nodeKey,
           level: __props.level + 1,
           onNodeClick: _cache[0] || (_cache[0] = _node => _ctx.$emit('nodeClick', _node))
-        }, null, 8, ["tree-data", "node-key", "level"])) : (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createCommentVNode)("", true)]);
+        }, null, 8, ["tree-data", "node-key", "level"])) : (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createCommentVNode)("", true)]);
       }), 128))])]);
     };
   }
@@ -13648,53 +13675,53 @@ const _hoisted_4 = ["title"];
 
 
 
-const __exports__ = PDFTreevue_type_script_setup_true_lang_js;
+const entry_lib_exports_ = entry_lib_PDFTreevue_type_script_setup_true_lang_js;
 
-/* harmony default export */ var PDFTree = (__exports__);
+/* harmony default export */ var entry_lib_PDFTree = (entry_lib_exports_);
 // EXTERNAL MODULE: ./node_modules/pdfjs-dist/build/pdf.js
-var pdf = __webpack_require__(5279);
+var entry_lib_pdf = __webpack_require__(5279);
 // EXTERNAL MODULE: ./node_modules/pdfjs-dist/build/pdf.worker.entry.js
-var pdf_worker_entry = __webpack_require__(4345);
-var pdf_worker_entry_default = /*#__PURE__*/__webpack_require__.n(pdf_worker_entry);
+var entry_lib_pdf_worker_entry = __webpack_require__(4345);
+var entry_lib_pdf_worker_entry_default = /*#__PURE__*/__webpack_require__.n(entry_lib_pdf_worker_entry);
 // EXTERNAL MODULE: ./core/pdf_viewer.js
-var pdf_viewer = __webpack_require__(4219);
+var entry_lib_pdf_viewer = __webpack_require__(4219);
 ;// ./node_modules/@babel/runtime/helpers/esm/checkPrivateRedeclaration.js
-function _checkPrivateRedeclaration(e, t) {
+function entry_lib_checkPrivateRedeclaration(e, t) {
   if (t.has(e)) throw new TypeError("Cannot initialize the same private elements twice on an object");
 }
 
 ;// ./node_modules/@babel/runtime/helpers/esm/classPrivateMethodInitSpec.js
 
-function _classPrivateMethodInitSpec(e, a) {
-  _checkPrivateRedeclaration(e, a), a.add(e);
+function entry_lib_classPrivateMethodInitSpec(e, a) {
+  entry_lib_checkPrivateRedeclaration(e, a), a.add(e);
 }
 
 ;// ./node_modules/@babel/runtime/helpers/esm/assertClassBrand.js
-function _assertClassBrand(e, t, n) {
+function entry_lib_assertClassBrand(e, t, n) {
   if ("function" == typeof e ? e === t : e.has(t)) return arguments.length < 3 ? t : n;
   throw new TypeError("Private element is not present on this object");
 }
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.set.difference.v2.js
-var es_set_difference_v2 = __webpack_require__(7642);
+var entry_lib_es_set_difference_v2 = __webpack_require__(7642);
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.set.intersection.v2.js
-var es_set_intersection_v2 = __webpack_require__(8004);
+var entry_lib_es_set_intersection_v2 = __webpack_require__(8004);
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.set.is-disjoint-from.v2.js
-var es_set_is_disjoint_from_v2 = __webpack_require__(3853);
+var entry_lib_es_set_is_disjoint_from_v2 = __webpack_require__(3853);
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.set.is-subset-of.v2.js
-var es_set_is_subset_of_v2 = __webpack_require__(5876);
+var entry_lib_es_set_is_subset_of_v2 = __webpack_require__(5876);
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.set.is-superset-of.v2.js
-var es_set_is_superset_of_v2 = __webpack_require__(2475);
+var entry_lib_es_set_is_superset_of_v2 = __webpack_require__(2475);
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.set.symmetric-difference.v2.js
-var es_set_symmetric_difference_v2 = __webpack_require__(5024);
+var entry_lib_es_set_symmetric_difference_v2 = __webpack_require__(5024);
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.set.union.v2.js
-var es_set_union_v2 = __webpack_require__(1698);
+var entry_lib_es_set_union_v2 = __webpack_require__(1698);
 // EXTERNAL MODULE: ./node_modules/core-js/modules/web.url-search-params.delete.js
-var web_url_search_params_delete = __webpack_require__(4603);
+var entry_lib_web_url_search_params_delete = __webpack_require__(4603);
 // EXTERNAL MODULE: ./node_modules/core-js/modules/web.url-search-params.has.js
-var web_url_search_params_has = __webpack_require__(7566);
+var entry_lib_web_url_search_params_has = __webpack_require__(7566);
 // EXTERNAL MODULE: ./node_modules/core-js/modules/web.url-search-params.size.js
-var web_url_search_params_size = __webpack_require__(8721);
+var entry_lib_web_url_search_params_size = __webpack_require__(8721);
 ;// ./core/ui_utils.js
 
 
@@ -13725,28 +13752,28 @@ var web_url_search_params_size = __webpack_require__(8721);
  * limitations under the License.
  */
 
-const DEFAULT_SCALE_VALUE = "auto";
-const DEFAULT_SCALE = 1.0;
-const DEFAULT_SCALE_DELTA = 1.1;
-const MIN_SCALE = 0.1;
-const MAX_SCALE = 10.0;
-const UNKNOWN_SCALE = 0;
-const MAX_AUTO_SCALE = 1.25;
-const SCROLLBAR_PADDING = 40;
-const VERTICAL_PADDING = 5;
-const RenderingStates = {
+const entry_lib_DEFAULT_SCALE_VALUE = "auto";
+const entry_lib_DEFAULT_SCALE = 1.0;
+const entry_lib_DEFAULT_SCALE_DELTA = 1.1;
+const entry_lib_MIN_SCALE = 0.1;
+const entry_lib_MAX_SCALE = 10.0;
+const entry_lib_UNKNOWN_SCALE = 0;
+const entry_lib_MAX_AUTO_SCALE = 1.25;
+const entry_lib_SCROLLBAR_PADDING = 40;
+const entry_lib_VERTICAL_PADDING = 5;
+const entry_lib_RenderingStates = {
   INITIAL: 0,
   RUNNING: 1,
   PAUSED: 2,
   FINISHED: 3
 };
-const PresentationModeState = {
+const entry_lib_PresentationModeState = {
   UNKNOWN: 0,
   NORMAL: 1,
   CHANGING: 2,
   FULLSCREEN: 3
 };
-const SidebarView = {
+const entry_lib_SidebarView = {
   UNKNOWN: -1,
   NONE: 0,
   THUMBS: 1,
@@ -13755,12 +13782,12 @@ const SidebarView = {
   ATTACHMENTS: 3,
   LAYERS: 4
 };
-const TextLayerMode = {
+const entry_lib_TextLayerMode = {
   DISABLE: 0,
   ENABLE: 1,
   ENABLE_PERMISSIONS: 2
 };
-const ScrollMode = {
+const entry_lib_ScrollMode = {
   UNKNOWN: -1,
   VERTICAL: 0,
   // Default value.
@@ -13768,14 +13795,14 @@ const ScrollMode = {
   WRAPPED: 2,
   PAGE: 3
 };
-const SpreadMode = {
+const entry_lib_SpreadMode = {
   UNKNOWN: -1,
   NONE: 0,
   // Default value.
   ODD: 1,
   EVEN: 2
 };
-const CursorTool = {
+const entry_lib_CursorTool = {
   SELECT: 0,
   // The default value.
   HAND: 1,
@@ -13783,12 +13810,12 @@ const CursorTool = {
 };
 
 // Used by `PDFViewerApplication`, and by the API unit-tests.
-const AutoPrintRegExp = /\bprint\s*\(/;
+const entry_lib_AutoPrintRegExp = /\bprint\s*\(/;
 
 /**
  * Scale factors for the canvas, necessary with HiDPI displays.
  */
-class OutputScale {
+class entry_lib_OutputScale {
   constructor() {
     const pixelRatio = window.devicePixelRatio || 1;
 
@@ -13822,7 +13849,7 @@ class OutputScale {
  *   ignore elements that either: Contains marked content identifiers,
  *   or have the CSS-rule `overflow: hidden;` set. The default value is `false`.
  */
-function scrollIntoView(element, spot, scrollMatches = false) {
+function entry_lib_scrollIntoView(element, spot, scrollMatches = false) {
   // Assuming offsetParent is available (it's not available when viewer is in
   // hidden iframe or object). We have to scroll: if the offsetParent is not set
   // producing the error. See also animationStarted.
@@ -13857,7 +13884,7 @@ function scrollIntoView(element, spot, scrollMatches = false) {
  * Helper function to start monitoring the scroll event and converting them into
  * PDF.js friendly one: with scroll debounce and scroll direction.
  */
-function watchScroll(viewAreaElement, callback) {
+function entry_lib_watchScroll(viewAreaElement, callback) {
   const debounceScroll = function (evt) {
     if (rAF) {
       return;
@@ -13897,25 +13924,25 @@ function watchScroll(viewAreaElement, callback) {
  * @param {string} query
  * @returns {Map}
  */
-function parseQueryString(query) {
+function entry_lib_parseQueryString(query) {
   const params = new Map();
   for (const [key, value] of new URLSearchParams(query)) {
     params.set(key.toLowerCase(), value);
   }
   return params;
 }
-const InvisibleCharactersRegExp = /[\x00-\x1F]/g;
+const entry_lib_InvisibleCharactersRegExp = /[\x00-\x1F]/g;
 
 /**
  * @param {string} str
  * @param {boolean} [replaceInvisible]
  */
-function removeNullCharacters(str, replaceInvisible = false) {
-  if (!InvisibleCharactersRegExp.test(str)) {
+function entry_lib_removeNullCharacters(str, replaceInvisible = false) {
+  if (!entry_lib_InvisibleCharactersRegExp.test(str)) {
     return str;
   }
   if (replaceInvisible) {
-    return str.replaceAll(InvisibleCharactersRegExp, m => {
+    return str.replaceAll(entry_lib_InvisibleCharactersRegExp, m => {
       return m === "\x00" ? "" : " ";
     });
   }
@@ -13931,7 +13958,7 @@ function removeNullCharacters(str, replaceInvisible = false) {
  * @returns {number} Index of the first array element to pass the test,
  *                   or |items.length| if no such element exists.
  */
-function binarySearchFirstItem(items, condition, start = 0) {
+function entry_lib_binarySearchFirstItem(items, condition, start = 0) {
   let minIndex = start;
   let maxIndex = items.length - 1;
   if (maxIndex < 0 || !condition(items[maxIndex])) {
@@ -13959,7 +13986,7 @@ function binarySearchFirstItem(items, condition, start = 0) {
  *  @returns {Array} Estimated fraction: the first array item is a numerator,
  *                   the second one is a denominator.
  */
-function approximateFraction(x) {
+function entry_lib_approximateFraction(x) {
   // Fast paths for int numbers or their inversions.
   if (Math.floor(x) === x) {
     return [x, 1];
@@ -14002,7 +14029,7 @@ function approximateFraction(x) {
   }
   return result;
 }
-function roundToDivide(x, div) {
+function entry_lib_roundToDivide(x, div) {
   const r = x % div;
   return r === 0 ? x : Math.round(x - r + div);
 }
@@ -14025,7 +14052,7 @@ function roundToDivide(x, div) {
  * @param {GetPageSizeInchesParameters} params
  * @returns {PageSize}
  */
-function getPageSizeInches({
+function entry_lib_getPageSizeInches({
   view,
   userUnit,
   rotate
@@ -14052,7 +14079,7 @@ function getPageSizeInches({
  *   this will be the first element in the first partially visible row in
  *   `views`, although sometimes it goes back one row further.)
  */
-function backtrackBeforeAllVisibleElements(index, views, top) {
+function entry_lib_backtrackBeforeAllVisibleElements(index, views, top) {
   // binarySearchFirstItem's assumption is that the input is ordered, with only
   // one index where the conditions flips from false to true: [false ...,
   // true...]. With vertical scrolling and spreads, it is possible to have
@@ -14160,7 +14187,7 @@ function backtrackBeforeAllVisibleElements(index, views, top) {
  * @param {GetVisibleElementsParameters} params
  * @returns {Object} `{ first, last, views: [{ id, x, y, view, percent }] }`
  */
-function getVisibleElements({
+function entry_lib_getVisibleElements({
   scrollEl,
   views,
   sortByVisibility = false,
@@ -14196,7 +14223,7 @@ function getVisibleElements({
   const visible = [],
     ids = new Set(),
     numViews = views.length;
-  let firstVisibleElementInd = binarySearchFirstItem(views, horizontal ? isElementNextAfterViewHorizontally : isElementBottomAfterViewTop);
+  let firstVisibleElementInd = entry_lib_binarySearchFirstItem(views, horizontal ? isElementNextAfterViewHorizontally : isElementBottomAfterViewTop);
 
   // Please note the return value of the `binarySearchFirstItem` function when
   // no valid element is found (hence the `firstVisibleElementInd` check below).
@@ -14206,7 +14233,7 @@ function getVisibleElements({
     // condition: there can be pages with bottoms above the view top between
     // pages with bottoms below. This function detects and corrects that error;
     // see it for more comments.
-    firstVisibleElementInd = backtrackBeforeAllVisibleElements(firstVisibleElementInd, views, top);
+    firstVisibleElementInd = entry_lib_backtrackBeforeAllVisibleElements(firstVisibleElementInd, views, top);
   }
 
   // lastEdge acts as a cutoff for us to stop looping, because we know all
@@ -14274,7 +14301,7 @@ function getVisibleElements({
     ids
   };
 }
-function normalizeWheelEventDirection(evt) {
+function entry_lib_normalizeWheelEventDirection(evt) {
   let delta = Math.hypot(evt.deltaX, evt.deltaY);
   const angle = Math.atan2(evt.deltaY, evt.deltaX);
   if (-0.25 * Math.PI < angle && angle < 0.75 * Math.PI) {
@@ -14283,9 +14310,9 @@ function normalizeWheelEventDirection(evt) {
   }
   return delta;
 }
-function normalizeWheelEventDelta(evt) {
+function entry_lib_normalizeWheelEventDelta(evt) {
   const deltaMode = evt.deltaMode; // Avoid being affected by bug 1392460.
-  let delta = normalizeWheelEventDirection(evt);
+  let delta = entry_lib_normalizeWheelEventDirection(evt);
   const MOUSE_PIXELS_PER_LINE = 30;
   const MOUSE_LINES_PER_PAGE = 30;
 
@@ -14297,23 +14324,23 @@ function normalizeWheelEventDelta(evt) {
   }
   return delta;
 }
-function isValidRotation(angle) {
+function entry_lib_isValidRotation(angle) {
   return Number.isInteger(angle) && angle % 90 === 0;
 }
-function isValidScrollMode(mode) {
-  return Number.isInteger(mode) && Object.values(ScrollMode).includes(mode) && mode !== ScrollMode.UNKNOWN;
+function entry_lib_isValidScrollMode(mode) {
+  return Number.isInteger(mode) && Object.values(entry_lib_ScrollMode).includes(mode) && mode !== entry_lib_ScrollMode.UNKNOWN;
 }
-function isValidSpreadMode(mode) {
-  return Number.isInteger(mode) && Object.values(SpreadMode).includes(mode) && mode !== SpreadMode.UNKNOWN;
+function entry_lib_isValidSpreadMode(mode) {
+  return Number.isInteger(mode) && Object.values(entry_lib_SpreadMode).includes(mode) && mode !== entry_lib_SpreadMode.UNKNOWN;
 }
-function isPortraitOrientation(size) {
+function entry_lib_isPortraitOrientation(size) {
   return size.width <= size.height;
 }
 
 /**
  * Promise that is resolved when DOM window becomes visible.
  */
-const animationStarted = new Promise(function (resolve) {
+const entry_lib_animationStarted = new Promise(function (resolve) {
   if (typeof PDFJSDev !== "undefined" && PDFJSDev.test("LIB") && typeof window === "undefined") {
     // Prevent "ReferenceError: window is not defined" errors when running the
     // unit-tests in Node.js environments.
@@ -14322,36 +14349,36 @@ const animationStarted = new Promise(function (resolve) {
   }
   window.requestAnimationFrame(resolve);
 });
-const docStyle = typeof PDFJSDev !== "undefined" && PDFJSDev.test("LIB") && typeof document === "undefined" ? null : document.documentElement.style;
-function ui_utils_clamp(v, min, max) {
+const entry_lib_docStyle = typeof PDFJSDev !== "undefined" && PDFJSDev.test("LIB") && typeof document === "undefined" ? null : document.documentElement.style;
+function entry_lib_ui_utils_clamp(v, min, max) {
   return Math.min(Math.max(v, min), max);
 }
-var _classList = /*#__PURE__*/new WeakMap();
-var _disableAutoFetchTimeout = /*#__PURE__*/new WeakMap();
-var _percent = /*#__PURE__*/new WeakMap();
-var _style = /*#__PURE__*/new WeakMap();
-var _visible = /*#__PURE__*/new WeakMap();
-class ProgressBar {
+var entry_lib_classList = /*#__PURE__*/new WeakMap();
+var entry_lib_disableAutoFetchTimeout = /*#__PURE__*/new WeakMap();
+var entry_lib_percent = /*#__PURE__*/new WeakMap();
+var entry_lib_style = /*#__PURE__*/new WeakMap();
+var entry_lib_visible = /*#__PURE__*/new WeakMap();
+class entry_lib_ProgressBar {
   constructor(bar) {
-    _classPrivateFieldInitSpec(this, _classList, null);
-    _classPrivateFieldInitSpec(this, _disableAutoFetchTimeout, null);
-    _classPrivateFieldInitSpec(this, _percent, 0);
-    _classPrivateFieldInitSpec(this, _style, null);
-    _classPrivateFieldInitSpec(this, _visible, true);
-    _classPrivateFieldSet(_classList, this, bar.classList);
-    _classPrivateFieldSet(_style, this, bar.style);
+    _classPrivateFieldInitSpec(this, entry_lib_classList, null);
+    _classPrivateFieldInitSpec(this, entry_lib_disableAutoFetchTimeout, null);
+    _classPrivateFieldInitSpec(this, entry_lib_percent, 0);
+    _classPrivateFieldInitSpec(this, entry_lib_style, null);
+    _classPrivateFieldInitSpec(this, entry_lib_visible, true);
+    _classPrivateFieldSet(entry_lib_classList, this, bar.classList);
+    _classPrivateFieldSet(entry_lib_style, this, bar.style);
   }
   get percent() {
-    return _classPrivateFieldGet(_percent, this);
+    return _classPrivateFieldGet(entry_lib_percent, this);
   }
   set percent(val) {
-    _classPrivateFieldSet(_percent, this, ui_utils_clamp(val, 0, 100));
+    _classPrivateFieldSet(entry_lib_percent, this, entry_lib_ui_utils_clamp(val, 0, 100));
     if (isNaN(val)) {
-      _classPrivateFieldGet(_classList, this).add("indeterminate");
+      _classPrivateFieldGet(entry_lib_classList, this).add("indeterminate");
       return;
     }
-    _classPrivateFieldGet(_classList, this).remove("indeterminate");
-    _classPrivateFieldGet(_style, this).setProperty("--progressBar-percent", `${_classPrivateFieldGet(_percent, this)}%`);
+    _classPrivateFieldGet(entry_lib_classList, this).remove("indeterminate");
+    _classPrivateFieldGet(entry_lib_style, this).setProperty("--progressBar-percent", `${_classPrivateFieldGet(entry_lib_percent, this)}%`);
   }
   setWidth(viewer) {
     if (!viewer) {
@@ -14360,35 +14387,35 @@ class ProgressBar {
     const container = viewer.parentNode;
     const scrollbarWidth = container.offsetWidth - viewer.offsetWidth;
     if (scrollbarWidth > 0) {
-      _classPrivateFieldGet(_style, this).setProperty("--progressBar-end-offset", `${scrollbarWidth}px`);
+      _classPrivateFieldGet(entry_lib_style, this).setProperty("--progressBar-end-offset", `${scrollbarWidth}px`);
     }
   }
   setDisableAutoFetch(delay = /* ms = */5000) {
-    if (isNaN(_classPrivateFieldGet(_percent, this))) {
+    if (isNaN(_classPrivateFieldGet(entry_lib_percent, this))) {
       return;
     }
-    if (_classPrivateFieldGet(_disableAutoFetchTimeout, this)) {
-      clearTimeout(_classPrivateFieldGet(_disableAutoFetchTimeout, this));
+    if (_classPrivateFieldGet(entry_lib_disableAutoFetchTimeout, this)) {
+      clearTimeout(_classPrivateFieldGet(entry_lib_disableAutoFetchTimeout, this));
     }
     this.show();
-    _classPrivateFieldSet(_disableAutoFetchTimeout, this, setTimeout(() => {
-      _classPrivateFieldSet(_disableAutoFetchTimeout, this, null);
+    _classPrivateFieldSet(entry_lib_disableAutoFetchTimeout, this, setTimeout(() => {
+      _classPrivateFieldSet(entry_lib_disableAutoFetchTimeout, this, null);
       this.hide();
     }, delay));
   }
   hide() {
-    if (!_classPrivateFieldGet(_visible, this)) {
+    if (!_classPrivateFieldGet(entry_lib_visible, this)) {
       return;
     }
-    _classPrivateFieldSet(_visible, this, false);
-    _classPrivateFieldGet(_classList, this).add("hidden");
+    _classPrivateFieldSet(entry_lib_visible, this, false);
+    _classPrivateFieldGet(entry_lib_classList, this).add("hidden");
   }
   show() {
-    if (_classPrivateFieldGet(_visible, this)) {
+    if (_classPrivateFieldGet(entry_lib_visible, this)) {
       return;
     }
-    _classPrivateFieldSet(_visible, this, true);
-    _classPrivateFieldGet(_classList, this).remove("hidden");
+    _classPrivateFieldSet(entry_lib_visible, this, true);
+    _classPrivateFieldGet(entry_lib_classList, this).remove("hidden");
   }
 }
 
@@ -14400,7 +14427,7 @@ class ProgressBar {
  *
  * @returns {Element} the truly active or focused element.
  */
-function getActiveOrFocusedElement() {
+function entry_lib_getActiveOrFocusedElement() {
   let curRoot = document;
   let curActiveOrFocused = curRoot.activeElement || curRoot.querySelector(":focus");
   while (curActiveOrFocused?.shadowRoot) {
@@ -14415,26 +14442,26 @@ function getActiveOrFocusedElement() {
  * @param {string} layout - The API PageLayout value.
  * @returns {Object}
  */
-function apiPageLayoutToViewerModes(layout) {
-  let scrollMode = ScrollMode.VERTICAL,
-    spreadMode = SpreadMode.NONE;
+function entry_lib_apiPageLayoutToViewerModes(layout) {
+  let scrollMode = entry_lib_ScrollMode.VERTICAL,
+    spreadMode = entry_lib_SpreadMode.NONE;
   switch (layout) {
     case "SinglePage":
-      scrollMode = ScrollMode.PAGE;
+      scrollMode = entry_lib_ScrollMode.PAGE;
       break;
     case "OneColumn":
       break;
     case "TwoPageLeft":
-      scrollMode = ScrollMode.PAGE;
+      scrollMode = entry_lib_ScrollMode.PAGE;
     /* falls through */
     case "TwoColumnLeft":
-      spreadMode = SpreadMode.ODD;
+      spreadMode = entry_lib_SpreadMode.ODD;
       break;
     case "TwoPageRight":
-      scrollMode = ScrollMode.PAGE;
+      scrollMode = entry_lib_ScrollMode.PAGE;
     /* falls through */
     case "TwoColumnRight":
-      spreadMode = SpreadMode.EVEN;
+      spreadMode = entry_lib_SpreadMode.EVEN;
       break;
   }
   return {
@@ -14451,27 +14478,27 @@ function apiPageLayoutToViewerModes(layout) {
  * @param {string} mode - The API PageMode value.
  * @returns {number} A value from {SidebarView}.
  */
-function apiPageModeToSidebarView(mode) {
+function entry_lib_apiPageModeToSidebarView(mode) {
   switch (mode) {
     case "UseNone":
-      return SidebarView.NONE;
+      return entry_lib_SidebarView.NONE;
     case "UseThumbs":
-      return SidebarView.THUMBS;
+      return entry_lib_SidebarView.THUMBS;
     case "UseOutlines":
-      return SidebarView.OUTLINE;
+      return entry_lib_SidebarView.OUTLINE;
     case "UseAttachments":
-      return SidebarView.ATTACHMENTS;
+      return entry_lib_SidebarView.ATTACHMENTS;
     case "UseOC":
-      return SidebarView.LAYERS;
+      return entry_lib_SidebarView.LAYERS;
   }
-  return SidebarView.NONE; // Default value.
+  return entry_lib_SidebarView.NONE; // Default value.
 }
-function toggleCheckedBtn(button, toggle, view = null) {
+function entry_lib_toggleCheckedBtn(button, toggle, view = null) {
   button.classList.toggle("toggled", toggle);
   button.setAttribute("aria-checked", toggle);
   view?.classList.toggle("hidden", !toggle);
 }
-function toggleExpandedBtn(button, toggle, view = null) {
+function entry_lib_toggleExpandedBtn(button, toggle, view = null) {
   button.classList.toggle("toggled", toggle);
   button.setAttribute("aria-expanded", toggle);
   view?.classList.toggle("hidden", !toggle);
@@ -14479,8 +14506,8 @@ function toggleExpandedBtn(button, toggle, view = null) {
 
 ;// ./node_modules/@babel/runtime/helpers/esm/classPrivateGetter.js
 
-function _classPrivateGetter(s, r, a) {
-  return a(_assertClassBrand(s, r));
+function entry_lib_classPrivateGetter(s, r, a) {
+  return a(entry_lib_assertClassBrand(s, r));
 }
 
 ;// ./core/pdf_thumbnail_view.js
@@ -14513,9 +14540,9 @@ function _classPrivateGetter(s, r, a) {
 /** @typedef {import("./pdf_rendering_queue.js").PDFRenderingQueue} PDFRenderingQueue */
 
 
-const DRAW_UPSCALE_FACTOR = 2; // See comment in `PDFThumbnailView.draw` below.
-const MAX_NUM_SCALING_STEPS = 3;
-const THUMBNAIL_WIDTH = 98; // px
+const entry_lib_DRAW_UPSCALE_FACTOR = 2; // See comment in `PDFThumbnailView.draw` below.
+const entry_lib_MAX_NUM_SCALING_STEPS = 3;
+const entry_lib_THUMBNAIL_WIDTH = 98; // px
 
 /**
  * @typedef {Object} PDFThumbnailViewOptions
@@ -14533,9 +14560,9 @@ const THUMBNAIL_WIDTH = 98; // px
  *   mode.
  */
 
-class TempImageFactory {
+class entry_lib_TempImageFactory {
   static getCanvas(width, height) {
-    const tempCanvas = _assertClassBrand(TempImageFactory, this, _tempCanvas)._ || (_tempCanvas._ = _assertClassBrand(TempImageFactory, this, document.createElement("canvas")));
+    const tempCanvas = entry_lib_assertClassBrand(entry_lib_TempImageFactory, this, entry_lib_tempCanvas)._ || (entry_lib_tempCanvas._ = entry_lib_assertClassBrand(entry_lib_TempImageFactory, this, document.createElement("canvas")));
     tempCanvas.width = width;
     tempCanvas.height = height;
 
@@ -14551,25 +14578,25 @@ class TempImageFactory {
     return [tempCanvas, tempCanvas.getContext("2d")];
   }
   static destroyCanvas() {
-    const tempCanvas = _assertClassBrand(TempImageFactory, this, _tempCanvas)._;
+    const tempCanvas = entry_lib_assertClassBrand(entry_lib_TempImageFactory, this, entry_lib_tempCanvas)._;
     if (tempCanvas) {
       // Zeroing the width and height causes Firefox to release graphics
       // resources immediately, which can greatly reduce memory consumption.
       tempCanvas.width = 0;
       tempCanvas.height = 0;
     }
-    _tempCanvas._ = _assertClassBrand(TempImageFactory, this, null);
+    entry_lib_tempCanvas._ = entry_lib_assertClassBrand(entry_lib_TempImageFactory, this, null);
   }
 }
 
 /**
  * @implements {IRenderableView}
  */
-var _tempCanvas = {
+var entry_lib_tempCanvas = {
   _: null
 };
-var _PDFThumbnailView_brand = /*#__PURE__*/new WeakSet();
-class PDFThumbnailView {
+var entry_lib_PDFThumbnailView_brand = /*#__PURE__*/new WeakSet();
+class entry_lib_PDFThumbnailView {
   /**
    * @param {PDFThumbnailViewOptions} options
    */
@@ -14583,7 +14610,7 @@ class PDFThumbnailView {
     renderingQueue,
     pageColors
   }) {
-    _classPrivateMethodInitSpec(this, _PDFThumbnailView_brand);
+    entry_lib_classPrivateMethodInitSpec(this, entry_lib_PDFThumbnailView_brand);
     this.id = id;
     this.renderingId = "thumbnail" + id;
     this.pageLabel = null;
@@ -14597,12 +14624,12 @@ class PDFThumbnailView {
     this.linkService = linkService;
     this.renderingQueue = renderingQueue;
     this.renderTask = null;
-    this.renderingState = RenderingStates.INITIAL;
+    this.renderingState = entry_lib_RenderingStates.INITIAL;
     this.resume = null;
     const anchor = document.createElement("a");
     anchor.href = linkService.getAnchorUrl("#page=" + id);
     anchor.setAttribute("data-l10n-id", "pdfjs-thumb-page-title");
-    anchor.setAttribute("data-l10n-args", _classPrivateGetter(_PDFThumbnailView_brand, this, _get_pageL10nArgs));
+    anchor.setAttribute("data-l10n-args", entry_lib_classPrivateGetter(entry_lib_PDFThumbnailView_brand, this, entry_lib_get_pageL10nArgs));
     anchor.onclick = function () {
       linkService.goToPage(id);
       return false;
@@ -14612,7 +14639,7 @@ class PDFThumbnailView {
     div.className = "thumbnail";
     div.setAttribute("data-page-number", this.id);
     this.div = div;
-    _assertClassBrand(_PDFThumbnailView_brand, this, _updateDims).call(this);
+    entry_lib_assertClassBrand(entry_lib_PDFThumbnailView_brand, this, entry_lib_updateDims).call(this);
     const img = document.createElement("div");
     img.className = "thumbnailImage";
     this._placeholderImg = img;
@@ -14636,10 +14663,10 @@ class PDFThumbnailView {
   }
   reset() {
     this.cancelRendering();
-    this.renderingState = RenderingStates.INITIAL;
+    this.renderingState = entry_lib_RenderingStates.INITIAL;
     this.div.removeAttribute("data-loaded");
     this.image?.replaceWith(this._placeholderImg);
-    _assertClassBrand(_PDFThumbnailView_brand, this, _updateDims).call(this);
+    entry_lib_assertClassBrand(entry_lib_PDFThumbnailView_brand, this, entry_lib_updateDims).call(this);
     if (this.image) {
       this.image.removeAttribute("src");
       delete this.image;
@@ -14681,7 +14708,7 @@ class PDFThumbnailView {
     const ctx = canvas.getContext("2d", {
       alpha: false
     });
-    const outputScale = new OutputScale();
+    const outputScale = new entry_lib_OutputScale();
     canvas.width = upscaleFactor * this.canvasWidth * outputScale.sx | 0;
     canvas.height = upscaleFactor * this.canvasHeight * outputScale.sy | 0;
     const transform = outputScale.scaled ? [outputScale.sx, 0, 0, outputScale.sy, 0, 0] : null;
@@ -14696,14 +14723,14 @@ class PDFThumbnailView {
    * @private
    */
   _convertCanvasToImage(canvas) {
-    if (this.renderingState !== RenderingStates.FINISHED) {
+    if (this.renderingState !== entry_lib_RenderingStates.FINISHED) {
       throw new Error("_convertCanvasToImage: Rendering has not finished.");
     }
     const reducedCanvas = this._reduceImage(canvas);
     const image = document.createElement("img");
     image.className = "thumbnailImage";
     image.setAttribute("data-l10n-id", "pdfjs-thumb-page-canvas");
-    image.setAttribute("data-l10n-args", _classPrivateGetter(_PDFThumbnailView_brand, this, _get_pageL10nArgs));
+    image.setAttribute("data-l10n-args", entry_lib_classPrivateGetter(entry_lib_PDFThumbnailView_brand, this, entry_lib_get_pageL10nArgs));
     image.src = reducedCanvas.toDataURL();
     this.image = image;
     this.div.setAttribute("data-loaded", true);
@@ -14715,7 +14742,7 @@ class PDFThumbnailView {
     reducedCanvas.height = 0;
   }
   async draw() {
-    if (this.renderingState !== RenderingStates.INITIAL) {
+    if (this.renderingState !== entry_lib_RenderingStates.INITIAL) {
       console.error("Must be in new state before drawing");
       return undefined;
     }
@@ -14723,10 +14750,10 @@ class PDFThumbnailView {
       pdfPage
     } = this;
     if (!pdfPage) {
-      this.renderingState = RenderingStates.FINISHED;
+      this.renderingState = entry_lib_RenderingStates.FINISHED;
       throw new Error("pdfPage is not loaded");
     }
-    this.renderingState = RenderingStates.RUNNING;
+    this.renderingState = entry_lib_RenderingStates.RUNNING;
 
     // Render the thumbnail at a larger size and downsize the canvas (similar
     // to `setImage`), to improve consistency between thumbnails created by
@@ -14737,15 +14764,15 @@ class PDFThumbnailView {
       ctx,
       canvas,
       transform
-    } = this._getPageDrawContext(DRAW_UPSCALE_FACTOR);
+    } = this._getPageDrawContext(entry_lib_DRAW_UPSCALE_FACTOR);
     const drawViewport = this.viewport.clone({
-      scale: DRAW_UPSCALE_FACTOR * this.scale
+      scale: entry_lib_DRAW_UPSCALE_FACTOR * this.scale
     });
     const renderContinueCallback = cont => {
       if (!this.renderingQueue.isHighestPriority(this)) {
-        this.renderingState = RenderingStates.PAUSED;
+        this.renderingState = entry_lib_RenderingStates.PAUSED;
         this.resume = () => {
-          this.renderingState = RenderingStates.RUNNING;
+          this.renderingState = entry_lib_RenderingStates.RUNNING;
           cont();
         };
         return;
@@ -14761,7 +14788,7 @@ class PDFThumbnailView {
     };
     const renderTask = this.renderTask = pdfPage.render(renderContext);
     renderTask.onContinue = renderContinueCallback;
-    const resultPromise = renderTask.promise.then(() => _assertClassBrand(_PDFThumbnailView_brand, this, _finishRenderTask).call(this, renderTask, canvas), error => _assertClassBrand(_PDFThumbnailView_brand, this, _finishRenderTask).call(this, renderTask, canvas, error));
+    const resultPromise = renderTask.promise.then(() => entry_lib_assertClassBrand(entry_lib_PDFThumbnailView_brand, this, entry_lib_finishRenderTask).call(this, renderTask, canvas), error => entry_lib_assertClassBrand(entry_lib_PDFThumbnailView_brand, this, entry_lib_finishRenderTask).call(this, renderTask, canvas, error));
     resultPromise.finally(() => {
       // Zeroing the width and height causes Firefox to release graphics
       // resources immediately, which can greatly reduce memory consumption.
@@ -14776,7 +14803,7 @@ class PDFThumbnailView {
     return resultPromise;
   }
   setImage(pageView) {
-    if (this.renderingState !== RenderingStates.INITIAL) {
+    if (this.renderingState !== entry_lib_RenderingStates.INITIAL) {
       return;
     }
     const {
@@ -14794,7 +14821,7 @@ class PDFThumbnailView {
       // Avoid upscaling the image, since that makes the thumbnail look blurry.
       return;
     }
-    this.renderingState = RenderingStates.FINISHED;
+    this.renderingState = entry_lib_RenderingStates.FINISHED;
     this._convertCanvasToImage(canvas);
   }
 
@@ -14811,9 +14838,9 @@ class PDFThumbnailView {
       return canvas;
     }
     // drawImage does an awful job of rescaling the image, doing it gradually.
-    let reducedWidth = canvas.width << MAX_NUM_SCALING_STEPS;
-    let reducedHeight = canvas.height << MAX_NUM_SCALING_STEPS;
-    const [reducedImage, reducedImageCtx] = TempImageFactory.getCanvas(reducedWidth, reducedHeight);
+    let reducedWidth = canvas.width << entry_lib_MAX_NUM_SCALING_STEPS;
+    let reducedHeight = canvas.height << entry_lib_MAX_NUM_SCALING_STEPS;
+    const [reducedImage, reducedImageCtx] = entry_lib_TempImageFactory.getCanvas(reducedWidth, reducedHeight);
     while (reducedWidth > img.width || reducedHeight > img.height) {
       reducedWidth >>= 1;
       reducedHeight >>= 1;
@@ -14832,20 +14859,20 @@ class PDFThumbnailView {
    */
   setPageLabel(label) {
     this.pageLabel = typeof label === "string" ? label : null;
-    this.anchor.setAttribute("data-l10n-args", _classPrivateGetter(_PDFThumbnailView_brand, this, _get_pageL10nArgs));
-    if (this.renderingState !== RenderingStates.FINISHED) {
+    this.anchor.setAttribute("data-l10n-args", entry_lib_classPrivateGetter(entry_lib_PDFThumbnailView_brand, this, entry_lib_get_pageL10nArgs));
+    if (this.renderingState !== entry_lib_RenderingStates.FINISHED) {
       return;
     }
-    this.image?.setAttribute("data-l10n-args", _classPrivateGetter(_PDFThumbnailView_brand, this, _get_pageL10nArgs));
+    this.image?.setAttribute("data-l10n-args", entry_lib_classPrivateGetter(entry_lib_PDFThumbnailView_brand, this, entry_lib_get_pageL10nArgs));
   }
 }
-function _updateDims() {
+function entry_lib_updateDims() {
   const {
     width,
     height
   } = this.viewport;
   const ratio = width / height;
-  this.canvasWidth = THUMBNAIL_WIDTH;
+  this.canvasWidth = entry_lib_THUMBNAIL_WIDTH;
   this.canvasHeight = this.canvasWidth / ratio | 0;
   this.scale = this.canvasWidth / width;
   const {
@@ -14854,7 +14881,7 @@ function _updateDims() {
   style.setProperty("--thumbnail-width", `${this.canvasWidth}px`);
   style.setProperty("--thumbnail-height", `${this.canvasHeight}px`);
 }
-async function _finishRenderTask(renderTask, canvas, error = null) {
+async function entry_lib_finishRenderTask(renderTask, canvas, error = null) {
   // The renderTask may have been replaced by a new one, so only remove
   // the reference to the renderTask if it matches the one that is
   // triggering this callback.
@@ -14864,13 +14891,13 @@ async function _finishRenderTask(renderTask, canvas, error = null) {
   if (error) {
     return;
   }
-  this.renderingState = RenderingStates.FINISHED;
+  this.renderingState = entry_lib_RenderingStates.FINISHED;
   this._convertCanvasToImage(canvas);
   if (error) {
     throw error;
   }
 }
-function _get_pageL10nArgs(_this) {
+function entry_lib_get_pageL10nArgs(_this) {
   return JSON.stringify({
     page: _this.pageLabel ?? _this.id
   });
@@ -14904,8 +14931,8 @@ function _get_pageL10nArgs(_this) {
 
 
 
-const THUMBNAIL_SCROLL_MARGIN = -19;
-const THUMBNAIL_SELECTED_CLASS = "selected";
+const entry_lib_THUMBNAIL_SCROLL_MARGIN = -19;
+const entry_lib_THUMBNAIL_SELECTED_CLASS = "selected";
 
 /**
  * @typedef {Object} PDFThumbnailViewerOptions
@@ -14922,8 +14949,8 @@ const THUMBNAIL_SELECTED_CLASS = "selected";
 /**
  * Viewer control to display thumbnails for pages in a PDF document.
  */
-var _PDFThumbnailViewer_brand = /*#__PURE__*/new WeakSet();
-class PDFThumbnailViewer {
+var entry_lib_PDFThumbnailViewer_brand = /*#__PURE__*/new WeakSet();
+class entry_lib_PDFThumbnailViewer {
   /**
    * @param {PDFThumbnailViewerOptions} options
    */
@@ -14938,13 +14965,13 @@ class PDFThumbnailViewer {
      * @param {PDFThumbnailView} thumbView
      * @returns {Promise<PDFPageProxy | null>}
      */
-    _classPrivateMethodInitSpec(this, _PDFThumbnailViewer_brand);
+    entry_lib_classPrivateMethodInitSpec(this, entry_lib_PDFThumbnailViewer_brand);
     this.container = container;
     this.eventBus = eventBus;
     this.linkService = linkService;
     this.renderingQueue = renderingQueue;
     this.pageColors = pageColors || null;
-    this.scroll = watchScroll(this.container, this._scrollUpdated.bind(this));
+    this.scroll = entry_lib_watchScroll(this.container, this._scrollUpdated.bind(this));
     this._resetView();
   }
 
@@ -14962,7 +14989,7 @@ class PDFThumbnailViewer {
    * @private
    */
   _getVisibleThumbs() {
-    return getVisibleElements({
+    return entry_lib_getVisibleElements({
       scrollEl: this.container,
       views: this._thumbnails
     });
@@ -14979,9 +15006,9 @@ class PDFThumbnailViewer {
     if (pageNumber !== this._currentPageNumber) {
       const prevThumbnailView = this._thumbnails[this._currentPageNumber - 1];
       // Remove the highlight from the previous thumbnail...
-      prevThumbnailView.div.classList.remove(THUMBNAIL_SELECTED_CLASS);
+      prevThumbnailView.div.classList.remove(entry_lib_THUMBNAIL_SELECTED_CLASS);
       // ... and add the highlight to the new thumbnail.
-      thumbnailView.div.classList.add(THUMBNAIL_SELECTED_CLASS);
+      thumbnailView.div.classList.add(entry_lib_THUMBNAIL_SELECTED_CLASS);
     }
     const {
       first,
@@ -15008,8 +15035,8 @@ class PDFThumbnailViewer {
       }
       console.log(shouldScroll, "should scroll");
       if (shouldScroll) {
-        scrollIntoView(thumbnailView.div, {
-          top: THUMBNAIL_SCROLL_MARGIN
+        entry_lib_scrollIntoView(thumbnailView.div, {
+          top: entry_lib_THUMBNAIL_SCROLL_MARGIN
         });
       }
     }
@@ -15019,7 +15046,7 @@ class PDFThumbnailViewer {
     return this._pagesRotation;
   }
   set pagesRotation(rotation) {
-    if (!isValidRotation(rotation)) {
+    if (!entry_lib_isValidRotation(rotation)) {
       throw new Error("Invalid thumbnails rotation angle.");
     }
     if (!this.pdfDocument) {
@@ -15038,11 +15065,11 @@ class PDFThumbnailViewer {
   }
   cleanup() {
     for (const thumbnail of this._thumbnails) {
-      if (thumbnail.renderingState !== RenderingStates.FINISHED) {
+      if (thumbnail.renderingState !== entry_lib_RenderingStates.FINISHED) {
         thumbnail.reset();
       }
     }
-    TempImageFactory.destroyCanvas();
+    entry_lib_TempImageFactory.destroyCanvas();
   }
 
   /**
@@ -15078,7 +15105,7 @@ class PDFThumbnailViewer {
         scale: 1
       });
       for (let pageNum = 1; pageNum <= pagesCount; ++pageNum) {
-        const thumbnail = new PDFThumbnailView({
+        const thumbnail = new entry_lib_PDFThumbnailView({
           container: this.container,
           eventBus: this.eventBus,
           id: pageNum,
@@ -15097,7 +15124,7 @@ class PDFThumbnailViewer {
 
       // Ensure that the current thumbnail is always highlighted on load.
       const thumbnailView = this._thumbnails[this._currentPageNumber - 1];
-      thumbnailView.div.classList.add(THUMBNAIL_SELECTED_CLASS);
+      thumbnailView.div.classList.add(entry_lib_THUMBNAIL_SELECTED_CLASS);
     }).catch(reason => {
       console.error("Unable to initialize thumbnail viewer", reason);
     });
@@ -15134,10 +15161,10 @@ class PDFThumbnailViewer {
   }
   forceRendering() {
     const visibleThumbs = this._getVisibleThumbs();
-    const scrollAhead = _assertClassBrand(_PDFThumbnailViewer_brand, this, _getScrollAhead).call(this, visibleThumbs);
+    const scrollAhead = entry_lib_assertClassBrand(entry_lib_PDFThumbnailViewer_brand, this, entry_lib_getScrollAhead).call(this, visibleThumbs);
     const thumbView = this.renderingQueue.getHighestPriority(visibleThumbs, this._thumbnails, scrollAhead);
     if (thumbView) {
-      _assertClassBrand(_PDFThumbnailViewer_brand, this, _ensurePdfPageLoaded).call(this, thumbView).then(() => {
+      entry_lib_assertClassBrand(entry_lib_PDFThumbnailViewer_brand, this, entry_lib_ensurePdfPageLoaded).call(this, thumbView).then(() => {
         this.renderingQueue.renderView(thumbView);
       });
       return true;
@@ -15145,7 +15172,7 @@ class PDFThumbnailViewer {
     return false;
   }
 }
-async function _ensurePdfPageLoaded(thumbView) {
+async function entry_lib_ensurePdfPageLoaded(thumbView) {
   if (thumbView.pdfPage) {
     return thumbView.pdfPage;
   }
@@ -15160,7 +15187,7 @@ async function _ensurePdfPageLoaded(thumbView) {
     return null; // Page error -- there is nothing that can be done.
   }
 }
-function _getScrollAhead(visible) {
+function entry_lib_getScrollAhead(visible) {
   if (visible.first?.id === 1) {
     return true;
   } else if (visible.last?.id === this._thumbnails.length) {
@@ -15170,14 +15197,14 @@ function _getScrollAhead(visible) {
 }
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/esnext.iterator.every.js
-var esnext_iterator_every = __webpack_require__(3215);
+var entry_lib_esnext_iterator_every = __webpack_require__(3215);
 ;// ./core/print_service.js
 
 
 
 
 
-class OverlayManager {
+class entry_lib_OverlayManager {
   constructor() {
     this._overlays = {};
     this._active = null;
@@ -15255,7 +15282,7 @@ class OverlayManager {
     }
   }
 }
-const _ui_utils = {
+const entry_lib_ui_utils = {
   CSS_UNITS: 96.0 / 72.0,
   NullL10n: {
     async getLanguage() {
@@ -15270,16 +15297,16 @@ const _ui_utils = {
     async translate(element) {}
   }
 };
-let activeService = null;
-let overlayManager = null;
-function renderPage(activeServiceOnEntry, pdfDocument, pageNumber, size) {
-  const scratchCanvas = activeService.scratchCanvas;
+let entry_lib_activeService = null;
+let entry_lib_overlayManager = null;
+function entry_lib_renderPage(activeServiceOnEntry, pdfDocument, pageNumber, size) {
+  const scratchCanvas = entry_lib_activeService.scratchCanvas;
   const PRINT_RESOLUTION = 150;
   const PRINT_UNITS = PRINT_RESOLUTION / 72.0;
   scratchCanvas.width = Math.floor(size.width * PRINT_UNITS);
   scratchCanvas.height = Math.floor(size.height * PRINT_UNITS);
-  const width = Math.floor(size.width * _ui_utils.CSS_UNITS) + "px";
-  const height = Math.floor(size.height * _ui_utils.CSS_UNITS) + "px";
+  const width = Math.floor(size.width * entry_lib_ui_utils.CSS_UNITS) + "px";
+  const height = Math.floor(size.height * entry_lib_ui_utils.CSS_UNITS) + "px";
   const ctx = scratchCanvas.getContext("2d");
   ctx.save();
   ctx.fillStyle = "rgb(255, 255, 255)";
@@ -15303,16 +15330,16 @@ function renderPage(activeServiceOnEntry, pdfDocument, pageNumber, size) {
     };
   });
 }
-function PDFPrintService(pdfDocument, pagesOverview, printContainer, l10n) {
+function entry_lib_PDFPrintService(pdfDocument, pagesOverview, printContainer, l10n) {
   this.pdfDocument = pdfDocument;
   this.pagesOverview = pagesOverview;
   this.printContainer = printContainer;
-  this.l10n = l10n || _ui_utils.NullL10n;
+  this.l10n = l10n || entry_lib_ui_utils.NullL10n;
   this.disableCreateObjectURL = pdfDocument.loadingParams["disableCreateObjectURL"];
   this.currentPage = -1;
   this.scratchCanvas = document.createElement("canvas");
 }
-PDFPrintService.prototype = {
+entry_lib_PDFPrintService.prototype = {
   layout() {
     this.throwIfInactive();
     const body = document.querySelector("body");
@@ -15329,7 +15356,7 @@ PDFPrintService.prototype = {
     body.appendChild(this.pageStyleSheet);
   },
   destroy() {
-    if (activeService !== this) {
+    if (entry_lib_activeService !== this) {
       return;
     }
     this.printContainer.textContent = "";
@@ -15341,13 +15368,13 @@ PDFPrintService.prototype = {
     }
     this.scratchCanvas.width = this.scratchCanvas.height = 0;
     this.scratchCanvas = null;
-    console.log('destroy', this.active, activeService);
-    activeService = null;
-    ensureOverlay().then(function () {
-      if (overlayManager.active !== "printServiceOverlay") {
+    console.log('destroy', this.active, entry_lib_activeService);
+    entry_lib_activeService = null;
+    entry_lib_ensureOverlay().then(function () {
+      if (entry_lib_overlayManager.active !== "printServiceOverlay") {
         return;
       }
-      overlayManager.close("printServiceOverlay");
+      entry_lib_overlayManager.close("printServiceOverlay");
     });
   },
   renderPages() {
@@ -15356,13 +15383,13 @@ PDFPrintService.prototype = {
     const renderNextPage = (resolve, reject) => {
       this.throwIfInactive(reject);
       if (++this.currentPage >= pageCount) {
-        renderProgress(pageCount, pageCount, this.l10n);
+        entry_lib_renderProgress(pageCount, pageCount, this.l10n);
         resolve();
         return;
       }
       const index = this.currentPage;
-      renderProgress(index, pageCount, this.l10n);
-      renderPage(this, this.pdfDocument, index + 1, this.pagesOverview[index]).then(this.useRenderedPage.bind(this)).then(function () {
+      entry_lib_renderProgress(index, pageCount, this.l10n);
+      entry_lib_renderPage(this, this.pdfDocument, index + 1, this.pagesOverview[index]).then(this.useRenderedPage.bind(this)).then(function () {
         renderNextPage(resolve, reject);
       }, reject).catch(reject);
     };
@@ -15398,13 +15425,13 @@ PDFPrintService.prototype = {
           resolve();
           return;
         }
-        print.call(window);
+        entry_lib_print.call(window);
         setTimeout(resolve, 20);
       }, 0);
     });
   },
   get active() {
-    return this === activeService;
+    return this === entry_lib_activeService;
   },
   throwIfInactive() {
     if (!this.active) {
@@ -15412,56 +15439,56 @@ PDFPrintService.prototype = {
     }
   }
 };
-const print = window.print;
+const entry_lib_print = window.print;
 window.print = function () {
-  if (activeService) {
+  if (entry_lib_activeService) {
     console.warn("Ignored window.print() because of a pending print job.");
     return;
   }
-  ensureOverlay().then(function () {
-    if (activeService) {
-      overlayManager.open("printServiceOverlay");
+  entry_lib_ensureOverlay().then(function () {
+    if (entry_lib_activeService) {
+      entry_lib_overlayManager.open("printServiceOverlay");
     }
   });
   try {
-    dispatchEvent("beforeprint");
+    entry_lib_dispatchEvent("beforeprint");
   } finally {
-    if (!activeService) {
+    if (!entry_lib_activeService) {
       console.error("Expected print service to be initialized.");
-      ensureOverlay().then(function () {
-        if (overlayManager.active === "printServiceOverlay") {
-          overlayManager.close("printServiceOverlay");
+      entry_lib_ensureOverlay().then(function () {
+        if (entry_lib_overlayManager.active === "printServiceOverlay") {
+          entry_lib_overlayManager.close("printServiceOverlay");
         }
       });
       return;
     }
-    const activeServiceOnEntry = activeService;
+    const activeServiceOnEntry = entry_lib_activeService;
     // activeService.renderPages()
-    activeService.renderPages().then(function () {
+    entry_lib_activeService.renderPages().then(function () {
       console.log("render pages '''");
       return activeServiceOnEntry.performPrint();
     }).catch(function () {}).then(function (err) {
       console.log('error', err);
       if (activeServiceOnEntry.active) {
-        abort();
+        entry_lib_abort();
       }
     });
   }
 };
-function dispatchEvent(eventType) {
+function entry_lib_dispatchEvent(eventType) {
   const event = document.createEvent("CustomEvent");
   event.initCustomEvent(eventType, false, false, "custom");
   window.dispatchEvent(event);
 }
-function abort() {
-  if (activeService) {
-    activeService.destroy();
-    dispatchEvent("afterprint");
+function entry_lib_abort() {
+  if (entry_lib_activeService) {
+    entry_lib_activeService.destroy();
+    entry_lib_dispatchEvent("afterprint");
   }
 }
-function renderProgress(index, total, l10n) {
+function entry_lib_renderProgress(index, total, l10n) {
   const progress = Math.round(100 * index / total);
-  outer_eventBus && outer_eventBus.dispatch("printProgressChange", progress);
+  entry_lib_outer_eventBus && entry_lib_outer_eventBus.dispatch("printProgressChange", progress);
 }
 window.addEventListener("keydown", function (event) {
   if (event.keyCode === 80 && (event.ctrlKey || event.metaKey) && !event.altKey && (!event.shiftKey || window.chrome || window.opera)) {
@@ -15483,35 +15510,38 @@ if ("onbeforeprint" in window) {
   window.addEventListener("beforeprint", stopPropagationIfNeeded);
   window.addEventListener("afterprint", stopPropagationIfNeeded);
 }
-let overlayPromise;
-function ensureOverlay() {
-  if (!overlayPromise) {
-    overlayManager = new OverlayManager();
-    if (!overlayManager) {
+let entry_lib_overlayPromise;
+function entry_lib_ensureOverlay() {
+  if (!entry_lib_overlayPromise) {
+    entry_lib_overlayManager = new entry_lib_OverlayManager();
+    if (!entry_lib_overlayManager) {
       throw new Error("The overlay manager has not yet been initialized.");
     }
-    overlayPromise = overlayManager.register("printServiceOverlay", document.getElementById("printServiceOverlay"), abort, true);
+    entry_lib_overlayPromise = entry_lib_overlayManager.register("printServiceOverlay", document.getElementById("printServiceOverlay"), entry_lib_abort, true);
     // document.getElementById("printCancel").onclick = abort;
   }
-  return overlayPromise;
+  return entry_lib_overlayPromise;
 }
-let outer_eventBus;
-function createPrintService(pdfDocument, pagesOverview, printContainer, l10n, eventBus) {
-  outer_eventBus = eventBus;
-  if (activeService) {
+let entry_lib_outer_eventBus;
+function entry_lib_createPrintService(pdfDocument, pagesOverview, printContainer, l10n, eventBus) {
+  entry_lib_outer_eventBus = eventBus;
+  if (entry_lib_activeService) {
     throw new Error("The print service is created and active.");
   }
-  activeService = new PDFPrintService(pdfDocument, pagesOverview, printContainer, l10n);
-  return activeService;
+  entry_lib_activeService = new entry_lib_PDFPrintService(pdfDocument, pagesOverview, printContainer, l10n);
+  return entry_lib_activeService;
 }
+// EXTERNAL MODULE: ./core/requestIdleCallback.js
+var entry_lib_requestIdleCallback = __webpack_require__(2884);
 ;// ./core/pdf.js
 
 
 
 
 
-pdf.GlobalWorkerOptions.workerSrc = (pdf_worker_entry_default());
-class PDF {
+
+entry_lib_pdf.GlobalWorkerOptions.workerSrc = (entry_lib_pdf_worker_entry_default());
+class entry_lib_PDF {
   constructor({
     listeners = {},
     pdfContainer = null,
@@ -15537,17 +15567,17 @@ class PDF {
     this.initEventBus().initLink().initFindController().initDownloadManager();
   }
   initEventBus() {
-    this.eventBus = new pdf_viewer.EventBus({});
+    this.eventBus = new entry_lib_pdf_viewer.EventBus({});
     return this;
   }
   initLink() {
-    this.link = new pdf_viewer.PDFLinkService({
+    this.link = new entry_lib_pdf_viewer.PDFLinkService({
       eventBus: this.eventBus
     });
     return this;
   }
   initFindController() {
-    this.findController = new pdf_viewer.PDFFindController({
+    this.findController = new entry_lib_pdf_viewer.PDFFindController({
       linkService: this.link,
       eventBus: this.eventBus
     });
@@ -15559,12 +15589,12 @@ class PDF {
     return this;
   }
   initDownloadManager() {
-    this.downloadManager = new pdf_viewer.DownloadManager(false);
+    this.downloadManager = new entry_lib_pdf_viewer.DownloadManager(false);
     return this;
   }
   initThumbnailViewer() {
     if (!this.thumbnailContainer || this.thumbViewer) return;
-    this.thumbViewer = new PDFThumbnailViewer({
+    this.thumbViewer = new entry_lib_PDFThumbnailViewer({
       container: this.thumbnailContainer,
       renderingQueue: this.viewer.renderingQueue,
       linkService: this.link,
@@ -15597,7 +15627,7 @@ class PDF {
       this.eventBus.on("scalechanging", scaleInfo => {
         this.listeners?.onScaleChanging?.(scaleInfo);
       });
-      const loadingTask = (0,pdf.getDocument)(options);
+      const loadingTask = entry_lib_pdf.getDocument(options);
       loadingTask.onProgress = progressData => {
         percentLoaded = Math.min(100, Math.round(progressData.loaded / progressData.total * 100));
         total = progressData.total;
@@ -15605,13 +15635,12 @@ class PDF {
         this.listeners?.onLoadProgress?.(percentLoaded);
       };
       loadingTask.promise.then(ins => {
-        console.log(ins, 'ins');
         ins.getMetadata().then(res => console.log(res, 'download info'));
         this.pdf = ins;
         this.totalPages = this.pdf._pdfInfo.numPages;
         this.link.setDocument(this.pdf);
         this.findController.setDocument(this.pdf);
-        this.viewer = new pdf_viewer.PDFViewer({
+        this.viewer = new entry_lib_pdf_viewer.PDFViewer({
           container: this.pdfContainer,
           textLayerMode: 1,
           linkService: this.link,
@@ -15640,7 +15669,7 @@ class PDF {
     document.body.appendChild(overlayContainer);
     let printService;
     const windowBeforePrint = async () => {
-      printService = createPrintService(this.pdf, this.viewer.getPagesOverview(), div, null, this.eventBus);
+      printService = entry_lib_createPrintService(this.pdf, this.viewer.getPagesOverview(), div, null, this.eventBus);
       printService.layout();
     };
     function windowAfterPrint() {
@@ -15653,7 +15682,7 @@ class PDF {
     }
     ;
     function abortPrint() {
-      abort();
+      entry_lib_abort();
       cleanup();
     }
     ;
@@ -15693,11 +15722,9 @@ class PDF {
       // 区分大小写
       entireWord // 全词匹配
     };
-    console.log(this.findController, 'fff');
     if (highlightAll !== this.findController?.state?.highlightAll && this.findController._matchesCountTotal) {
       options.type = "highlightallchange";
     }
-    console.log(options, "optionsaa");
     this.findController._eventBus.dispatch("find", options);
   }
   findPrev(query, {
@@ -15738,18 +15765,17 @@ class PDF {
       caseSensitive,
       entireWord
     };
-    console.log(options, "options");
     this.findController._eventBus.dispatch("find", options);
   }
 }
 // EXTERNAL MODULE: ./node_modules/core-js/modules/esnext.iterator.filter.js
-var esnext_iterator_filter = __webpack_require__(4520);
+var entry_lib_esnext_iterator_filter = __webpack_require__(4520);
 // EXTERNAL MODULE: ./node_modules/core-js/modules/esnext.iterator.for-each.js
-var esnext_iterator_for_each = __webpack_require__(3949);
+var entry_lib_esnext_iterator_for_each = __webpack_require__(3949);
 // EXTERNAL MODULE: ./node_modules/core-js/modules/esnext.iterator.map.js
-var esnext_iterator_map = __webpack_require__(1454);
+var entry_lib_esnext_iterator_map = __webpack_require__(1454);
 // EXTERNAL MODULE: ./node_modules/core-js/modules/esnext.iterator.some.js
-var esnext_iterator_some = __webpack_require__(7550);
+var entry_lib_esnext_iterator_some = __webpack_require__(7550);
 ;// ./node_modules/resize-observer-polyfill/dist/ResizeObserver.es.js
 
 
@@ -15764,7 +15790,7 @@ var esnext_iterator_some = __webpack_require__(7550);
  * modules as they cover only a limited range of use cases.
  */
 /* eslint-disable require-jsdoc, valid-jsdoc */
-var MapShim = function () {
+var entry_lib_MapShim = function () {
   if (typeof Map !== 'undefined') {
     return Map;
   }
@@ -15867,10 +15893,10 @@ var MapShim = function () {
 /**
  * Detects whether window and document objects are available in current environment.
  */
-var isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined' && window.document === document;
+var entry_lib_isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined' && window.document === document;
 
 // Returns global object of a current environment.
-var global$1 = function () {
+var entry_lib_global$1 = function () {
   if (typeof __webpack_require__.g !== 'undefined' && __webpack_require__.g.Math === Math) {
     return __webpack_require__.g;
   }
@@ -15890,12 +15916,12 @@ var global$1 = function () {
  *
  * @returns {number} Requests' identifier.
  */
-var requestAnimationFrame$1 = function () {
+var entry_lib_requestAnimationFrame$1 = function () {
   if (typeof requestAnimationFrame === 'function') {
     // It's required to use a bounded function because IE sometimes throws
     // an "Invalid calling object" error if rAF is invoked without the global
     // object on the left hand side.
-    return requestAnimationFrame.bind(global$1);
+    return requestAnimationFrame.bind(entry_lib_global$1);
   }
   return function (callback) {
     return setTimeout(function () {
@@ -15905,7 +15931,7 @@ var requestAnimationFrame$1 = function () {
 }();
 
 // Defines minimum timeout before adding a trailing call.
-var trailingTimeout = 2;
+var entry_lib_trailingTimeout = 2;
 /**
  * Creates a wrapper function which ensures that provided callback will be
  * invoked only once during the specified delay period.
@@ -15914,7 +15940,7 @@ var trailingTimeout = 2;
  * @param {number} delay - Delay after which to invoke callback.
  * @returns {Function}
  */
-function throttle(callback, delay) {
+function entry_lib_throttle(callback, delay) {
   var leadingCall = false,
     trailingCall = false,
     lastCallTime = 0;
@@ -15941,7 +15967,7 @@ function throttle(callback, delay) {
    * @returns {void}
    */
   function timeoutCallback() {
-    requestAnimationFrame$1(resolvePending);
+    entry_lib_requestAnimationFrame$1(resolvePending);
   }
   /**
    * Schedules invocation of the original function.
@@ -15952,7 +15978,7 @@ function throttle(callback, delay) {
     var timeStamp = Date.now();
     if (leadingCall) {
       // Reject immediately following calls.
-      if (timeStamp - lastCallTime < trailingTimeout) {
+      if (timeStamp - lastCallTime < entry_lib_trailingTimeout) {
         return;
       }
       // Schedule new call to be in invoked when the pending one is resolved.
@@ -15971,16 +15997,16 @@ function throttle(callback, delay) {
 }
 
 // Minimum delay before invoking the update of observers.
-var REFRESH_DELAY = 20;
+var entry_lib_REFRESH_DELAY = 20;
 // A list of substrings of CSS properties used to find transition events that
 // might affect dimensions of observed elements.
-var transitionKeys = ['top', 'right', 'bottom', 'left', 'width', 'height', 'size', 'weight'];
+var entry_lib_transitionKeys = ['top', 'right', 'bottom', 'left', 'width', 'height', 'size', 'weight'];
 // Check if MutationObserver is available.
-var mutationObserverSupported = typeof MutationObserver !== 'undefined';
+var entry_lib_mutationObserverSupported = typeof MutationObserver !== 'undefined';
 /**
  * Singleton controller class which handles updates of ResizeObserver instances.
  */
-var ResizeObserverController = /** @class */function () {
+var entry_lib_ResizeObserverController = /** @class */function () {
   /**
    * Creates a new instance of ResizeObserverController.
    *
@@ -16012,7 +16038,7 @@ var ResizeObserverController = /** @class */function () {
      */
     this.observers_ = [];
     this.onTransitionEnd_ = this.onTransitionEnd_.bind(this);
-    this.refresh = throttle(this.refresh.bind(this), REFRESH_DELAY);
+    this.refresh = entry_lib_throttle(this.refresh.bind(this), entry_lib_REFRESH_DELAY);
   }
   /**
    * Adds observer to observers list.
@@ -16093,7 +16119,7 @@ var ResizeObserverController = /** @class */function () {
   ResizeObserverController.prototype.connect_ = function () {
     // Do nothing if running in a non-browser environment or if listeners
     // have been already added.
-    if (!isBrowser || this.connected_) {
+    if (!entry_lib_isBrowser || this.connected_) {
       return;
     }
     // Subscription to the "Transitionend" event is used as a workaround for
@@ -16101,7 +16127,7 @@ var ResizeObserverController = /** @class */function () {
     // final state of an element.
     document.addEventListener('transitionend', this.onTransitionEnd_);
     window.addEventListener('resize', this.refresh);
-    if (mutationObserverSupported) {
+    if (entry_lib_mutationObserverSupported) {
       this.mutationsObserver_ = new MutationObserver(this.refresh);
       this.mutationsObserver_.observe(document, {
         attributes: true,
@@ -16124,7 +16150,7 @@ var ResizeObserverController = /** @class */function () {
   ResizeObserverController.prototype.disconnect_ = function () {
     // Do nothing if running in a non-browser environment or if listeners
     // have been already removed.
-    if (!isBrowser || !this.connected_) {
+    if (!entry_lib_isBrowser || !this.connected_) {
       return;
     }
     document.removeEventListener('transitionend', this.onTransitionEnd_);
@@ -16150,7 +16176,7 @@ var ResizeObserverController = /** @class */function () {
     var _b = _a.propertyName,
       propertyName = _b === void 0 ? '' : _b;
     // Detect whether transition may affect dimensions of an element.
-    var isReflowProperty = transitionKeys.some(function (key) {
+    var isReflowProperty = entry_lib_transitionKeys.some(function (key) {
       return !!~propertyName.indexOf(key);
     });
     if (isReflowProperty) {
@@ -16184,7 +16210,7 @@ var ResizeObserverController = /** @class */function () {
  * @param {Object} props - Properties to be defined.
  * @returns {Object} Target object.
  */
-var defineConfigurable = function (target, props) {
+var entry_lib_defineConfigurable = function (target, props) {
   for (var _i = 0, _a = Object.keys(props); _i < _a.length; _i++) {
     var key = _a[_i];
     Object.defineProperty(target, key, {
@@ -16203,25 +16229,25 @@ var defineConfigurable = function (target, props) {
  * @param {Object} target
  * @returns {Object}
  */
-var getWindowOf = function (target) {
+var entry_lib_getWindowOf = function (target) {
   // Assume that the element is an instance of Node, which means that it
   // has the "ownerDocument" property from which we can retrieve a
   // corresponding global object.
   var ownerGlobal = target && target.ownerDocument && target.ownerDocument.defaultView;
   // Return the local global object if it's not possible extract one from
   // provided element.
-  return ownerGlobal || global$1;
+  return ownerGlobal || entry_lib_global$1;
 };
 
 // Placeholder of an empty content rectangle.
-var emptyRect = createRectInit(0, 0, 0, 0);
+var entry_lib_emptyRect = entry_lib_createRectInit(0, 0, 0, 0);
 /**
  * Converts provided string to a number.
  *
  * @param {number|string} value
  * @returns {number}
  */
-function toFloat(value) {
+function entry_lib_toFloat(value) {
   return parseFloat(value) || 0;
 }
 /**
@@ -16231,14 +16257,14 @@ function toFloat(value) {
  * @param {...string} positions - Borders positions (top, right, ...)
  * @returns {number}
  */
-function getBordersSize(styles) {
+function entry_lib_getBordersSize(styles) {
   var positions = [];
   for (var _i = 1; _i < arguments.length; _i++) {
     positions[_i - 1] = arguments[_i];
   }
   return positions.reduce(function (size, position) {
     var value = styles['border-' + position + '-width'];
-    return size + toFloat(value);
+    return size + entry_lib_toFloat(value);
   }, 0);
 }
 /**
@@ -16247,13 +16273,13 @@ function getBordersSize(styles) {
  * @param {CSSStyleDeclaration} styles
  * @returns {Object} Paddings box.
  */
-function getPaddings(styles) {
+function entry_lib_getPaddings(styles) {
   var positions = ['top', 'right', 'bottom', 'left'];
   var paddings = {};
   for (var _i = 0, positions_1 = positions; _i < positions_1.length; _i++) {
     var position = positions_1[_i];
     var value = styles['padding-' + position];
-    paddings[position] = toFloat(value);
+    paddings[position] = entry_lib_toFloat(value);
   }
   return paddings;
 }
@@ -16264,9 +16290,9 @@ function getPaddings(styles) {
  *      to be calculated.
  * @returns {DOMRectInit}
  */
-function getSVGContentRect(target) {
+function entry_lib_getSVGContentRect(target) {
   var bbox = target.getBBox();
-  return createRectInit(0, 0, bbox.width, bbox.height);
+  return entry_lib_createRectInit(0, 0, bbox.width, bbox.height);
 }
 /**
  * Calculates content rectangle of provided HTMLElement.
@@ -16274,7 +16300,7 @@ function getSVGContentRect(target) {
  * @param {HTMLElement} target - Element for which to calculate the content rectangle.
  * @returns {DOMRectInit}
  */
-function getHTMLElementContentRect(target) {
+function entry_lib_getHTMLElementContentRect(target) {
   // Client width & height properties can't be
   // used exclusively as they provide rounded values.
   var clientWidth = target.clientWidth,
@@ -16288,18 +16314,18 @@ function getHTMLElementContentRect(target) {
   // effective test for hidden elements. E.g. even jQuery's ':visible' filter
   // gives wrong results for elements with width & height less than 0.5.
   if (!clientWidth && !clientHeight) {
-    return emptyRect;
+    return entry_lib_emptyRect;
   }
-  var styles = getWindowOf(target).getComputedStyle(target);
-  var paddings = getPaddings(styles);
+  var styles = entry_lib_getWindowOf(target).getComputedStyle(target);
+  var paddings = entry_lib_getPaddings(styles);
   var horizPad = paddings.left + paddings.right;
   var vertPad = paddings.top + paddings.bottom;
   // Computed styles of width & height are being used because they are the
   // only dimensions available to JS that contain non-rounded values. It could
   // be possible to utilize the getBoundingClientRect if only it's data wasn't
   // affected by CSS transformations let alone paddings, borders and scroll bars.
-  var width = toFloat(styles.width),
-    height = toFloat(styles.height);
+  var width = entry_lib_toFloat(styles.width),
+    height = entry_lib_toFloat(styles.height);
   // Width & height include paddings and borders when the 'border-box' box
   // model is applied (except for IE).
   if (styles.boxSizing === 'border-box') {
@@ -16310,17 +16336,17 @@ function getHTMLElementContentRect(target) {
     // properties then it's either IE, and thus we don't need to subtract
     // anything, or an element merely doesn't have paddings/borders styles.
     if (Math.round(width + horizPad) !== clientWidth) {
-      width -= getBordersSize(styles, 'left', 'right') + horizPad;
+      width -= entry_lib_getBordersSize(styles, 'left', 'right') + horizPad;
     }
     if (Math.round(height + vertPad) !== clientHeight) {
-      height -= getBordersSize(styles, 'top', 'bottom') + vertPad;
+      height -= entry_lib_getBordersSize(styles, 'top', 'bottom') + vertPad;
     }
   }
   // Following steps can't be applied to the document's root element as its
   // client[Width/Height] properties represent viewport area of the window.
   // Besides, it's as well not necessary as the <html> itself neither has
   // rendered scroll bars nor it can be clipped.
-  if (!isDocumentElement(target)) {
+  if (!entry_lib_isDocumentElement(target)) {
     // In some browsers (only in Firefox, actually) CSS width & height
     // include scroll bars size which can be removed at this step as scroll
     // bars are the only difference between rounded dimensions + paddings
@@ -16339,7 +16365,7 @@ function getHTMLElementContentRect(target) {
       height -= horizScrollbar;
     }
   }
-  return createRectInit(paddings.left, paddings.top, width, height);
+  return entry_lib_createRectInit(paddings.left, paddings.top, width, height);
 }
 /**
  * Checks whether provided element is an instance of the SVGGraphicsElement.
@@ -16347,19 +16373,19 @@ function getHTMLElementContentRect(target) {
  * @param {Element} target - Element to be checked.
  * @returns {boolean}
  */
-var isSVGGraphicsElement = function () {
+var entry_lib_isSVGGraphicsElement = function () {
   // Some browsers, namely IE and Edge, don't have the SVGGraphicsElement
   // interface.
   if (typeof SVGGraphicsElement !== 'undefined') {
     return function (target) {
-      return target instanceof getWindowOf(target).SVGGraphicsElement;
+      return target instanceof entry_lib_getWindowOf(target).SVGGraphicsElement;
     };
   }
   // If it's so, then check that element is at least an instance of the
   // SVGElement and that it has the "getBBox" method.
   // eslint-disable-next-line no-extra-parens
   return function (target) {
-    return target instanceof getWindowOf(target).SVGElement && typeof target.getBBox === 'function';
+    return target instanceof entry_lib_getWindowOf(target).SVGElement && typeof target.getBBox === 'function';
   };
 }();
 /**
@@ -16368,8 +16394,8 @@ var isSVGGraphicsElement = function () {
  * @param {Element} target - Element to be checked.
  * @returns {boolean}
  */
-function isDocumentElement(target) {
-  return target === getWindowOf(target).document.documentElement;
+function entry_lib_isDocumentElement(target) {
+  return target === entry_lib_getWindowOf(target).document.documentElement;
 }
 /**
  * Calculates an appropriate content rectangle for provided html or svg element.
@@ -16377,14 +16403,14 @@ function isDocumentElement(target) {
  * @param {Element} target - Element content rectangle of which needs to be calculated.
  * @returns {DOMRectInit}
  */
-function getContentRect(target) {
-  if (!isBrowser) {
-    return emptyRect;
+function entry_lib_getContentRect(target) {
+  if (!entry_lib_isBrowser) {
+    return entry_lib_emptyRect;
   }
-  if (isSVGGraphicsElement(target)) {
-    return getSVGContentRect(target);
+  if (entry_lib_isSVGGraphicsElement(target)) {
+    return entry_lib_getSVGContentRect(target);
   }
-  return getHTMLElementContentRect(target);
+  return entry_lib_getHTMLElementContentRect(target);
 }
 /**
  * Creates rectangle with an interface of the DOMRectReadOnly.
@@ -16393,7 +16419,7 @@ function getContentRect(target) {
  * @param {DOMRectInit} rectInit - Object with rectangle's x/y coordinates and dimensions.
  * @returns {DOMRectReadOnly}
  */
-function createReadOnlyRect(_a) {
+function entry_lib_createReadOnlyRect(_a) {
   var x = _a.x,
     y = _a.y,
     width = _a.width,
@@ -16402,7 +16428,7 @@ function createReadOnlyRect(_a) {
   var Constr = typeof DOMRectReadOnly !== 'undefined' ? DOMRectReadOnly : Object;
   var rect = Object.create(Constr.prototype);
   // Rectangle's properties are not writable and non-enumerable.
-  defineConfigurable(rect, {
+  entry_lib_defineConfigurable(rect, {
     x: x,
     y: y,
     width: width,
@@ -16424,7 +16450,7 @@ function createReadOnlyRect(_a) {
  * @param {number} height - Rectangle's height.
  * @returns {DOMRectInit}
  */
-function createRectInit(x, y, width, height) {
+function entry_lib_createRectInit(x, y, width, height) {
   return {
     x: x,
     y: y,
@@ -16437,7 +16463,7 @@ function createRectInit(x, y, width, height) {
  * Class that is responsible for computations of the content rectangle of
  * provided DOM element and for keeping track of it's changes.
  */
-var ResizeObservation = /** @class */function () {
+var entry_lib_ResizeObservation = /** @class */function () {
   /**
    * Creates an instance of ResizeObservation.
    *
@@ -16461,7 +16487,7 @@ var ResizeObservation = /** @class */function () {
      *
      * @private {DOMRectInit}
      */
-    this.contentRect_ = createRectInit(0, 0, 0, 0);
+    this.contentRect_ = entry_lib_createRectInit(0, 0, 0, 0);
     this.target = target;
   }
   /**
@@ -16471,7 +16497,7 @@ var ResizeObservation = /** @class */function () {
    * @returns {boolean}
    */
   ResizeObservation.prototype.isActive = function () {
-    var rect = getContentRect(this.target);
+    var rect = entry_lib_getContentRect(this.target);
     this.contentRect_ = rect;
     return rect.width !== this.broadcastWidth || rect.height !== this.broadcastHeight;
   };
@@ -16489,7 +16515,7 @@ var ResizeObservation = /** @class */function () {
   };
   return ResizeObservation;
 }();
-var ResizeObserverEntry = /** @class */function () {
+var entry_lib_ResizeObserverEntry = /** @class */function () {
   /**
    * Creates an instance of ResizeObserverEntry.
    *
@@ -16497,21 +16523,21 @@ var ResizeObserverEntry = /** @class */function () {
    * @param {DOMRectInit} rectInit - Data of the element's content rectangle.
    */
   function ResizeObserverEntry(target, rectInit) {
-    var contentRect = createReadOnlyRect(rectInit);
+    var contentRect = entry_lib_createReadOnlyRect(rectInit);
     // According to the specification following properties are not writable
     // and are also not enumerable in the native implementation.
     //
     // Property accessors are not being used as they'd require to define a
     // private WeakMap storage which may cause memory leaks in browsers that
     // don't support this type of collections.
-    defineConfigurable(this, {
+    entry_lib_defineConfigurable(this, {
       target: target,
       contentRect: contentRect
     });
   }
   return ResizeObserverEntry;
 }();
-var ResizeObserverSPI = /** @class */function () {
+var entry_lib_ResizeObserverSPI = /** @class */function () {
   /**
    * Creates a new instance of ResizeObserver.
    *
@@ -16535,7 +16561,7 @@ var ResizeObserverSPI = /** @class */function () {
      *
      * @private {Map<Element, ResizeObservation>}
      */
-    this.observations_ = new MapShim();
+    this.observations_ = new entry_lib_MapShim();
     if (typeof callback !== 'function') {
       throw new TypeError('The callback provided as parameter 1 is not a function.');
     }
@@ -16557,7 +16583,7 @@ var ResizeObserverSPI = /** @class */function () {
     if (typeof Element === 'undefined' || !(Element instanceof Object)) {
       return;
     }
-    if (!(target instanceof getWindowOf(target).Element)) {
+    if (!(target instanceof entry_lib_getWindowOf(target).Element)) {
       throw new TypeError('parameter 1 is not of type "Element".');
     }
     var observations = this.observations_;
@@ -16565,7 +16591,7 @@ var ResizeObserverSPI = /** @class */function () {
     if (observations.has(target)) {
       return;
     }
-    observations.set(target, new ResizeObservation(target));
+    observations.set(target, new entry_lib_ResizeObservation(target));
     this.controller_.addObserver(this);
     // Force the update of observations.
     this.controller_.refresh();
@@ -16584,7 +16610,7 @@ var ResizeObserverSPI = /** @class */function () {
     if (typeof Element === 'undefined' || !(Element instanceof Object)) {
       return;
     }
-    if (!(target instanceof getWindowOf(target).Element)) {
+    if (!(target instanceof entry_lib_getWindowOf(target).Element)) {
       throw new TypeError('parameter 1 is not of type "Element".');
     }
     var observations = this.observations_;
@@ -16636,7 +16662,7 @@ var ResizeObserverSPI = /** @class */function () {
     var ctx = this.callbackCtx_;
     // Create ResizeObserverEntry instance for every active observation.
     var entries = this.activeObservations_.map(function (observation) {
-      return new ResizeObserverEntry(observation.target, observation.broadcastRect());
+      return new entry_lib_ResizeObserverEntry(observation.target, observation.broadcastRect());
     });
     this.callback_.call(ctx, entries, ctx);
     this.clearActive();
@@ -16663,12 +16689,12 @@ var ResizeObserverSPI = /** @class */function () {
 // Registry of internal observers. If WeakMap is not available use current shim
 // for the Map collection as it has all required methods and because WeakMap
 // can't be fully polyfilled anyway.
-var observers = typeof WeakMap !== 'undefined' ? new WeakMap() : new MapShim();
+var entry_lib_observers = typeof WeakMap !== 'undefined' ? new WeakMap() : new entry_lib_MapShim();
 /**
  * ResizeObserver API. Encapsulates the ResizeObserver SPI implementation
  * exposing only those methods and properties that are defined in the spec.
  */
-var ResizeObserver_es_ResizeObserver = /** @class */function () {
+var entry_lib_ResizeObserver_es_ResizeObserver = /** @class */function () {
   /**
    * Creates a new instance of ResizeObserver.
    *
@@ -16682,29 +16708,29 @@ var ResizeObserver_es_ResizeObserver = /** @class */function () {
     if (!arguments.length) {
       throw new TypeError('1 argument required, but only 0 present.');
     }
-    var controller = ResizeObserverController.getInstance();
-    var observer = new ResizeObserverSPI(callback, controller, this);
-    observers.set(this, observer);
+    var controller = entry_lib_ResizeObserverController.getInstance();
+    var observer = new entry_lib_ResizeObserverSPI(callback, controller, this);
+    entry_lib_observers.set(this, observer);
   }
   return ResizeObserver;
 }();
 // Expose public methods of ResizeObserver.
 ['observe', 'unobserve', 'disconnect'].forEach(function (method) {
-  ResizeObserver_es_ResizeObserver.prototype[method] = function () {
+  entry_lib_ResizeObserver_es_ResizeObserver.prototype[method] = function () {
     var _a;
-    return (_a = observers.get(this))[method].apply(_a, arguments);
+    return (_a = entry_lib_observers.get(this))[method].apply(_a, arguments);
   };
 });
-var index = function () {
+var entry_lib_index = function () {
   // Export existing implementation if available.
-  if (typeof global$1.ResizeObserver !== 'undefined') {
-    return global$1.ResizeObserver;
+  if (typeof entry_lib_global$1.ResizeObserver !== 'undefined') {
+    return entry_lib_global$1.ResizeObserver;
   }
-  return ResizeObserver_es_ResizeObserver;
+  return entry_lib_ResizeObserver_es_ResizeObserver;
 }();
-/* harmony default export */ var ResizeObserver_es = (index);
+/* harmony default export */ var entry_lib_ResizeObserver_es = (entry_lib_index);
 // EXTERNAL MODULE: ./node_modules/core-js/modules/esnext.iterator.reduce.js
-var esnext_iterator_reduce = __webpack_require__(8872);
+var entry_lib_esnext_iterator_reduce = __webpack_require__(8872);
 ;// ./node_modules/@floating-ui/utils/dist/floating-ui.utils.mjs
 
 /**
@@ -16712,72 +16738,72 @@ var esnext_iterator_reduce = __webpack_require__(8872);
  * @see https://floating-ui.com/docs/virtual-elements
  */
 
-const floating_ui_utils_sides = (/* unused pure expression or super */ null && (['top', 'right', 'bottom', 'left']));
-const alignments = (/* unused pure expression or super */ null && (['start', 'end']));
-const floating_ui_utils_placements = /*#__PURE__*/(/* unused pure expression or super */ null && (floating_ui_utils_sides.reduce((acc, side) => acc.concat(side, side + "-" + alignments[0], side + "-" + alignments[1]), [])));
-const floating_ui_utils_min = Math.min;
-const floating_ui_utils_max = Math.max;
-const round = Math.round;
-const floating_ui_utils_floor = Math.floor;
-const createCoords = v => ({
+const entry_lib_floating_ui_utils_sides = (/* unused pure expression or super */ null && (['top', 'right', 'bottom', 'left']));
+const entry_lib_alignments = (/* unused pure expression or super */ null && (['start', 'end']));
+const entry_lib_floating_ui_utils_placements = /*#__PURE__*/(/* unused pure expression or super */ null && (entry_lib_floating_ui_utils_sides.reduce((acc, side) => acc.concat(side, side + "-" + entry_lib_alignments[0], side + "-" + entry_lib_alignments[1]), [])));
+const entry_lib_floating_ui_utils_min = Math.min;
+const entry_lib_floating_ui_utils_max = Math.max;
+const entry_lib_round = Math.round;
+const entry_lib_floating_ui_utils_floor = Math.floor;
+const entry_lib_createCoords = v => ({
   x: v,
   y: v
 });
-const oppositeSideMap = {
+const entry_lib_oppositeSideMap = {
   left: 'right',
   right: 'left',
   bottom: 'top',
   top: 'bottom'
 };
-const oppositeAlignmentMap = {
+const entry_lib_oppositeAlignmentMap = {
   start: 'end',
   end: 'start'
 };
-function floating_ui_utils_clamp(start, value, end) {
-  return floating_ui_utils_max(start, floating_ui_utils_min(value, end));
+function entry_lib_floating_ui_utils_clamp(start, value, end) {
+  return entry_lib_floating_ui_utils_max(start, entry_lib_floating_ui_utils_min(value, end));
 }
-function floating_ui_utils_evaluate(value, param) {
+function entry_lib_floating_ui_utils_evaluate(value, param) {
   return typeof value === 'function' ? value(param) : value;
 }
-function floating_ui_utils_getSide(placement) {
+function entry_lib_floating_ui_utils_getSide(placement) {
   return placement.split('-')[0];
 }
-function floating_ui_utils_getAlignment(placement) {
+function entry_lib_floating_ui_utils_getAlignment(placement) {
   return placement.split('-')[1];
 }
-function floating_ui_utils_getOppositeAxis(axis) {
+function entry_lib_floating_ui_utils_getOppositeAxis(axis) {
   return axis === 'x' ? 'y' : 'x';
 }
-function floating_ui_utils_getAxisLength(axis) {
+function entry_lib_floating_ui_utils_getAxisLength(axis) {
   return axis === 'y' ? 'height' : 'width';
 }
-function floating_ui_utils_getSideAxis(placement) {
-  return ['top', 'bottom'].includes(floating_ui_utils_getSide(placement)) ? 'y' : 'x';
+function entry_lib_floating_ui_utils_getSideAxis(placement) {
+  return ['top', 'bottom'].includes(entry_lib_floating_ui_utils_getSide(placement)) ? 'y' : 'x';
 }
-function floating_ui_utils_getAlignmentAxis(placement) {
-  return floating_ui_utils_getOppositeAxis(floating_ui_utils_getSideAxis(placement));
+function entry_lib_floating_ui_utils_getAlignmentAxis(placement) {
+  return entry_lib_floating_ui_utils_getOppositeAxis(entry_lib_floating_ui_utils_getSideAxis(placement));
 }
-function floating_ui_utils_getAlignmentSides(placement, rects, rtl) {
+function entry_lib_floating_ui_utils_getAlignmentSides(placement, rects, rtl) {
   if (rtl === void 0) {
     rtl = false;
   }
-  const alignment = floating_ui_utils_getAlignment(placement);
-  const alignmentAxis = floating_ui_utils_getAlignmentAxis(placement);
-  const length = floating_ui_utils_getAxisLength(alignmentAxis);
+  const alignment = entry_lib_floating_ui_utils_getAlignment(placement);
+  const alignmentAxis = entry_lib_floating_ui_utils_getAlignmentAxis(placement);
+  const length = entry_lib_floating_ui_utils_getAxisLength(alignmentAxis);
   let mainAlignmentSide = alignmentAxis === 'x' ? alignment === (rtl ? 'end' : 'start') ? 'right' : 'left' : alignment === 'start' ? 'bottom' : 'top';
   if (rects.reference[length] > rects.floating[length]) {
-    mainAlignmentSide = getOppositePlacement(mainAlignmentSide);
+    mainAlignmentSide = entry_lib_getOppositePlacement(mainAlignmentSide);
   }
-  return [mainAlignmentSide, getOppositePlacement(mainAlignmentSide)];
+  return [mainAlignmentSide, entry_lib_getOppositePlacement(mainAlignmentSide)];
 }
-function getExpandedPlacements(placement) {
-  const oppositePlacement = getOppositePlacement(placement);
-  return [floating_ui_utils_getOppositeAlignmentPlacement(placement), oppositePlacement, floating_ui_utils_getOppositeAlignmentPlacement(oppositePlacement)];
+function entry_lib_getExpandedPlacements(placement) {
+  const oppositePlacement = entry_lib_getOppositePlacement(placement);
+  return [entry_lib_floating_ui_utils_getOppositeAlignmentPlacement(placement), oppositePlacement, entry_lib_floating_ui_utils_getOppositeAlignmentPlacement(oppositePlacement)];
 }
-function floating_ui_utils_getOppositeAlignmentPlacement(placement) {
-  return placement.replace(/start|end/g, alignment => oppositeAlignmentMap[alignment]);
+function entry_lib_floating_ui_utils_getOppositeAlignmentPlacement(placement) {
+  return placement.replace(/start|end/g, alignment => entry_lib_oppositeAlignmentMap[alignment]);
 }
-function getSideList(side, isStart, rtl) {
+function entry_lib_getSideList(side, isStart, rtl) {
   const lr = ['left', 'right'];
   const rl = ['right', 'left'];
   const tb = ['top', 'bottom'];
@@ -16794,21 +16820,21 @@ function getSideList(side, isStart, rtl) {
       return [];
   }
 }
-function getOppositeAxisPlacements(placement, flipAlignment, direction, rtl) {
-  const alignment = floating_ui_utils_getAlignment(placement);
-  let list = getSideList(floating_ui_utils_getSide(placement), direction === 'start', rtl);
+function entry_lib_getOppositeAxisPlacements(placement, flipAlignment, direction, rtl) {
+  const alignment = entry_lib_floating_ui_utils_getAlignment(placement);
+  let list = entry_lib_getSideList(entry_lib_floating_ui_utils_getSide(placement), direction === 'start', rtl);
   if (alignment) {
     list = list.map(side => side + "-" + alignment);
     if (flipAlignment) {
-      list = list.concat(list.map(floating_ui_utils_getOppositeAlignmentPlacement));
+      list = list.concat(list.map(entry_lib_floating_ui_utils_getOppositeAlignmentPlacement));
     }
   }
   return list;
 }
-function getOppositePlacement(placement) {
-  return placement.replace(/left|right|bottom|top/g, side => oppositeSideMap[side]);
+function entry_lib_getOppositePlacement(placement) {
+  return placement.replace(/left|right|bottom|top/g, side => entry_lib_oppositeSideMap[side]);
 }
-function expandPaddingObject(padding) {
+function entry_lib_expandPaddingObject(padding) {
   return {
     top: 0,
     right: 0,
@@ -16817,15 +16843,15 @@ function expandPaddingObject(padding) {
     ...padding
   };
 }
-function floating_ui_utils_getPaddingObject(padding) {
-  return typeof padding !== 'number' ? expandPaddingObject(padding) : {
+function entry_lib_floating_ui_utils_getPaddingObject(padding) {
+  return typeof padding !== 'number' ? entry_lib_expandPaddingObject(padding) : {
     top: padding,
     right: padding,
     bottom: padding,
     left: padding
   };
 }
-function floating_ui_utils_rectToClientRect(rect) {
+function entry_lib_floating_ui_utils_rectToClientRect(rect) {
   const {
     x,
     y,
@@ -16855,15 +16881,15 @@ function floating_ui_utils_rectToClientRect(rect) {
 
 
 
-function computeCoordsFromPlacement(_ref, placement, rtl) {
+function entry_lib_computeCoordsFromPlacement(_ref, placement, rtl) {
   let {
     reference,
     floating
   } = _ref;
-  const sideAxis = floating_ui_utils_getSideAxis(placement);
-  const alignmentAxis = floating_ui_utils_getAlignmentAxis(placement);
-  const alignLength = floating_ui_utils_getAxisLength(alignmentAxis);
-  const side = floating_ui_utils_getSide(placement);
+  const sideAxis = entry_lib_floating_ui_utils_getSideAxis(placement);
+  const alignmentAxis = entry_lib_floating_ui_utils_getAlignmentAxis(placement);
+  const alignLength = entry_lib_floating_ui_utils_getAxisLength(alignmentAxis);
+  const side = entry_lib_floating_ui_utils_getSide(placement);
   const isVertical = sideAxis === 'y';
   const commonX = reference.x + reference.width / 2 - floating.width / 2;
   const commonY = reference.y + reference.height / 2 - floating.height / 2;
@@ -16900,7 +16926,7 @@ function computeCoordsFromPlacement(_ref, placement, rtl) {
         y: reference.y
       };
   }
-  switch (floating_ui_utils_getAlignment(placement)) {
+  switch (entry_lib_floating_ui_utils_getAlignment(placement)) {
     case 'start':
       coords[alignmentAxis] -= commonAlign * (rtl && isVertical ? -1 : 1);
       break;
@@ -16918,7 +16944,7 @@ function computeCoordsFromPlacement(_ref, placement, rtl) {
  * This export does not have any `platform` interface logic. You will need to
  * write one for the platform you are using Floating UI with.
  */
-const computePosition = async (reference, floating, config) => {
+const entry_lib_computePosition = async (reference, floating, config) => {
   const {
     placement = 'bottom',
     strategy = 'absolute',
@@ -16935,7 +16961,7 @@ const computePosition = async (reference, floating, config) => {
   let {
     x,
     y
-  } = computeCoordsFromPlacement(rects, placement, rtl);
+  } = entry_lib_computeCoordsFromPlacement(rects, placement, rtl);
   let statefulPlacement = placement;
   let middlewareData = {};
   let resetCount = 0;
@@ -16988,7 +17014,7 @@ const computePosition = async (reference, floating, config) => {
         ({
           x,
           y
-        } = computeCoordsFromPlacement(rects, statefulPlacement, rtl));
+        } = entry_lib_computeCoordsFromPlacement(rects, statefulPlacement, rtl));
       }
       i = -1;
     }
@@ -17010,7 +17036,7 @@ const computePosition = async (reference, floating, config) => {
  * - 0 = lies flush with the boundary
  * @see https://floating-ui.com/docs/detectOverflow
  */
-async function detectOverflow(state, options) {
+async function entry_lib_detectOverflow(state, options) {
   var _await$platform$isEle;
   if (options === void 0) {
     options = {};
@@ -17029,11 +17055,11 @@ async function detectOverflow(state, options) {
     elementContext = 'floating',
     altBoundary = false,
     padding = 0
-  } = floating_ui_utils_evaluate(options, state);
-  const paddingObject = floating_ui_utils_getPaddingObject(padding);
+  } = entry_lib_floating_ui_utils_evaluate(options, state);
+  const paddingObject = entry_lib_floating_ui_utils_getPaddingObject(padding);
   const altContext = elementContext === 'floating' ? 'reference' : 'floating';
   const element = elements[altBoundary ? altContext : elementContext];
-  const clippingClientRect = floating_ui_utils_rectToClientRect(await platform.getClippingRect({
+  const clippingClientRect = entry_lib_floating_ui_utils_rectToClientRect(await platform.getClippingRect({
     element: ((_await$platform$isEle = await (platform.isElement == null ? void 0 : platform.isElement(element))) != null ? _await$platform$isEle : true) ? element : element.contextElement || (await (platform.getDocumentElement == null ? void 0 : platform.getDocumentElement(elements.floating))),
     boundary,
     rootBoundary,
@@ -17053,7 +17079,7 @@ async function detectOverflow(state, options) {
     x: 1,
     y: 1
   };
-  const elementClientRect = floating_ui_utils_rectToClientRect(platform.convertOffsetParentRelativeRectToViewportRelativeRect ? await platform.convertOffsetParentRelativeRectToViewportRelativeRect({
+  const elementClientRect = entry_lib_floating_ui_utils_rectToClientRect(platform.convertOffsetParentRelativeRectToViewportRelativeRect ? await platform.convertOffsetParentRelativeRectToViewportRelativeRect({
     elements,
     rect,
     offsetParent,
@@ -17072,7 +17098,7 @@ async function detectOverflow(state, options) {
  * appears centered to the reference element.
  * @see https://floating-ui.com/docs/arrow
  */
-const arrow = options => ({
+const entry_lib_arrow = options => ({
   name: 'arrow',
   options,
   async fn(state) {
@@ -17148,7 +17174,7 @@ const arrow = options => ({
     };
   }
 });
-function getPlacementList(alignment, autoAlignment, allowedPlacements) {
+function entry_lib_getPlacementList(alignment, autoAlignment, allowedPlacements) {
   const allowedPlacementsSortedByAlignment = alignment ? [...allowedPlacements.filter(placement => getAlignment(placement) === alignment), ...allowedPlacements.filter(placement => getAlignment(placement) !== alignment)] : allowedPlacements.filter(placement => getSide(placement) === placement);
   return allowedPlacementsSortedByAlignment.filter(placement => {
     if (alignment) {
@@ -17163,7 +17189,7 @@ function getPlacementList(alignment, autoAlignment, allowedPlacements) {
  * preferred placement. Alternative to `flip`.
  * @see https://floating-ui.com/docs/autoPlacement
  */
-const autoPlacement = function (options) {
+const entry_lib_autoPlacement = function (options) {
   if (options === void 0) {
     options = {};
   }
@@ -17186,8 +17212,8 @@ const autoPlacement = function (options) {
         autoAlignment = true,
         ...detectOverflowOptions
       } = evaluate(options, state);
-      const placements$1 = alignment !== undefined || allowedPlacements === placements ? getPlacementList(alignment || null, autoAlignment, allowedPlacements) : allowedPlacements;
-      const overflow = await detectOverflow(state, detectOverflowOptions);
+      const placements$1 = alignment !== undefined || allowedPlacements === placements ? entry_lib_getPlacementList(alignment || null, autoAlignment, allowedPlacements) : allowedPlacements;
+      const overflow = await entry_lib_detectOverflow(state, detectOverflowOptions);
       const currentIndex = ((_middlewareData$autoP = middlewareData.autoPlacement) == null ? void 0 : _middlewareData$autoP.index) || 0;
       const currentPlacement = placements$1[currentIndex];
       if (currentPlacement == null) {
@@ -17257,7 +17283,7 @@ const autoPlacement = function (options) {
  * clipping boundary. Alternative to `autoPlacement`.
  * @see https://floating-ui.com/docs/flip
  */
-const flip = function (options) {
+const entry_lib_flip = function (options) {
   if (options === void 0) {
     options = {};
   }
@@ -17282,7 +17308,7 @@ const flip = function (options) {
         fallbackAxisSideDirection = 'none',
         flipAlignment = true,
         ...detectOverflowOptions
-      } = floating_ui_utils_evaluate(options, state);
+      } = entry_lib_floating_ui_utils_evaluate(options, state);
 
       // If a reset by the arrow was caused due to an alignment offset being
       // added, we should skip any logic now since `flip()` has already done its
@@ -17291,24 +17317,24 @@ const flip = function (options) {
       if ((_middlewareData$arrow = middlewareData.arrow) != null && _middlewareData$arrow.alignmentOffset) {
         return {};
       }
-      const side = floating_ui_utils_getSide(placement);
-      const initialSideAxis = floating_ui_utils_getSideAxis(initialPlacement);
-      const isBasePlacement = floating_ui_utils_getSide(initialPlacement) === initialPlacement;
+      const side = entry_lib_floating_ui_utils_getSide(placement);
+      const initialSideAxis = entry_lib_floating_ui_utils_getSideAxis(initialPlacement);
+      const isBasePlacement = entry_lib_floating_ui_utils_getSide(initialPlacement) === initialPlacement;
       const rtl = await (platform.isRTL == null ? void 0 : platform.isRTL(elements.floating));
-      const fallbackPlacements = specifiedFallbackPlacements || (isBasePlacement || !flipAlignment ? [getOppositePlacement(initialPlacement)] : getExpandedPlacements(initialPlacement));
+      const fallbackPlacements = specifiedFallbackPlacements || (isBasePlacement || !flipAlignment ? [entry_lib_getOppositePlacement(initialPlacement)] : entry_lib_getExpandedPlacements(initialPlacement));
       const hasFallbackAxisSideDirection = fallbackAxisSideDirection !== 'none';
       if (!specifiedFallbackPlacements && hasFallbackAxisSideDirection) {
-        fallbackPlacements.push(...getOppositeAxisPlacements(initialPlacement, flipAlignment, fallbackAxisSideDirection, rtl));
+        fallbackPlacements.push(...entry_lib_getOppositeAxisPlacements(initialPlacement, flipAlignment, fallbackAxisSideDirection, rtl));
       }
       const placements = [initialPlacement, ...fallbackPlacements];
-      const overflow = await detectOverflow(state, detectOverflowOptions);
+      const overflow = await entry_lib_detectOverflow(state, detectOverflowOptions);
       const overflows = [];
       let overflowsData = ((_middlewareData$flip = middlewareData.flip) == null ? void 0 : _middlewareData$flip.overflows) || [];
       if (checkMainAxis) {
         overflows.push(overflow[side]);
       }
       if (checkCrossAxis) {
-        const sides = floating_ui_utils_getAlignmentSides(placement, rects, rtl);
+        const sides = entry_lib_floating_ui_utils_getAlignmentSides(placement, rects, rtl);
         overflows.push(overflow[sides[0]], overflow[sides[1]]);
       }
       overflowsData = [...overflowsData, {
@@ -17346,7 +17372,7 @@ const flip = function (options) {
                 var _overflowsData$filter2;
                 const placement = (_overflowsData$filter2 = overflowsData.filter(d => {
                   if (hasFallbackAxisSideDirection) {
-                    const currentSideAxis = floating_ui_utils_getSideAxis(d.placement);
+                    const currentSideAxis = entry_lib_floating_ui_utils_getSideAxis(d.placement);
                     return currentSideAxis === initialSideAxis ||
                     // Create a bias to the `y` side axis due to horizontal
                     // reading directions favoring greater width.
@@ -17376,7 +17402,7 @@ const flip = function (options) {
     }
   };
 };
-function getSideOffsets(overflow, rect) {
+function entry_lib_getSideOffsets(overflow, rect) {
   return {
     top: overflow.top - rect.height,
     right: overflow.right - rect.width,
@@ -17384,7 +17410,7 @@ function getSideOffsets(overflow, rect) {
     left: overflow.left - rect.width
   };
 }
-function isAnySideFullyClipped(overflow) {
+function entry_lib_isAnySideFullyClipped(overflow) {
   return sides.some(side => overflow[side] >= 0);
 }
 /**
@@ -17392,7 +17418,7 @@ function isAnySideFullyClipped(overflow) {
  * when it is not in the same clipping context as the reference element.
  * @see https://floating-ui.com/docs/hide
  */
-const hide = function (options) {
+const entry_lib_hide = function (options) {
   if (options === void 0) {
     options = {};
   }
@@ -17410,29 +17436,29 @@ const hide = function (options) {
       switch (strategy) {
         case 'referenceHidden':
           {
-            const overflow = await detectOverflow(state, {
+            const overflow = await entry_lib_detectOverflow(state, {
               ...detectOverflowOptions,
               elementContext: 'reference'
             });
-            const offsets = getSideOffsets(overflow, rects.reference);
+            const offsets = entry_lib_getSideOffsets(overflow, rects.reference);
             return {
               data: {
                 referenceHiddenOffsets: offsets,
-                referenceHidden: isAnySideFullyClipped(offsets)
+                referenceHidden: entry_lib_isAnySideFullyClipped(offsets)
               }
             };
           }
         case 'escaped':
           {
-            const overflow = await detectOverflow(state, {
+            const overflow = await entry_lib_detectOverflow(state, {
               ...detectOverflowOptions,
               altBoundary: true
             });
-            const offsets = getSideOffsets(overflow, rects.floating);
+            const offsets = entry_lib_getSideOffsets(overflow, rects.floating);
             return {
               data: {
                 escapedOffsets: offsets,
-                escaped: isAnySideFullyClipped(offsets)
+                escaped: entry_lib_isAnySideFullyClipped(offsets)
               }
             };
           }
@@ -17444,7 +17470,7 @@ const hide = function (options) {
     }
   };
 };
-function getBoundingRect(rects) {
+function entry_lib_getBoundingRect(rects) {
   const minX = min(...rects.map(rect => rect.left));
   const minY = min(...rects.map(rect => rect.top));
   const maxX = max(...rects.map(rect => rect.right));
@@ -17456,7 +17482,7 @@ function getBoundingRect(rects) {
     height: maxY - minY
   };
 }
-function getRectsByLine(rects) {
+function entry_lib_getRectsByLine(rects) {
   const sortedRects = rects.slice().sort((a, b) => a.y - b.y);
   const groups = [];
   let prevRect = null;
@@ -17469,14 +17495,14 @@ function getRectsByLine(rects) {
     }
     prevRect = rect;
   }
-  return groups.map(rect => rectToClientRect(getBoundingRect(rect)));
+  return groups.map(rect => rectToClientRect(entry_lib_getBoundingRect(rect)));
 }
 /**
  * Provides improved positioning for inline reference elements that can span
  * over multiple lines, such as hyperlinks or range selections.
  * @see https://floating-ui.com/docs/inline
  */
-const inline = function (options) {
+const entry_lib_inline = function (options) {
   if (options === void 0) {
     options = {};
   }
@@ -17500,8 +17526,8 @@ const inline = function (options) {
         y
       } = evaluate(options, state);
       const nativeClientRects = Array.from((await (platform.getClientRects == null ? void 0 : platform.getClientRects(elements.reference))) || []);
-      const clientRects = getRectsByLine(nativeClientRects);
-      const fallback = rectToClientRect(getBoundingRect(nativeClientRects));
+      const clientRects = entry_lib_getRectsByLine(nativeClientRects);
+      const fallback = rectToClientRect(entry_lib_getBoundingRect(nativeClientRects));
       const paddingObject = getPaddingObject(padding);
       function getBoundingClientRect() {
         // There are two rects and they are disjoined.
@@ -17578,7 +17604,7 @@ const inline = function (options) {
 // For type backwards-compatibility, the `OffsetOptions` type was also
 // Derivable.
 
-async function convertValueToCoords(state, options) {
+async function entry_lib_convertValueToCoords(state, options) {
   const {
     placement,
     platform,
@@ -17625,7 +17651,7 @@ async function convertValueToCoords(state, options) {
  * object may be passed.
  * @see https://floating-ui.com/docs/offset
  */
-const offset = function (options) {
+const entry_lib_offset = function (options) {
   if (options === void 0) {
     options = 0;
   }
@@ -17640,7 +17666,7 @@ const offset = function (options) {
         placement,
         middlewareData
       } = state;
-      const diffCoords = await convertValueToCoords(state, options);
+      const diffCoords = await entry_lib_convertValueToCoords(state, options);
 
       // If the placement is the same and the arrow caused an alignment offset
       // then we don't need to change the positioning coordinates.
@@ -17664,7 +17690,7 @@ const offset = function (options) {
  * keep it in view when it will overflow the clipping boundary.
  * @see https://floating-ui.com/docs/shift
  */
-const shift = function (options) {
+const entry_lib_shift = function (options) {
   if (options === void 0) {
     options = {};
   }
@@ -17693,14 +17719,14 @@ const shift = function (options) {
           }
         },
         ...detectOverflowOptions
-      } = floating_ui_utils_evaluate(options, state);
+      } = entry_lib_floating_ui_utils_evaluate(options, state);
       const coords = {
         x,
         y
       };
-      const overflow = await detectOverflow(state, detectOverflowOptions);
-      const crossAxis = floating_ui_utils_getSideAxis(floating_ui_utils_getSide(placement));
-      const mainAxis = floating_ui_utils_getOppositeAxis(crossAxis);
+      const overflow = await entry_lib_detectOverflow(state, detectOverflowOptions);
+      const crossAxis = entry_lib_floating_ui_utils_getSideAxis(entry_lib_floating_ui_utils_getSide(placement));
+      const mainAxis = entry_lib_floating_ui_utils_getOppositeAxis(crossAxis);
       let mainAxisCoord = coords[mainAxis];
       let crossAxisCoord = coords[crossAxis];
       if (checkMainAxis) {
@@ -17708,14 +17734,14 @@ const shift = function (options) {
         const maxSide = mainAxis === 'y' ? 'bottom' : 'right';
         const min = mainAxisCoord + overflow[minSide];
         const max = mainAxisCoord - overflow[maxSide];
-        mainAxisCoord = floating_ui_utils_clamp(min, mainAxisCoord, max);
+        mainAxisCoord = entry_lib_floating_ui_utils_clamp(min, mainAxisCoord, max);
       }
       if (checkCrossAxis) {
         const minSide = crossAxis === 'y' ? 'top' : 'left';
         const maxSide = crossAxis === 'y' ? 'bottom' : 'right';
         const min = crossAxisCoord + overflow[minSide];
         const max = crossAxisCoord - overflow[maxSide];
-        crossAxisCoord = floating_ui_utils_clamp(min, crossAxisCoord, max);
+        crossAxisCoord = entry_lib_floating_ui_utils_clamp(min, crossAxisCoord, max);
       }
       const limitedCoords = limiter.fn({
         ...state,
@@ -17739,7 +17765,7 @@ const shift = function (options) {
 /**
  * Built-in `limiter` that will stop `shift()` at a certain point.
  */
-const limitShift = function (options) {
+const entry_lib_limitShift = function (options) {
   if (options === void 0) {
     options = {};
   }
@@ -17811,7 +17837,7 @@ const limitShift = function (options) {
  * width of the reference element.
  * @see https://floating-ui.com/docs/size
  */
-const size = function (options) {
+const entry_lib_size = function (options) {
   if (options === void 0) {
     options = {};
   }
@@ -17829,11 +17855,11 @@ const size = function (options) {
       const {
         apply = () => {},
         ...detectOverflowOptions
-      } = floating_ui_utils_evaluate(options, state);
-      const overflow = await detectOverflow(state, detectOverflowOptions);
-      const side = floating_ui_utils_getSide(placement);
-      const alignment = floating_ui_utils_getAlignment(placement);
-      const isYAxis = floating_ui_utils_getSideAxis(placement) === 'y';
+      } = entry_lib_floating_ui_utils_evaluate(options, state);
+      const overflow = await entry_lib_detectOverflow(state, detectOverflowOptions);
+      const side = entry_lib_floating_ui_utils_getSide(placement);
+      const alignment = entry_lib_floating_ui_utils_getAlignment(placement);
+      const isYAxis = entry_lib_floating_ui_utils_getSideAxis(placement) === 'y';
       const {
         width,
         height
@@ -17849,8 +17875,8 @@ const size = function (options) {
       }
       const maximumClippingHeight = height - overflow.top - overflow.bottom;
       const maximumClippingWidth = width - overflow.left - overflow.right;
-      const overflowAvailableHeight = floating_ui_utils_min(height - overflow[heightSide], maximumClippingHeight);
-      const overflowAvailableWidth = floating_ui_utils_min(width - overflow[widthSide], maximumClippingWidth);
+      const overflowAvailableHeight = entry_lib_floating_ui_utils_min(height - overflow[heightSide], maximumClippingHeight);
+      const overflowAvailableWidth = entry_lib_floating_ui_utils_min(width - overflow[widthSide], maximumClippingWidth);
       const noShift = !state.middlewareData.shift;
       let availableHeight = overflowAvailableHeight;
       let availableWidth = overflowAvailableWidth;
@@ -17861,14 +17887,14 @@ const size = function (options) {
         availableHeight = maximumClippingHeight;
       }
       if (noShift && !alignment) {
-        const xMin = floating_ui_utils_max(overflow.left, 0);
-        const xMax = floating_ui_utils_max(overflow.right, 0);
-        const yMin = floating_ui_utils_max(overflow.top, 0);
-        const yMax = floating_ui_utils_max(overflow.bottom, 0);
+        const xMin = entry_lib_floating_ui_utils_max(overflow.left, 0);
+        const xMax = entry_lib_floating_ui_utils_max(overflow.right, 0);
+        const yMin = entry_lib_floating_ui_utils_max(overflow.top, 0);
+        const yMax = entry_lib_floating_ui_utils_max(overflow.bottom, 0);
         if (isYAxis) {
-          availableWidth = width - 2 * (xMin !== 0 || xMax !== 0 ? xMin + xMax : floating_ui_utils_max(overflow.left, overflow.right));
+          availableWidth = width - 2 * (xMin !== 0 || xMax !== 0 ? xMin + xMax : entry_lib_floating_ui_utils_max(overflow.left, overflow.right));
         } else {
-          availableHeight = height - 2 * (yMin !== 0 || yMax !== 0 ? yMin + yMax : floating_ui_utils_max(overflow.top, overflow.bottom));
+          availableHeight = height - 2 * (yMin !== 0 || yMax !== 0 ? yMin + yMax : entry_lib_floating_ui_utils_max(overflow.top, overflow.bottom));
         }
       }
       await apply({
@@ -17892,11 +17918,11 @@ const size = function (options) {
 ;// ./node_modules/@floating-ui/utils/dist/floating-ui.utils.dom.mjs
 
 
-function hasWindow() {
+function entry_lib_hasWindow() {
   return typeof window !== 'undefined';
 }
-function getNodeName(node) {
-  if (isNode(node)) {
+function entry_lib_getNodeName(node) {
+  if (entry_lib_isNode(node)) {
     return (node.nodeName || '').toLowerCase();
   }
   // Mocked nodes in testing environments may not be instances of Node. By
@@ -17904,51 +17930,51 @@ function getNodeName(node) {
   // https://github.com/floating-ui/floating-ui/issues/2317
   return '#document';
 }
-function getWindow(node) {
+function entry_lib_getWindow(node) {
   var _node$ownerDocument;
   return (node == null || (_node$ownerDocument = node.ownerDocument) == null ? void 0 : _node$ownerDocument.defaultView) || window;
 }
-function floating_ui_utils_dom_getDocumentElement(node) {
+function entry_lib_floating_ui_utils_dom_getDocumentElement(node) {
   var _ref;
-  return (_ref = (isNode(node) ? node.ownerDocument : node.document) || window.document) == null ? void 0 : _ref.documentElement;
+  return (_ref = (entry_lib_isNode(node) ? node.ownerDocument : node.document) || window.document) == null ? void 0 : _ref.documentElement;
 }
-function isNode(value) {
-  if (!hasWindow()) {
+function entry_lib_isNode(value) {
+  if (!entry_lib_hasWindow()) {
     return false;
   }
-  return value instanceof Node || value instanceof getWindow(value).Node;
+  return value instanceof Node || value instanceof entry_lib_getWindow(value).Node;
 }
-function isElement(value) {
-  if (!hasWindow()) {
+function entry_lib_isElement(value) {
+  if (!entry_lib_hasWindow()) {
     return false;
   }
-  return value instanceof Element || value instanceof getWindow(value).Element;
+  return value instanceof Element || value instanceof entry_lib_getWindow(value).Element;
 }
-function isHTMLElement(value) {
-  if (!hasWindow()) {
+function entry_lib_isHTMLElement(value) {
+  if (!entry_lib_hasWindow()) {
     return false;
   }
-  return value instanceof HTMLElement || value instanceof getWindow(value).HTMLElement;
+  return value instanceof HTMLElement || value instanceof entry_lib_getWindow(value).HTMLElement;
 }
-function isShadowRoot(value) {
-  if (!hasWindow() || typeof ShadowRoot === 'undefined') {
+function entry_lib_isShadowRoot(value) {
+  if (!entry_lib_hasWindow() || typeof ShadowRoot === 'undefined') {
     return false;
   }
-  return value instanceof ShadowRoot || value instanceof getWindow(value).ShadowRoot;
+  return value instanceof ShadowRoot || value instanceof entry_lib_getWindow(value).ShadowRoot;
 }
-function isOverflowElement(element) {
+function entry_lib_isOverflowElement(element) {
   const {
     overflow,
     overflowX,
     overflowY,
     display
-  } = floating_ui_utils_dom_getComputedStyle(element);
+  } = entry_lib_floating_ui_utils_dom_getComputedStyle(element);
   return /auto|scroll|overlay|hidden|clip/.test(overflow + overflowY + overflowX) && !['inline', 'contents'].includes(display);
 }
-function isTableElement(element) {
-  return ['table', 'td', 'th'].includes(getNodeName(element));
+function entry_lib_isTableElement(element) {
+  return ['table', 'td', 'th'].includes(entry_lib_getNodeName(element));
 }
-function isTopLayer(element) {
+function entry_lib_isTopLayer(element) {
   return [':popover-open', ':modal'].some(selector => {
     try {
       return element.matches(selector);
@@ -17957,37 +17983,37 @@ function isTopLayer(element) {
     }
   });
 }
-function isContainingBlock(elementOrCss) {
-  const webkit = isWebKit();
-  const css = isElement(elementOrCss) ? floating_ui_utils_dom_getComputedStyle(elementOrCss) : elementOrCss;
+function entry_lib_isContainingBlock(elementOrCss) {
+  const webkit = entry_lib_isWebKit();
+  const css = entry_lib_isElement(elementOrCss) ? entry_lib_floating_ui_utils_dom_getComputedStyle(elementOrCss) : elementOrCss;
 
   // https://developer.mozilla.org/en-US/docs/Web/CSS/Containing_block#identifying_the_containing_block
   return css.transform !== 'none' || css.perspective !== 'none' || (css.containerType ? css.containerType !== 'normal' : false) || !webkit && (css.backdropFilter ? css.backdropFilter !== 'none' : false) || !webkit && (css.filter ? css.filter !== 'none' : false) || ['transform', 'perspective', 'filter'].some(value => (css.willChange || '').includes(value)) || ['paint', 'layout', 'strict', 'content'].some(value => (css.contain || '').includes(value));
 }
-function getContainingBlock(element) {
-  let currentNode = getParentNode(element);
-  while (isHTMLElement(currentNode) && !isLastTraversableNode(currentNode)) {
-    if (isContainingBlock(currentNode)) {
+function entry_lib_getContainingBlock(element) {
+  let currentNode = entry_lib_getParentNode(element);
+  while (entry_lib_isHTMLElement(currentNode) && !entry_lib_isLastTraversableNode(currentNode)) {
+    if (entry_lib_isContainingBlock(currentNode)) {
       return currentNode;
-    } else if (isTopLayer(currentNode)) {
+    } else if (entry_lib_isTopLayer(currentNode)) {
       return null;
     }
-    currentNode = getParentNode(currentNode);
+    currentNode = entry_lib_getParentNode(currentNode);
   }
   return null;
 }
-function isWebKit() {
+function entry_lib_isWebKit() {
   if (typeof CSS === 'undefined' || !CSS.supports) return false;
   return CSS.supports('-webkit-backdrop-filter', 'none');
 }
-function isLastTraversableNode(node) {
-  return ['html', 'body', '#document'].includes(getNodeName(node));
+function entry_lib_isLastTraversableNode(node) {
+  return ['html', 'body', '#document'].includes(entry_lib_getNodeName(node));
 }
-function floating_ui_utils_dom_getComputedStyle(element) {
-  return getWindow(element).getComputedStyle(element);
+function entry_lib_floating_ui_utils_dom_getComputedStyle(element) {
+  return entry_lib_getWindow(element).getComputedStyle(element);
 }
-function getNodeScroll(element) {
-  if (isElement(element)) {
+function entry_lib_getNodeScroll(element) {
+  if (entry_lib_isElement(element)) {
     return {
       scrollLeft: element.scrollLeft,
       scrollTop: element.scrollTop
@@ -17998,8 +18024,8 @@ function getNodeScroll(element) {
     scrollTop: element.scrollY
   };
 }
-function getParentNode(node) {
-  if (getNodeName(node) === 'html') {
+function entry_lib_getParentNode(node) {
+  if (entry_lib_getNodeName(node) === 'html') {
     return node;
   }
   const result =
@@ -18008,22 +18034,22 @@ function getParentNode(node) {
   // DOM Element detected.
   node.parentNode ||
   // ShadowRoot detected.
-  isShadowRoot(node) && node.host ||
+  entry_lib_isShadowRoot(node) && node.host ||
   // Fallback.
-  floating_ui_utils_dom_getDocumentElement(node);
-  return isShadowRoot(result) ? result.host : result;
+  entry_lib_floating_ui_utils_dom_getDocumentElement(node);
+  return entry_lib_isShadowRoot(result) ? result.host : result;
 }
-function getNearestOverflowAncestor(node) {
-  const parentNode = getParentNode(node);
-  if (isLastTraversableNode(parentNode)) {
+function entry_lib_getNearestOverflowAncestor(node) {
+  const parentNode = entry_lib_getParentNode(node);
+  if (entry_lib_isLastTraversableNode(parentNode)) {
     return node.ownerDocument ? node.ownerDocument.body : node.body;
   }
-  if (isHTMLElement(parentNode) && isOverflowElement(parentNode)) {
+  if (entry_lib_isHTMLElement(parentNode) && entry_lib_isOverflowElement(parentNode)) {
     return parentNode;
   }
-  return getNearestOverflowAncestor(parentNode);
+  return entry_lib_getNearestOverflowAncestor(parentNode);
 }
-function floating_ui_utils_dom_getOverflowAncestors(node, list, traverseIframes) {
+function entry_lib_floating_ui_utils_dom_getOverflowAncestors(node, list, traverseIframes) {
   var _node$ownerDocument2;
   if (list === void 0) {
     list = [];
@@ -18031,16 +18057,16 @@ function floating_ui_utils_dom_getOverflowAncestors(node, list, traverseIframes)
   if (traverseIframes === void 0) {
     traverseIframes = true;
   }
-  const scrollableAncestor = getNearestOverflowAncestor(node);
+  const scrollableAncestor = entry_lib_getNearestOverflowAncestor(node);
   const isBody = scrollableAncestor === ((_node$ownerDocument2 = node.ownerDocument) == null ? void 0 : _node$ownerDocument2.body);
-  const win = getWindow(scrollableAncestor);
+  const win = entry_lib_getWindow(scrollableAncestor);
   if (isBody) {
-    const frameElement = getFrameElement(win);
-    return list.concat(win, win.visualViewport || [], isOverflowElement(scrollableAncestor) ? scrollableAncestor : [], frameElement && traverseIframes ? floating_ui_utils_dom_getOverflowAncestors(frameElement) : []);
+    const frameElement = entry_lib_getFrameElement(win);
+    return list.concat(win, win.visualViewport || [], entry_lib_isOverflowElement(scrollableAncestor) ? scrollableAncestor : [], frameElement && traverseIframes ? entry_lib_floating_ui_utils_dom_getOverflowAncestors(frameElement) : []);
   }
-  return list.concat(scrollableAncestor, floating_ui_utils_dom_getOverflowAncestors(scrollableAncestor, [], traverseIframes));
+  return list.concat(scrollableAncestor, entry_lib_floating_ui_utils_dom_getOverflowAncestors(scrollableAncestor, [], traverseIframes));
 }
-function getFrameElement(win) {
+function entry_lib_getFrameElement(win) {
   return win.parent && Object.getPrototypeOf(win.parent) ? win.frameElement : null;
 }
 
@@ -18053,16 +18079,16 @@ function getFrameElement(win) {
 
 
 
-function getCssDimensions(element) {
-  const css = floating_ui_utils_dom_getComputedStyle(element);
+function entry_lib_getCssDimensions(element) {
+  const css = entry_lib_floating_ui_utils_dom_getComputedStyle(element);
   // In testing environments, the `width` and `height` properties are empty
   // strings for SVG elements, returning NaN. Fallback to `0` in this case.
   let width = parseFloat(css.width) || 0;
   let height = parseFloat(css.height) || 0;
-  const hasOffset = isHTMLElement(element);
+  const hasOffset = entry_lib_isHTMLElement(element);
   const offsetWidth = hasOffset ? element.offsetWidth : width;
   const offsetHeight = hasOffset ? element.offsetHeight : height;
-  const shouldFallback = round(width) !== offsetWidth || round(height) !== offsetHeight;
+  const shouldFallback = entry_lib_round(width) !== offsetWidth || entry_lib_round(height) !== offsetHeight;
   if (shouldFallback) {
     width = offsetWidth;
     height = offsetHeight;
@@ -18073,22 +18099,22 @@ function getCssDimensions(element) {
     $: shouldFallback
   };
 }
-function unwrapElement(element) {
-  return !isElement(element) ? element.contextElement : element;
+function entry_lib_unwrapElement(element) {
+  return !entry_lib_isElement(element) ? element.contextElement : element;
 }
-function getScale(element) {
-  const domElement = unwrapElement(element);
-  if (!isHTMLElement(domElement)) {
-    return createCoords(1);
+function entry_lib_getScale(element) {
+  const domElement = entry_lib_unwrapElement(element);
+  if (!entry_lib_isHTMLElement(domElement)) {
+    return entry_lib_createCoords(1);
   }
   const rect = domElement.getBoundingClientRect();
   const {
     width,
     height,
     $
-  } = getCssDimensions(domElement);
-  let x = ($ ? round(rect.width) : rect.width) / width;
-  let y = ($ ? round(rect.height) : rect.height) / height;
+  } = entry_lib_getCssDimensions(domElement);
+  let x = ($ ? entry_lib_round(rect.width) : rect.width) / width;
+  let y = ($ ? entry_lib_round(rect.height) : rect.height) / height;
 
   // 0, NaN, or Infinity should always fallback to 1.
 
@@ -18103,27 +18129,27 @@ function getScale(element) {
     y
   };
 }
-const noOffsets = /*#__PURE__*/createCoords(0);
-function getVisualOffsets(element) {
-  const win = getWindow(element);
-  if (!isWebKit() || !win.visualViewport) {
-    return noOffsets;
+const entry_lib_noOffsets = /*#__PURE__*/entry_lib_createCoords(0);
+function entry_lib_getVisualOffsets(element) {
+  const win = entry_lib_getWindow(element);
+  if (!entry_lib_isWebKit() || !win.visualViewport) {
+    return entry_lib_noOffsets;
   }
   return {
     x: win.visualViewport.offsetLeft,
     y: win.visualViewport.offsetTop
   };
 }
-function shouldAddVisualOffsets(element, isFixed, floatingOffsetParent) {
+function entry_lib_shouldAddVisualOffsets(element, isFixed, floatingOffsetParent) {
   if (isFixed === void 0) {
     isFixed = false;
   }
-  if (!floatingOffsetParent || isFixed && floatingOffsetParent !== getWindow(element)) {
+  if (!floatingOffsetParent || isFixed && floatingOffsetParent !== entry_lib_getWindow(element)) {
     return false;
   }
   return isFixed;
 }
-function getBoundingClientRect(element, includeScale, isFixedStrategy, offsetParent) {
+function entry_lib_getBoundingClientRect(element, includeScale, isFixedStrategy, offsetParent) {
   if (includeScale === void 0) {
     includeScale = false;
   }
@@ -18131,31 +18157,31 @@ function getBoundingClientRect(element, includeScale, isFixedStrategy, offsetPar
     isFixedStrategy = false;
   }
   const clientRect = element.getBoundingClientRect();
-  const domElement = unwrapElement(element);
-  let scale = createCoords(1);
+  const domElement = entry_lib_unwrapElement(element);
+  let scale = entry_lib_createCoords(1);
   if (includeScale) {
     if (offsetParent) {
-      if (isElement(offsetParent)) {
-        scale = getScale(offsetParent);
+      if (entry_lib_isElement(offsetParent)) {
+        scale = entry_lib_getScale(offsetParent);
       }
     } else {
-      scale = getScale(element);
+      scale = entry_lib_getScale(element);
     }
   }
-  const visualOffsets = shouldAddVisualOffsets(domElement, isFixedStrategy, offsetParent) ? getVisualOffsets(domElement) : createCoords(0);
+  const visualOffsets = entry_lib_shouldAddVisualOffsets(domElement, isFixedStrategy, offsetParent) ? entry_lib_getVisualOffsets(domElement) : entry_lib_createCoords(0);
   let x = (clientRect.left + visualOffsets.x) / scale.x;
   let y = (clientRect.top + visualOffsets.y) / scale.y;
   let width = clientRect.width / scale.x;
   let height = clientRect.height / scale.y;
   if (domElement) {
-    const win = getWindow(domElement);
-    const offsetWin = offsetParent && isElement(offsetParent) ? getWindow(offsetParent) : offsetParent;
+    const win = entry_lib_getWindow(domElement);
+    const offsetWin = offsetParent && entry_lib_isElement(offsetParent) ? entry_lib_getWindow(offsetParent) : offsetParent;
     let currentWin = win;
-    let currentIFrame = getFrameElement(currentWin);
+    let currentIFrame = entry_lib_getFrameElement(currentWin);
     while (currentIFrame && offsetParent && offsetWin !== currentWin) {
-      const iframeScale = getScale(currentIFrame);
+      const iframeScale = entry_lib_getScale(currentIFrame);
       const iframeRect = currentIFrame.getBoundingClientRect();
-      const css = floating_ui_utils_dom_getComputedStyle(currentIFrame);
+      const css = entry_lib_floating_ui_utils_dom_getComputedStyle(currentIFrame);
       const left = iframeRect.left + (currentIFrame.clientLeft + parseFloat(css.paddingLeft)) * iframeScale.x;
       const top = iframeRect.top + (currentIFrame.clientTop + parseFloat(css.paddingTop)) * iframeScale.y;
       x *= iframeScale.x;
@@ -18164,11 +18190,11 @@ function getBoundingClientRect(element, includeScale, isFixedStrategy, offsetPar
       height *= iframeScale.y;
       x += left;
       y += top;
-      currentWin = getWindow(currentIFrame);
-      currentIFrame = getFrameElement(currentWin);
+      currentWin = entry_lib_getWindow(currentIFrame);
+      currentIFrame = entry_lib_getFrameElement(currentWin);
     }
   }
-  return floating_ui_utils_rectToClientRect({
+  return entry_lib_floating_ui_utils_rectToClientRect({
     width,
     height,
     x,
@@ -18178,28 +18204,28 @@ function getBoundingClientRect(element, includeScale, isFixedStrategy, offsetPar
 
 // If <html> has a CSS width greater than the viewport, then this will be
 // incorrect for RTL.
-function getWindowScrollBarX(element, rect) {
-  const leftScroll = getNodeScroll(element).scrollLeft;
+function entry_lib_getWindowScrollBarX(element, rect) {
+  const leftScroll = entry_lib_getNodeScroll(element).scrollLeft;
   if (!rect) {
-    return getBoundingClientRect(floating_ui_utils_dom_getDocumentElement(element)).left + leftScroll;
+    return entry_lib_getBoundingClientRect(entry_lib_floating_ui_utils_dom_getDocumentElement(element)).left + leftScroll;
   }
   return rect.left + leftScroll;
 }
-function getHTMLOffset(documentElement, scroll, ignoreScrollbarX) {
+function entry_lib_getHTMLOffset(documentElement, scroll, ignoreScrollbarX) {
   if (ignoreScrollbarX === void 0) {
     ignoreScrollbarX = false;
   }
   const htmlRect = documentElement.getBoundingClientRect();
   const x = htmlRect.left + scroll.scrollLeft - (ignoreScrollbarX ? 0 :
   // RTL <body> scrollbar.
-  getWindowScrollBarX(documentElement, htmlRect));
+  entry_lib_getWindowScrollBarX(documentElement, htmlRect));
   const y = htmlRect.top + scroll.scrollTop;
   return {
     x,
     y
   };
 }
-function convertOffsetParentRelativeRectToViewportRelativeRect(_ref) {
+function entry_lib_convertOffsetParentRelativeRectToViewportRelativeRect(_ref) {
   let {
     elements,
     rect,
@@ -18207,8 +18233,8 @@ function convertOffsetParentRelativeRectToViewportRelativeRect(_ref) {
     strategy
   } = _ref;
   const isFixed = strategy === 'fixed';
-  const documentElement = floating_ui_utils_dom_getDocumentElement(offsetParent);
-  const topLayer = elements ? isTopLayer(elements.floating) : false;
+  const documentElement = entry_lib_floating_ui_utils_dom_getDocumentElement(offsetParent);
+  const topLayer = elements ? entry_lib_isTopLayer(elements.floating) : false;
   if (offsetParent === documentElement || topLayer && isFixed) {
     return rect;
   }
@@ -18216,21 +18242,21 @@ function convertOffsetParentRelativeRectToViewportRelativeRect(_ref) {
     scrollLeft: 0,
     scrollTop: 0
   };
-  let scale = createCoords(1);
-  const offsets = createCoords(0);
-  const isOffsetParentAnElement = isHTMLElement(offsetParent);
+  let scale = entry_lib_createCoords(1);
+  const offsets = entry_lib_createCoords(0);
+  const isOffsetParentAnElement = entry_lib_isHTMLElement(offsetParent);
   if (isOffsetParentAnElement || !isOffsetParentAnElement && !isFixed) {
-    if (getNodeName(offsetParent) !== 'body' || isOverflowElement(documentElement)) {
-      scroll = getNodeScroll(offsetParent);
+    if (entry_lib_getNodeName(offsetParent) !== 'body' || entry_lib_isOverflowElement(documentElement)) {
+      scroll = entry_lib_getNodeScroll(offsetParent);
     }
-    if (isHTMLElement(offsetParent)) {
-      const offsetRect = getBoundingClientRect(offsetParent);
-      scale = getScale(offsetParent);
+    if (entry_lib_isHTMLElement(offsetParent)) {
+      const offsetRect = entry_lib_getBoundingClientRect(offsetParent);
+      scale = entry_lib_getScale(offsetParent);
       offsets.x = offsetRect.x + offsetParent.clientLeft;
       offsets.y = offsetRect.y + offsetParent.clientTop;
     }
   }
-  const htmlOffset = documentElement && !isOffsetParentAnElement && !isFixed ? getHTMLOffset(documentElement, scroll, true) : createCoords(0);
+  const htmlOffset = documentElement && !isOffsetParentAnElement && !isFixed ? entry_lib_getHTMLOffset(documentElement, scroll, true) : entry_lib_createCoords(0);
   return {
     width: rect.width * scale.x,
     height: rect.height * scale.y,
@@ -18238,22 +18264,22 @@ function convertOffsetParentRelativeRectToViewportRelativeRect(_ref) {
     y: rect.y * scale.y - scroll.scrollTop * scale.y + offsets.y + htmlOffset.y
   };
 }
-function getClientRects(element) {
+function entry_lib_getClientRects(element) {
   return Array.from(element.getClientRects());
 }
 
 // Gets the entire size of the scrollable document area, even extending outside
 // of the `<html>` and `<body>` rect bounds if horizontally scrollable.
-function getDocumentRect(element) {
-  const html = floating_ui_utils_dom_getDocumentElement(element);
-  const scroll = getNodeScroll(element);
+function entry_lib_getDocumentRect(element) {
+  const html = entry_lib_floating_ui_utils_dom_getDocumentElement(element);
+  const scroll = entry_lib_getNodeScroll(element);
   const body = element.ownerDocument.body;
-  const width = floating_ui_utils_max(html.scrollWidth, html.clientWidth, body.scrollWidth, body.clientWidth);
-  const height = floating_ui_utils_max(html.scrollHeight, html.clientHeight, body.scrollHeight, body.clientHeight);
-  let x = -scroll.scrollLeft + getWindowScrollBarX(element);
+  const width = entry_lib_floating_ui_utils_max(html.scrollWidth, html.clientWidth, body.scrollWidth, body.clientWidth);
+  const height = entry_lib_floating_ui_utils_max(html.scrollHeight, html.clientHeight, body.scrollHeight, body.clientHeight);
+  let x = -scroll.scrollLeft + entry_lib_getWindowScrollBarX(element);
   const y = -scroll.scrollTop;
-  if (floating_ui_utils_dom_getComputedStyle(body).direction === 'rtl') {
-    x += floating_ui_utils_max(html.clientWidth, body.clientWidth) - width;
+  if (entry_lib_floating_ui_utils_dom_getComputedStyle(body).direction === 'rtl') {
+    x += entry_lib_floating_ui_utils_max(html.clientWidth, body.clientWidth) - width;
   }
   return {
     width,
@@ -18262,9 +18288,9 @@ function getDocumentRect(element) {
     y
   };
 }
-function getViewportRect(element, strategy) {
-  const win = getWindow(element);
-  const html = floating_ui_utils_dom_getDocumentElement(element);
+function entry_lib_getViewportRect(element, strategy) {
+  const win = entry_lib_getWindow(element);
+  const html = entry_lib_floating_ui_utils_dom_getDocumentElement(element);
   const visualViewport = win.visualViewport;
   let width = html.clientWidth;
   let height = html.clientHeight;
@@ -18273,7 +18299,7 @@ function getViewportRect(element, strategy) {
   if (visualViewport) {
     width = visualViewport.width;
     height = visualViewport.height;
-    const visualViewportBased = isWebKit();
+    const visualViewportBased = entry_lib_isWebKit();
     if (!visualViewportBased || visualViewportBased && strategy === 'fixed') {
       x = visualViewport.offsetLeft;
       y = visualViewport.offsetTop;
@@ -18288,11 +18314,11 @@ function getViewportRect(element, strategy) {
 }
 
 // Returns the inner client rect, subtracting scrollbars if present.
-function getInnerBoundingClientRect(element, strategy) {
-  const clientRect = getBoundingClientRect(element, true, strategy === 'fixed');
+function entry_lib_getInnerBoundingClientRect(element, strategy) {
+  const clientRect = entry_lib_getBoundingClientRect(element, true, strategy === 'fixed');
   const top = clientRect.top + element.clientTop;
   const left = clientRect.left + element.clientLeft;
-  const scale = isHTMLElement(element) ? getScale(element) : createCoords(1);
+  const scale = entry_lib_isHTMLElement(element) ? entry_lib_getScale(element) : entry_lib_createCoords(1);
   const width = element.clientWidth * scale.x;
   const height = element.clientHeight * scale.y;
   const x = left * scale.x;
@@ -18304,16 +18330,16 @@ function getInnerBoundingClientRect(element, strategy) {
     y
   };
 }
-function getClientRectFromClippingAncestor(element, clippingAncestor, strategy) {
+function entry_lib_getClientRectFromClippingAncestor(element, clippingAncestor, strategy) {
   let rect;
   if (clippingAncestor === 'viewport') {
-    rect = getViewportRect(element, strategy);
+    rect = entry_lib_getViewportRect(element, strategy);
   } else if (clippingAncestor === 'document') {
-    rect = getDocumentRect(floating_ui_utils_dom_getDocumentElement(element));
-  } else if (isElement(clippingAncestor)) {
-    rect = getInnerBoundingClientRect(clippingAncestor, strategy);
+    rect = entry_lib_getDocumentRect(entry_lib_floating_ui_utils_dom_getDocumentElement(element));
+  } else if (entry_lib_isElement(clippingAncestor)) {
+    rect = entry_lib_getInnerBoundingClientRect(clippingAncestor, strategy);
   } else {
-    const visualOffsets = getVisualOffsets(element);
+    const visualOffsets = entry_lib_getVisualOffsets(element);
     rect = {
       x: clippingAncestor.x - visualOffsets.x,
       y: clippingAncestor.y - visualOffsets.y,
@@ -18321,37 +18347,37 @@ function getClientRectFromClippingAncestor(element, clippingAncestor, strategy) 
       height: clippingAncestor.height
     };
   }
-  return floating_ui_utils_rectToClientRect(rect);
+  return entry_lib_floating_ui_utils_rectToClientRect(rect);
 }
-function hasFixedPositionAncestor(element, stopNode) {
-  const parentNode = getParentNode(element);
-  if (parentNode === stopNode || !isElement(parentNode) || isLastTraversableNode(parentNode)) {
+function entry_lib_hasFixedPositionAncestor(element, stopNode) {
+  const parentNode = entry_lib_getParentNode(element);
+  if (parentNode === stopNode || !entry_lib_isElement(parentNode) || entry_lib_isLastTraversableNode(parentNode)) {
     return false;
   }
-  return floating_ui_utils_dom_getComputedStyle(parentNode).position === 'fixed' || hasFixedPositionAncestor(parentNode, stopNode);
+  return entry_lib_floating_ui_utils_dom_getComputedStyle(parentNode).position === 'fixed' || entry_lib_hasFixedPositionAncestor(parentNode, stopNode);
 }
 
 // A "clipping ancestor" is an `overflow` element with the characteristic of
 // clipping (or hiding) child elements. This returns all clipping ancestors
 // of the given element up the tree.
-function getClippingElementAncestors(element, cache) {
+function entry_lib_getClippingElementAncestors(element, cache) {
   const cachedResult = cache.get(element);
   if (cachedResult) {
     return cachedResult;
   }
-  let result = floating_ui_utils_dom_getOverflowAncestors(element, [], false).filter(el => isElement(el) && getNodeName(el) !== 'body');
+  let result = entry_lib_floating_ui_utils_dom_getOverflowAncestors(element, [], false).filter(el => entry_lib_isElement(el) && entry_lib_getNodeName(el) !== 'body');
   let currentContainingBlockComputedStyle = null;
-  const elementIsFixed = floating_ui_utils_dom_getComputedStyle(element).position === 'fixed';
-  let currentNode = elementIsFixed ? getParentNode(element) : element;
+  const elementIsFixed = entry_lib_floating_ui_utils_dom_getComputedStyle(element).position === 'fixed';
+  let currentNode = elementIsFixed ? entry_lib_getParentNode(element) : element;
 
   // https://developer.mozilla.org/en-US/docs/Web/CSS/Containing_block#identifying_the_containing_block
-  while (isElement(currentNode) && !isLastTraversableNode(currentNode)) {
-    const computedStyle = floating_ui_utils_dom_getComputedStyle(currentNode);
-    const currentNodeIsContaining = isContainingBlock(currentNode);
+  while (entry_lib_isElement(currentNode) && !entry_lib_isLastTraversableNode(currentNode)) {
+    const computedStyle = entry_lib_floating_ui_utils_dom_getComputedStyle(currentNode);
+    const currentNodeIsContaining = entry_lib_isContainingBlock(currentNode);
     if (!currentNodeIsContaining && computedStyle.position === 'fixed') {
       currentContainingBlockComputedStyle = null;
     }
-    const shouldDropCurrentNode = elementIsFixed ? !currentNodeIsContaining && !currentContainingBlockComputedStyle : !currentNodeIsContaining && computedStyle.position === 'static' && !!currentContainingBlockComputedStyle && ['absolute', 'fixed'].includes(currentContainingBlockComputedStyle.position) || isOverflowElement(currentNode) && !currentNodeIsContaining && hasFixedPositionAncestor(element, currentNode);
+    const shouldDropCurrentNode = elementIsFixed ? !currentNodeIsContaining && !currentContainingBlockComputedStyle : !currentNodeIsContaining && computedStyle.position === 'static' && !!currentContainingBlockComputedStyle && ['absolute', 'fixed'].includes(currentContainingBlockComputedStyle.position) || entry_lib_isOverflowElement(currentNode) && !currentNodeIsContaining && entry_lib_hasFixedPositionAncestor(element, currentNode);
     if (shouldDropCurrentNode) {
       // Drop non-containing blocks.
       result = result.filter(ancestor => ancestor !== currentNode);
@@ -18359,7 +18385,7 @@ function getClippingElementAncestors(element, cache) {
       // Record last containing block for next iteration.
       currentContainingBlockComputedStyle = computedStyle;
     }
-    currentNode = getParentNode(currentNode);
+    currentNode = entry_lib_getParentNode(currentNode);
   }
   cache.set(element, result);
   return result;
@@ -18367,24 +18393,24 @@ function getClippingElementAncestors(element, cache) {
 
 // Gets the maximum area that the element is visible in due to any number of
 // clipping ancestors.
-function getClippingRect(_ref) {
+function entry_lib_getClippingRect(_ref) {
   let {
     element,
     boundary,
     rootBoundary,
     strategy
   } = _ref;
-  const elementClippingAncestors = boundary === 'clippingAncestors' ? isTopLayer(element) ? [] : getClippingElementAncestors(element, this._c) : [].concat(boundary);
+  const elementClippingAncestors = boundary === 'clippingAncestors' ? entry_lib_isTopLayer(element) ? [] : entry_lib_getClippingElementAncestors(element, this._c) : [].concat(boundary);
   const clippingAncestors = [...elementClippingAncestors, rootBoundary];
   const firstClippingAncestor = clippingAncestors[0];
   const clippingRect = clippingAncestors.reduce((accRect, clippingAncestor) => {
-    const rect = getClientRectFromClippingAncestor(element, clippingAncestor, strategy);
-    accRect.top = floating_ui_utils_max(rect.top, accRect.top);
-    accRect.right = floating_ui_utils_min(rect.right, accRect.right);
-    accRect.bottom = floating_ui_utils_min(rect.bottom, accRect.bottom);
-    accRect.left = floating_ui_utils_max(rect.left, accRect.left);
+    const rect = entry_lib_getClientRectFromClippingAncestor(element, clippingAncestor, strategy);
+    accRect.top = entry_lib_floating_ui_utils_max(rect.top, accRect.top);
+    accRect.right = entry_lib_floating_ui_utils_min(rect.right, accRect.right);
+    accRect.bottom = entry_lib_floating_ui_utils_min(rect.bottom, accRect.bottom);
+    accRect.left = entry_lib_floating_ui_utils_max(rect.left, accRect.left);
     return accRect;
-  }, getClientRectFromClippingAncestor(element, firstClippingAncestor, strategy));
+  }, entry_lib_getClientRectFromClippingAncestor(element, firstClippingAncestor, strategy));
   return {
     width: clippingRect.right - clippingRect.left,
     height: clippingRect.bottom - clippingRect.top,
@@ -18392,41 +18418,41 @@ function getClippingRect(_ref) {
     y: clippingRect.top
   };
 }
-function getDimensions(element) {
+function entry_lib_getDimensions(element) {
   const {
     width,
     height
-  } = getCssDimensions(element);
+  } = entry_lib_getCssDimensions(element);
   return {
     width,
     height
   };
 }
-function getRectRelativeToOffsetParent(element, offsetParent, strategy) {
-  const isOffsetParentAnElement = isHTMLElement(offsetParent);
-  const documentElement = floating_ui_utils_dom_getDocumentElement(offsetParent);
+function entry_lib_getRectRelativeToOffsetParent(element, offsetParent, strategy) {
+  const isOffsetParentAnElement = entry_lib_isHTMLElement(offsetParent);
+  const documentElement = entry_lib_floating_ui_utils_dom_getDocumentElement(offsetParent);
   const isFixed = strategy === 'fixed';
-  const rect = getBoundingClientRect(element, true, isFixed, offsetParent);
+  const rect = entry_lib_getBoundingClientRect(element, true, isFixed, offsetParent);
   let scroll = {
     scrollLeft: 0,
     scrollTop: 0
   };
-  const offsets = createCoords(0);
+  const offsets = entry_lib_createCoords(0);
   if (isOffsetParentAnElement || !isOffsetParentAnElement && !isFixed) {
-    if (getNodeName(offsetParent) !== 'body' || isOverflowElement(documentElement)) {
-      scroll = getNodeScroll(offsetParent);
+    if (entry_lib_getNodeName(offsetParent) !== 'body' || entry_lib_isOverflowElement(documentElement)) {
+      scroll = entry_lib_getNodeScroll(offsetParent);
     }
     if (isOffsetParentAnElement) {
-      const offsetRect = getBoundingClientRect(offsetParent, true, isFixed, offsetParent);
+      const offsetRect = entry_lib_getBoundingClientRect(offsetParent, true, isFixed, offsetParent);
       offsets.x = offsetRect.x + offsetParent.clientLeft;
       offsets.y = offsetRect.y + offsetParent.clientTop;
     } else if (documentElement) {
       // If the <body> scrollbar appears on the left (e.g. RTL systems). Use
       // Firefox with layout.scrollbar.side = 3 in about:config to test this.
-      offsets.x = getWindowScrollBarX(documentElement);
+      offsets.x = entry_lib_getWindowScrollBarX(documentElement);
     }
   }
-  const htmlOffset = documentElement && !isOffsetParentAnElement && !isFixed ? getHTMLOffset(documentElement, scroll) : createCoords(0);
+  const htmlOffset = documentElement && !isOffsetParentAnElement && !isFixed ? entry_lib_getHTMLOffset(documentElement, scroll) : entry_lib_createCoords(0);
   const x = rect.left + scroll.scrollLeft - offsets.x - htmlOffset.x;
   const y = rect.top + scroll.scrollTop - offsets.y - htmlOffset.y;
   return {
@@ -18436,11 +18462,11 @@ function getRectRelativeToOffsetParent(element, offsetParent, strategy) {
     height: rect.height
   };
 }
-function isStaticPositioned(element) {
-  return floating_ui_utils_dom_getComputedStyle(element).position === 'static';
+function entry_lib_isStaticPositioned(element) {
+  return entry_lib_floating_ui_utils_dom_getComputedStyle(element).position === 'static';
 }
-function getTrueOffsetParent(element, polyfill) {
-  if (!isHTMLElement(element) || floating_ui_utils_dom_getComputedStyle(element).position === 'fixed') {
+function entry_lib_getTrueOffsetParent(element, polyfill) {
+  if (!entry_lib_isHTMLElement(element) || entry_lib_floating_ui_utils_dom_getComputedStyle(element).position === 'fixed') {
     return null;
   }
   if (polyfill) {
@@ -18452,7 +18478,7 @@ function getTrueOffsetParent(element, polyfill) {
   // while Chrome and Safari return the <body> element. The <body> element must
   // be used to perform the correct calculations even if the <html> element is
   // non-static.
-  if (floating_ui_utils_dom_getDocumentElement(element) === rawOffsetParent) {
+  if (entry_lib_floating_ui_utils_dom_getDocumentElement(element) === rawOffsetParent) {
     rawOffsetParent = rawOffsetParent.ownerDocument.body;
   }
   return rawOffsetParent;
@@ -18460,36 +18486,36 @@ function getTrueOffsetParent(element, polyfill) {
 
 // Gets the closest ancestor positioned element. Handles some edge cases,
 // such as table ancestors and cross browser bugs.
-function getOffsetParent(element, polyfill) {
-  const win = getWindow(element);
-  if (isTopLayer(element)) {
+function entry_lib_getOffsetParent(element, polyfill) {
+  const win = entry_lib_getWindow(element);
+  if (entry_lib_isTopLayer(element)) {
     return win;
   }
-  if (!isHTMLElement(element)) {
-    let svgOffsetParent = getParentNode(element);
-    while (svgOffsetParent && !isLastTraversableNode(svgOffsetParent)) {
-      if (isElement(svgOffsetParent) && !isStaticPositioned(svgOffsetParent)) {
+  if (!entry_lib_isHTMLElement(element)) {
+    let svgOffsetParent = entry_lib_getParentNode(element);
+    while (svgOffsetParent && !entry_lib_isLastTraversableNode(svgOffsetParent)) {
+      if (entry_lib_isElement(svgOffsetParent) && !entry_lib_isStaticPositioned(svgOffsetParent)) {
         return svgOffsetParent;
       }
-      svgOffsetParent = getParentNode(svgOffsetParent);
+      svgOffsetParent = entry_lib_getParentNode(svgOffsetParent);
     }
     return win;
   }
-  let offsetParent = getTrueOffsetParent(element, polyfill);
-  while (offsetParent && isTableElement(offsetParent) && isStaticPositioned(offsetParent)) {
-    offsetParent = getTrueOffsetParent(offsetParent, polyfill);
+  let offsetParent = entry_lib_getTrueOffsetParent(element, polyfill);
+  while (offsetParent && entry_lib_isTableElement(offsetParent) && entry_lib_isStaticPositioned(offsetParent)) {
+    offsetParent = entry_lib_getTrueOffsetParent(offsetParent, polyfill);
   }
-  if (offsetParent && isLastTraversableNode(offsetParent) && isStaticPositioned(offsetParent) && !isContainingBlock(offsetParent)) {
+  if (offsetParent && entry_lib_isLastTraversableNode(offsetParent) && entry_lib_isStaticPositioned(offsetParent) && !entry_lib_isContainingBlock(offsetParent)) {
     return win;
   }
-  return offsetParent || getContainingBlock(element) || win;
+  return offsetParent || entry_lib_getContainingBlock(element) || win;
 }
-const getElementRects = async function (data) {
-  const getOffsetParentFn = this.getOffsetParent || getOffsetParent;
+const entry_lib_getElementRects = async function (data) {
+  const getOffsetParentFn = this.getOffsetParent || entry_lib_getOffsetParent;
   const getDimensionsFn = this.getDimensions;
   const floatingDimensions = await getDimensionsFn(data.floating);
   return {
-    reference: getRectRelativeToOffsetParent(data.reference, await getOffsetParentFn(data.floating), data.strategy),
+    reference: entry_lib_getRectRelativeToOffsetParent(data.reference, await getOffsetParentFn(data.floating), data.strategy),
     floating: {
       x: 0,
       y: 0,
@@ -18498,24 +18524,24 @@ const getElementRects = async function (data) {
     }
   };
 };
-function isRTL(element) {
-  return floating_ui_utils_dom_getComputedStyle(element).direction === 'rtl';
+function entry_lib_isRTL(element) {
+  return entry_lib_floating_ui_utils_dom_getComputedStyle(element).direction === 'rtl';
 }
-const platform = {
-  convertOffsetParentRelativeRectToViewportRelativeRect,
-  getDocumentElement: floating_ui_utils_dom_getDocumentElement,
-  getClippingRect,
-  getOffsetParent,
-  getElementRects,
-  getClientRects,
-  getDimensions,
-  getScale,
-  isElement: isElement,
-  isRTL
+const entry_lib_platform = {
+  convertOffsetParentRelativeRectToViewportRelativeRect: entry_lib_convertOffsetParentRelativeRectToViewportRelativeRect,
+  getDocumentElement: entry_lib_floating_ui_utils_dom_getDocumentElement,
+  getClippingRect: entry_lib_getClippingRect,
+  getOffsetParent: entry_lib_getOffsetParent,
+  getElementRects: entry_lib_getElementRects,
+  getClientRects: entry_lib_getClientRects,
+  getDimensions: entry_lib_getDimensions,
+  getScale: entry_lib_getScale,
+  isElement: entry_lib_isElement,
+  isRTL: entry_lib_isRTL
 };
 
 // https://samthor.au/2021/observing-dom/
-function observeMove(element, onMove) {
+function entry_lib_observeMove(element, onMove) {
   let io = null;
   let timeoutId;
   const root = getDocumentElement(element);
@@ -18599,7 +18625,7 @@ function observeMove(element, onMove) {
  * removed from the DOM or hidden from the screen.
  * @see https://floating-ui.com/docs/autoUpdate
  */
-function autoUpdate(reference, floating, update, options) {
+function entry_lib_autoUpdate(reference, floating, update, options) {
   if (options === void 0) {
     options = {};
   }
@@ -18610,7 +18636,7 @@ function autoUpdate(reference, floating, update, options) {
     layoutShift = typeof IntersectionObserver === 'function',
     animationFrame = false
   } = options;
-  const referenceEl = unwrapElement(reference);
+  const referenceEl = entry_lib_unwrapElement(reference);
   const ancestors = ancestorScroll || ancestorResize ? [...(referenceEl ? getOverflowAncestors(referenceEl) : []), ...getOverflowAncestors(floating)] : [];
   ancestors.forEach(ancestor => {
     ancestorScroll && ancestor.addEventListener('scroll', update, {
@@ -18618,7 +18644,7 @@ function autoUpdate(reference, floating, update, options) {
     });
     ancestorResize && ancestor.addEventListener('resize', update);
   });
-  const cleanupIo = referenceEl && layoutShift ? observeMove(referenceEl, update) : null;
+  const cleanupIo = referenceEl && layoutShift ? entry_lib_observeMove(referenceEl, update) : null;
   let reobserveFrame = -1;
   let resizeObserver = null;
   if (elementResize) {
@@ -18642,12 +18668,12 @@ function autoUpdate(reference, floating, update, options) {
     resizeObserver.observe(floating);
   }
   let frameId;
-  let prevRefRect = animationFrame ? getBoundingClientRect(reference) : null;
+  let prevRefRect = animationFrame ? entry_lib_getBoundingClientRect(reference) : null;
   if (animationFrame) {
     frameLoop();
   }
   function frameLoop() {
-    const nextRefRect = getBoundingClientRect(reference);
+    const nextRefRect = entry_lib_getBoundingClientRect(reference);
     if (prevRefRect && (nextRefRect.x !== prevRefRect.x || nextRefRect.y !== prevRefRect.y || nextRefRect.width !== prevRefRect.width || nextRefRect.height !== prevRefRect.height)) {
       update();
     }
@@ -18678,7 +18704,7 @@ function autoUpdate(reference, floating, update, options) {
  * - 0 = lies flush with the boundary
  * @see https://floating-ui.com/docs/detectOverflow
  */
-const floating_ui_dom_detectOverflow = (/* unused pure expression or super */ null && (detectOverflow$1));
+const entry_lib_floating_ui_dom_detectOverflow = (/* unused pure expression or super */ null && (detectOverflow$1));
 
 /**
  * Modifies the placement by translating the floating element along the
@@ -18687,7 +18713,7 @@ const floating_ui_dom_detectOverflow = (/* unused pure expression or super */ nu
  * object may be passed.
  * @see https://floating-ui.com/docs/offset
  */
-const floating_ui_dom_offset = (/* unused pure expression or super */ null && (offset$1));
+const entry_lib_floating_ui_dom_offset = (/* unused pure expression or super */ null && (offset$1));
 
 /**
  * Optimizes the visibility of the floating element by choosing the placement
@@ -18695,14 +18721,14 @@ const floating_ui_dom_offset = (/* unused pure expression or super */ null && (o
  * preferred placement. Alternative to `flip`.
  * @see https://floating-ui.com/docs/autoPlacement
  */
-const floating_ui_dom_autoPlacement = (/* unused pure expression or super */ null && (autoPlacement$1));
+const entry_lib_floating_ui_dom_autoPlacement = (/* unused pure expression or super */ null && (autoPlacement$1));
 
 /**
  * Optimizes the visibility of the floating element by shifting it in order to
  * keep it in view when it will overflow the clipping boundary.
  * @see https://floating-ui.com/docs/shift
  */
-const floating_ui_dom_shift = shift;
+const entry_lib_floating_ui_dom_shift = entry_lib_shift;
 
 /**
  * Optimizes the visibility of the floating element by flipping the `placement`
@@ -18710,7 +18736,7 @@ const floating_ui_dom_shift = shift;
  * clipping boundary. Alternative to `autoPlacement`.
  * @see https://floating-ui.com/docs/flip
  */
-const floating_ui_dom_flip = flip;
+const entry_lib_floating_ui_dom_flip = entry_lib_flip;
 
 /**
  * Provides data that allows you to change the size of the floating element —
@@ -18718,59 +18744,59 @@ const floating_ui_dom_flip = flip;
  * width of the reference element.
  * @see https://floating-ui.com/docs/size
  */
-const floating_ui_dom_size = size;
+const entry_lib_floating_ui_dom_size = entry_lib_size;
 
 /**
  * Provides data to hide the floating element in applicable situations, such as
  * when it is not in the same clipping context as the reference element.
  * @see https://floating-ui.com/docs/hide
  */
-const floating_ui_dom_hide = (/* unused pure expression or super */ null && (hide$1));
+const entry_lib_floating_ui_dom_hide = (/* unused pure expression or super */ null && (hide$1));
 
 /**
  * Provides data to position an inner element of the floating element so that it
  * appears centered to the reference element.
  * @see https://floating-ui.com/docs/arrow
  */
-const floating_ui_dom_arrow = (/* unused pure expression or super */ null && (arrow$1));
+const entry_lib_floating_ui_dom_arrow = (/* unused pure expression or super */ null && (arrow$1));
 
 /**
  * Provides improved positioning for inline reference elements that can span
  * over multiple lines, such as hyperlinks or range selections.
  * @see https://floating-ui.com/docs/inline
  */
-const floating_ui_dom_inline = (/* unused pure expression or super */ null && (inline$1));
+const entry_lib_floating_ui_dom_inline = (/* unused pure expression or super */ null && (inline$1));
 
 /**
  * Built-in `limiter` that will stop `shift()` at a certain point.
  */
-const floating_ui_dom_limitShift = (/* unused pure expression or super */ null && (limitShift$1));
+const entry_lib_floating_ui_dom_limitShift = (/* unused pure expression or super */ null && (limitShift$1));
 
 /**
  * Computes the `x` and `y` coordinates that will place the floating element
  * next to a given reference element.
  */
-const floating_ui_dom_computePosition = (reference, floating, options) => {
+const entry_lib_floating_ui_dom_computePosition = (reference, floating, options) => {
   // This caches the expensive `getClippingElementAncestors` function so that
   // multiple lifecycle resets re-use the same result. It only lives for a
   // single call. If other functions become expensive, we can add them as well.
   const cache = new Map();
   const mergedOptions = {
-    platform,
+    platform: entry_lib_platform,
     ...options
   };
   const platformWithCache = {
     ...mergedOptions.platform,
     _c: cache
   };
-  return computePosition(reference, floating, {
+  return entry_lib_computePosition(reference, floating, {
     ...mergedOptions,
     platform: platformWithCache
   });
 };
 
 ;// ./core/index.js
-function debounce(fn, timeout, immediate = false) {
+function entry_lib_debounce(fn, timeout, immediate = false) {
   let timer;
   return function (...args) {
     if (timer) clearTimeout(timer);
@@ -18791,7 +18817,7 @@ function debounce(fn, timeout, immediate = false) {
     }
   };
 }
-function calculateFileSize(bytes) {
+function entry_lib_calculateFileSize(bytes) {
   const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
   if (bytes === 0) return '0 Byte';
   const i = Math.floor(Math.log(bytes) / Math.log(1024));
@@ -18802,79 +18828,75 @@ function calculateFileSize(bytes) {
 
 
 
-const PDFvue_type_script_setup_true_lang_js_hoisted_1 = {
+const entry_lib_PDFvue_type_script_setup_true_lang_js_hoisted_1 = {
   class: "pdf-toolbar"
 };
-const PDFvue_type_script_setup_true_lang_js_hoisted_2 = {
+const entry_lib_PDFvue_type_script_setup_true_lang_js_hoisted_2 = {
   class: "toolbar-group"
 };
-const PDFvue_type_script_setup_true_lang_js_hoisted_3 = {
+const entry_lib_PDFvue_type_script_setup_true_lang_js_hoisted_3 = {
   class: "toolbar-group"
 };
-const PDFvue_type_script_setup_true_lang_js_hoisted_4 = {
+const entry_lib_PDFvue_type_script_setup_true_lang_js_hoisted_4 = {
   class: "toolbar-page"
 };
-const _hoisted_5 = ["value"];
-const _hoisted_6 = {
+const entry_lib_hoisted_5 = ["value"];
+const entry_lib_hoisted_6 = {
   class: "toolbar-page"
 };
-const _hoisted_7 = ["value"];
-const _hoisted_8 = {
-  class: "toolbar-page-sum"
-};
-const _hoisted_9 = {
+const entry_lib_hoisted_7 = ["value"];
+const entry_lib_hoisted_8 = ["value"];
+const entry_lib_hoisted_9 = {
   class: "toolbar-group"
 };
-const _hoisted_10 = {
+const entry_lib_hoisted_10 = {
   key: 0,
   class: "toolbar-page text-[11px] pdf-small-menu"
 };
-const _hoisted_11 = ["value"];
-const _hoisted_12 = {
-  class: "toolbar-page-sum"
-};
-const _hoisted_13 = {
+const entry_lib_hoisted_11 = ["value"];
+const entry_lib_hoisted_12 = ["value"];
+const entry_lib_hoisted_13 = {
   class: "absolute w-full bottom-[0] top-[50px] flex bg-[--pdf-show-bg]"
 };
-const _hoisted_14 = {
+const entry_lib_hoisted_14 = {
   class: "pdf-thumbnail"
 };
-const _hoisted_15 = {
+const entry_lib_hoisted_15 = {
   class: "flex-1 relative"
 };
-const _hoisted_16 = {
+const entry_lib_hoisted_16 = {
   key: 0,
   class: "absolute top-0 bottom-0 right-0 left-0 bg-[--pdf-mask-bg-color] z-[100]"
 };
-const _hoisted_17 = {
+const entry_lib_hoisted_17 = {
   class: "pdf-small-menu"
 };
-const _hoisted_18 = {
+const entry_lib_hoisted_18 = {
   class: "relative w-[230px] h-[8px] rounded-[8px] overflow-hidden bg-[--pdf-mask-process-bg-color]"
 };
-const _hoisted_19 = {
+const entry_lib_hoisted_19 = {
   class: "mt-[10px] text-[12px] text-center text-[--pdf-mask-tip-color]"
 };
-const _hoisted_20 = {
+const entry_lib_hoisted_20 = {
   key: 1,
   class: "absolute top-0 bottom-0 right-0 left-0 bg-[--pdf-mask-bg-color] z-[100]"
 };
-const _hoisted_21 = {
+const entry_lib_hoisted_21 = {
   class: "pdf-small-menu"
 };
-const _hoisted_22 = {
+const entry_lib_hoisted_22 = {
   class: "relative w-[230px] h-[8px] rounded-[8px] overflow-hidden bg-[--pdf-mask-process-bg-color]"
 };
-const _hoisted_23 = {
+const entry_lib_hoisted_23 = {
   class: "mt-[10px] text-[12px] text-center text-[--pdf-mask-tip-color]"
 };
-const _hoisted_24 = {
+const entry_lib_hoisted_24 = {
   class: "flex items-center"
 };
-const _hoisted_25 = {
+const entry_lib_hoisted_25 = {
   class: "flex flex-wrap text-[12px] m-auto text-[--pdf-toolbar-text-color]"
 };
-const _hoisted_26 = {
+const entry_lib_hoisted_26 = {
   key: 0,
   class: "text-[12px] text-[--pdf-toolbar-text-color] px-[5px] mt-[3px]"
 };
@@ -18884,7 +18906,7 @@ const _hoisted_26 = {
 
 
 
-/* harmony default export */ var PDFvue_type_script_setup_true_lang_js = ({
+/* harmony default export */ var entry_lib_PDFvue_type_script_setup_true_lang_js = ({
   __name: 'PDF',
   props: {
     theme: {
@@ -18946,25 +18968,25 @@ const _hoisted_26 = {
       }
     };
     const props = __props;
-    const topicVariable = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.computed)(() => {
+    const topicVariable = (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.computed)(() => {
       const type = typeof props.theme;
       if (type == "string") {
         return baseTheme[props.theme] || baseTheme["dark"];
       }
       return props.theme;
     });
-    let pdfInstance = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.shallowRef)();
-    const pdfWrapper = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)();
-    const pdfContainer = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)();
-    const thumbnailContainer = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)();
-    const renderKey = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(0);
-    const showThumbnail = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(false);
-    const currentPage = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(1);
-    const totalPage = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(0);
-    const loadingPercent = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(0);
-    const loadingPercentVisible = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(false);
-    const smallMenu = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(false);
-    const showSmallMenu = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(false);
+    let pdfInstance = (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.shallowRef)();
+    const pdfWrapper = (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)();
+    const pdfContainer = (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)();
+    const thumbnailContainer = (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)();
+    const renderKey = (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(0);
+    const showThumbnail = (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(false);
+    const currentPage = (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(1);
+    const totalPage = (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(0);
+    const loadingPercent = (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(0);
+    const loadingPercentVisible = (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(false);
+    const smallMenu = (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(false);
+    const showSmallMenu = (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(false);
     const emits = __emit;
     function pagePressHandler(e) {
       let value = Number(e.target.value);
@@ -18974,14 +18996,14 @@ const _hoisted_26 = {
         pdfInstance.value.viewer.currentPageNumber = value;
       }
     }
-    const spreadMode = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(0);
+    const spreadMode = (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(0);
     function changeSpreadMode(value) {
       if (pdfInstance.value) {
         spreadMode.value = value;
         pdfInstance.value.viewer.spreadMode = value;
       }
     }
-    const pageScale = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)("page-actual");
+    const pageScale = (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)("page-actual");
     let sideEffectFn;
     function changePageScale(value) {
       if (pdfInstance.value) {
@@ -18996,7 +19018,7 @@ const _hoisted_26 = {
       }
     }
     function bindSize(dom, callback) {
-      const ro = new ResizeObserver_es(() => {
+      const ro = new entry_lib_ResizeObserver_es(() => {
         callback?.();
       });
       ro.observe(dom);
@@ -19004,7 +19026,7 @@ const _hoisted_26 = {
         ro.unobserve(dom);
       };
     }
-    (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.watch)(pdfWrapper, dom => {
+    (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.watch)(pdfWrapper, dom => {
       if (dom) {
         bindSize(dom, () => {
           const isSmallMenu = dom.clientWidth < 700;
@@ -19033,8 +19055,8 @@ const _hoisted_26 = {
       scrollMode.value = 0;
       currentScale.value = 100;
       resetSearch();
-      (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.nextTick)(() => {
-        pdfInstance.value = new PDF({
+      (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.nextTick)(() => {
+        pdfInstance.value = new entry_lib_PDF({
           pdfContainer: pdfContainer.value,
           thumbnailContainer: thumbnailContainer.value,
           listeners: {
@@ -19068,7 +19090,7 @@ const _hoisted_26 = {
         pdfInstance.value.loadFile(config);
       });
     }
-    (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.watch)(showThumbnail, newValue => {
+    (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.watch)(showThumbnail, newValue => {
       if (newValue) {
         pdfInstance.value?.initThumbnailViewer();
         setTimeout(() => {
@@ -19077,21 +19099,21 @@ const _hoisted_26 = {
         showCatalog.value = false;
       }
     });
-    const catalogTreeData = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)([]);
-    const showCatalog = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(false);
+    const catalogTreeData = (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)([]);
+    const showCatalog = (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(false);
     const clickCatalog = node => {
       const dest = node.dest;
       pdfInstance.value?.link?.goToDestination(dest);
     };
-    (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.watch)(showCatalog, async newValue => {
+    (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.watch)(showCatalog, async newValue => {
       if (newValue) {
         const outline = await pdfInstance.value?.pdf?.getOutline();
         catalogTreeData.value = outline;
         showThumbnail.value = false;
       }
     });
-    const progress = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(30);
-    const showPrint = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(false);
+    const progress = (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(30);
+    const showPrint = (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(false);
     let abortPrint;
     async function print() {
       if (!pdfInstance.value) return;
@@ -19105,13 +19127,13 @@ const _hoisted_26 = {
     function abort() {
       abortPrint?.();
     }
-    const searchKey = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)("");
-    const showSearch = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(false);
-    const reference = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)();
-    const floating = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)();
-    const searchIndex = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(0);
-    const searchTotal = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(0);
-    const searchOptions = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.reactive)({
+    const searchKey = (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)("");
+    const showSearch = (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(false);
+    const reference = (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)();
+    const floating = (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)();
+    const searchIndex = (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(0);
+    const searchTotal = (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(0);
+    const searchOptions = (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.reactive)({
       highlightAll: false,
       // 所有找到的都渲染
       matchDiacritics: false,
@@ -19130,21 +19152,21 @@ const _hoisted_26 = {
       input();
     }
     function _search() {
-      pdfInstance.value?.find(searchKey.value, (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.toRaw)(searchOptions));
+      pdfInstance.value?.find(searchKey.value, (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.toRaw)(searchOptions));
     }
-    const input = debounce(_search, 200);
+    const input = entry_lib_debounce(_search, 200);
     function findPrev() {
-      pdfInstance.value?.findPrev(searchKey.value, (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.toRaw)(searchOptions));
+      pdfInstance.value?.findPrev(searchKey.value, (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.toRaw)(searchOptions));
     }
     function findNext() {
-      pdfInstance.value?.findNext(searchKey.value, (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.toRaw)(searchOptions));
+      pdfInstance.value?.findNext(searchKey.value, (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.toRaw)(searchOptions));
     }
     function resetSearch() {
       searchKey.value = "";
       searchIndex.value = 0;
       searchTotal.value = 0;
     }
-    const searchFloatXY = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.reactive)({
+    const searchFloatXY = (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.reactive)({
       x: 0,
       y: 0
     });
@@ -19152,10 +19174,10 @@ const _hoisted_26 = {
       showSearch.value = !showSearch.value;
       if (showSearch.value) {
         resetSearch();
-        (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.nextTick)(() => {
-          floating_ui_dom_computePosition(reference.value, floating.value, {
+        (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.nextTick)(() => {
+          entry_lib_floating_ui_dom_computePosition(reference.value, floating.value, {
             placement: "bottom",
-            middleware: [floating_ui_dom_flip(), floating_ui_dom_shift()]
+            middleware: [entry_lib_floating_ui_dom_flip(), entry_lib_floating_ui_dom_shift()]
           }).then(({
             x,
             y,
@@ -19179,19 +19201,19 @@ const _hoisted_26 = {
         input();
       }
     }
-    const menuReference = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)();
-    const menuFloating = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)();
-    const menuFloatXY = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.reactive)({
+    const menuReference = (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)();
+    const menuFloating = (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)();
+    const menuFloatXY = (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.reactive)({
       x: 0,
       y: 0
     });
     function toggleMenu() {
       showSmallMenu.value = !showSmallMenu.value;
       if (showSmallMenu.value) {
-        (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.nextTick)(() => {
-          floating_ui_dom_computePosition(menuReference.value, menuFloating.value, {
+        (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.nextTick)(() => {
+          entry_lib_floating_ui_dom_computePosition(menuReference.value, menuFloating.value, {
             placement: "bottom",
-            middleware: [floating_ui_dom_flip(), floating_ui_dom_shift(), floating_ui_dom_size({
+            middleware: [entry_lib_floating_ui_dom_flip(), entry_lib_floating_ui_dom_shift(), entry_lib_floating_ui_dom_size({
               apply({
                 availableHeight,
                 elements
@@ -19214,7 +19236,7 @@ const _hoisted_26 = {
               menuFloatXY.x = x / 2;
               menuFloatXY.y = menuFloating.value.offsetHeight + 10;
             }
-            (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.nextTick)(() => {
+            (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.nextTick)(() => {
               Object.assign(menuFloating.value.style, {
                 top: `${y + 10}px`,
                 left: `${x - 3}px`
@@ -19224,9 +19246,9 @@ const _hoisted_26 = {
         });
       }
     }
-    const rotation = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(0);
-    const scrollMode = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(0);
-    const currentScale = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(100);
+    const rotation = (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(0);
+    const scrollMode = (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(0);
+    const currentScale = (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.ref)(100);
     function inputScaleHandler(e) {
       let value = Number(e.target.value);
       changePageScale(value / 100);
@@ -19246,7 +19268,7 @@ const _hoisted_26 = {
     function destroy() {
       if (pdfInstance.value) pdfInstance.value.pdf?.destroy?.();
     }
-    (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.onBeforeUnmount)(() => {
+    (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.onBeforeUnmount)(() => {
       destroy();
     });
     __expose({
@@ -19255,192 +19277,198 @@ const _hoisted_26 = {
       destroy
     });
     return (_ctx, _cache) => {
-      return (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)("section", {
+      return (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)("section", {
         class: "pdf-wrapper",
-        style: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeStyle)({
+        style: (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeStyle)({
           ...topicVariable.value
         })
-      }, [((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)("section", {
+      }, [((0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)("section", {
         ref_key: "pdfWrapper",
         ref: pdfWrapper,
         class: "relative w-full h-full pt-[50px] rounded-[10px] overflow-hidden border border-slate-100",
         key: renderKey.value
-      }, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", PDFvue_type_script_setup_true_lang_js_hoisted_1, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createVNode)(external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.Transition, {
+      }, [(0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", entry_lib_PDFvue_type_script_setup_true_lang_js_hoisted_1, [(0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createVNode)(entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.Transition, {
         name: "float-fade"
       }, {
-        default: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withCtx)(() => [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withDirectives)((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
+        default: (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withCtx)(() => [(0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withDirectives)((0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
           ref_key: "menuFloating",
           ref: menuFloating,
-          class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)([smallMenu.value ? 'pdf-toolbar-container-small' : 'pdf-toolbar-container']),
-          style: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeStyle)({
+          class: (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)([smallMenu.value ? 'pdf-toolbar-container-small' : 'pdf-toolbar-container']),
+          style: (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeStyle)({
             transformOrigin: `${menuFloatXY.x}px ${menuFloatXY.y}px`
           })
-        }, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("ul", PDFvue_type_script_setup_true_lang_js_hoisted_2, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", {
-          class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["toolbar-item", [showThumbnail.value && 'toolbar-item-active']]),
+        }, [(0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("ul", entry_lib_PDFvue_type_script_setup_true_lang_js_hoisted_2, [(0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", {
+          class: (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["toolbar-item", [showThumbnail.value && 'toolbar-item-active']]),
           onClick: _cache[0] || (_cache[0] = $event => showThumbnail.value = !showThumbnail.value)
-        }, _cache[13] || (_cache[13] = [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
+        }, _cache[13] || (_cache[13] = [(0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
           class: "icon iconfont icon-xiaosuolvetu"
-        }, null, -1), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", null, "缩略图", -1)]), 2), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", {
-          class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["toolbar-item", [showCatalog.value && 'toolbar-item-active']]),
+        }, null, -1), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", null, "缩略图", -1)]), 2), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", {
+          class: (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["toolbar-item", [showCatalog.value && 'toolbar-item-active']]),
           onClick: _cache[1] || (_cache[1] = $event => showCatalog.value = !showCatalog.value)
-        }, _cache[14] || (_cache[14] = [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
+        }, _cache[14] || (_cache[14] = [(0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
           class: "icon iconfont icon-mulu"
-        }, null, -1), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", null, "目录", -1)]), 2)]), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("ul", PDFvue_type_script_setup_true_lang_js_hoisted_3, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", {
-          class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["toolbar-item", [pageScale.value === 'page-actual' && 'toolbar-item-active']]),
+        }, null, -1), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", null, "目录", -1)]), 2)]), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("ul", entry_lib_PDFvue_type_script_setup_true_lang_js_hoisted_3, [(0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", {
+          class: (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["toolbar-item", [pageScale.value === 'page-actual' && 'toolbar-item-active']]),
           onClick: _cache[2] || (_cache[2] = $event => changePageScale('page-actual'))
-        }, _cache[15] || (_cache[15] = [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
+        }, _cache[15] || (_cache[15] = [(0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
           class: "icon iconfont icon-yuanchicun"
-        }, null, -1), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", null, "原尺寸", -1)]), 2), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", {
-          class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["toolbar-item", [pageScale.value === 'page-width' && 'toolbar-item-active']]),
+        }, null, -1), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", null, "原尺寸", -1)]), 2), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", {
+          class: (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["toolbar-item", [pageScale.value === 'page-width' && 'toolbar-item-active']]),
           onClick: _cache[3] || (_cache[3] = $event => changePageScale('page-width'))
-        }, _cache[16] || (_cache[16] = [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
+        }, _cache[16] || (_cache[16] = [(0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
           class: "icon iconfont icon-zishiyingkuandu"
-        }, null, -1), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", null, "适应宽度", -1)]), 2), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", PDFvue_type_script_setup_true_lang_js_hoisted_4, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("input", {
+        }, null, -1), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", null, "适应宽度", -1)]), 2), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", entry_lib_PDFvue_type_script_setup_true_lang_js_hoisted_4, [(0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("input", {
           type: "number",
           class: "pdf-input",
           max: "40",
           min: "1",
           value: currentScale.value,
-          onKeyup: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withKeys)(inputScaleHandler, ["enter"])
-        }, null, 40, _hoisted_5), _cache[17] || (_cache[17] = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", {
+          onKeyup: (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withKeys)(inputScaleHandler, ["enter"])
+        }, null, 40, entry_lib_hoisted_5), _cache[17] || (_cache[17] = (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", {
           class: "toolbar-page-percent"
-        }, "%", -1))]), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", {
-          class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["toolbar-item", [pageScale.value === 'page-height' && 'toolbar-item-active']]),
+        }, "%", -1))]), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", {
+          class: (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["toolbar-item", [pageScale.value === 'page-height' && 'toolbar-item-active']]),
           onClick: _cache[4] || (_cache[4] = $event => changePageScale('page-height'))
-        }, _cache[18] || (_cache[18] = [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
+        }, _cache[18] || (_cache[18] = [(0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
           class: "icon iconfont icon-zishiyinggaodu"
-        }, null, -1), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", null, "适应高度", -1)]), 2), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withDirectives)((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", _hoisted_6, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("input", {
+        }, null, -1), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", null, "适应高度", -1)]), 2), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withDirectives)((0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", entry_lib_hoisted_6, [(0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("input", {
           type: "number",
           class: "pdf-input",
-          max: "40",
-          min: "1",
           value: currentPage.value,
-          onKeyup: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withKeys)(pagePressHandler, ["enter"])
-        }, null, 40, _hoisted_7), _cache[19] || (_cache[19] = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", {
-          class: "align-top mx-[5px]"
-        }, "/", -1)), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", _hoisted_8, (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.toDisplayString)(totalPage.value), 1)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.vShow, !smallMenu.value]]), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", {
-          class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["toolbar-item", [spreadMode.value === 0 && 'toolbar-item-active']]),
+          onKeyup: (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withKeys)(pagePressHandler, ["enter"])
+        }, null, 40, entry_lib_hoisted_7), _cache[19] || (_cache[19] = (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", {
+          class: "align-top mx-[5px] text-[13px]"
+        }, "/", -1)), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("input", {
+          type: "number",
+          class: "pdf-input disabled:text-[--pdf-toolbar-text-color]",
+          value: totalPage.value,
+          disabled: ""
+        }, null, 8, entry_lib_hoisted_8)], 512), [[entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.vShow, !smallMenu.value]]), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", {
+          class: (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["toolbar-item", [spreadMode.value === 0 && 'toolbar-item-active']]),
           onClick: _cache[5] || (_cache[5] = $event => changeSpreadMode(0))
-        }, _cache[20] || (_cache[20] = [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
+        }, _cache[20] || (_cache[20] = [(0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
           class: "icon iconfont icon-danyeshitu"
-        }, null, -1), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", null, "单页视图", -1)]), 2), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", {
-          class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["toolbar-item", [spreadMode.value === 1 && 'toolbar-item-active']]),
+        }, null, -1), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", null, "单页视图", -1)]), 2), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", {
+          class: (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["toolbar-item", [spreadMode.value === 1 && 'toolbar-item-active']]),
           onClick: _cache[6] || (_cache[6] = $event => changeSpreadMode(1))
-        }, _cache[21] || (_cache[21] = [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
+        }, _cache[21] || (_cache[21] = [(0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
           class: "icon iconfont icon-shuangyeshitu"
-        }, null, -1), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", null, "双页视图", -1)]), 2), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", {
-          class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["toolbar-item", [rotation.value % 360 !== 0 && 'toolbar-item-active']]),
+        }, null, -1), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", null, "双页视图", -1)]), 2), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", {
+          class: (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["toolbar-item", [rotation.value % 360 !== 0 && 'toolbar-item-active']]),
           onClick: changeRotation
-        }, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
+        }, [(0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
           class: "icon iconfont icon-rotate",
-          style: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeStyle)({
+          style: (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeStyle)({
             transform: `rotate(${rotation.value}deg)`
           })
-        }, null, 4), _cache[22] || (_cache[22] = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", null, "旋转", -1))], 2), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", {
+        }, null, 4), _cache[22] || (_cache[22] = (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", null, "旋转", -1))], 2), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", {
           class: "toolbar-item toolbar-item-active",
           onClick: changeScrollMode
-        }, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
-          class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["icon iconfont icon-hengxianggundong1", [scrollMode.value === 0 && 'pdf-rotate-90']])
-        }, null, 2), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", null, (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.toDisplayString)(scrollMode.value === 0 ? '竖向滚动' : '横向滚动'), 1)])]), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("ul", _hoisted_9, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", {
-          class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["toolbar-item", [showSearch.value && 'toolbar-item-active']]),
+        }, [(0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
+          class: (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["icon iconfont icon-hengxianggundong1", [scrollMode.value === 0 && 'pdf-rotate-90']])
+        }, null, 2), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", null, (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.toDisplayString)(scrollMode.value === 0 ? '竖向滚动' : '横向滚动'), 1)])]), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("ul", entry_lib_hoisted_9, [(0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", {
+          class: (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["toolbar-item", [showSearch.value && 'toolbar-item-active']]),
           ref_key: "reference",
           ref: reference,
           onClick: toggleSearch
-        }, _cache[23] || (_cache[23] = [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
+        }, _cache[23] || (_cache[23] = [(0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
           class: "icon iconfont icon-chaxun"
-        }, null, -1), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", null, "查询", -1)]), 2), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", {
+        }, null, -1), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", null, "查询", -1)]), 2), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("li", {
           class: "toolbar-item",
           onClick: print
-        }, _cache[24] || (_cache[24] = [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
+        }, _cache[24] || (_cache[24] = [(0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
           class: "icon iconfont icon-dayinji_o"
-        }, null, -1), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", null, "打印", -1)]))])], 6), [[external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.vShow, showSmallMenu.value]])]),
+        }, null, -1), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", null, "打印", -1)]))])], 6), [[entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.vShow, showSmallMenu.value]])]),
         _: 1
-      }), smallMenu.value ? ((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)("div", _hoisted_10, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("input", {
+      }), smallMenu.value ? ((0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)("div", entry_lib_hoisted_10, [(0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("input", {
         type: "number",
         class: "pdf-input",
-        max: "40",
-        min: "1",
         value: currentPage.value,
-        onKeyup: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withKeys)(pagePressHandler, ["enter"])
-      }, null, 40, _hoisted_11), _cache[25] || (_cache[25] = (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", {
-        class: "align-top mx-[5px]"
-      }, "/", -1)), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", _hoisted_12, (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.toDisplayString)(totalPage.value), 1)])) : (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createCommentVNode)("", true), smallMenu.value ? ((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)("div", {
+        onKeyup: (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withKeys)(pagePressHandler, ["enter"])
+      }, null, 40, entry_lib_hoisted_11), _cache[25] || (_cache[25] = (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("span", {
+        class: "align-top mx-[5px] text-[13px]"
+      }, "/", -1)), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("input", {
+        type: "number",
+        class: "pdf-input disabled:text-[--pdf-toolbar-text-color]",
+        value: totalPage.value,
+        disabled: ""
+      }, null, 8, entry_lib_hoisted_12)])) : (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createCommentVNode)("", true), smallMenu.value ? ((0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)("div", {
         key: 1,
-        class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["pdf-menu-setting toolbar-item", [showSmallMenu.value && 'toolbar-item-active']]),
+        class: (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["pdf-menu-setting toolbar-item", [showSmallMenu.value && 'toolbar-item-active']]),
         ref_key: "menuReference",
         ref: menuReference,
         onClick: toggleMenu
-      }, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
-        class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["menu-group-setting", [showSmallMenu.value && 'menu-group-setting-active']])
-      }, null, 2)], 2)) : (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createCommentVNode)("", true)]), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_13, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createVNode)(external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.Transition, {
+      }, [(0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
+        class: (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["menu-group-setting", [showSmallMenu.value && 'menu-group-setting-active']])
+      }, null, 2)], 2)) : (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createCommentVNode)("", true)]), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", entry_lib_hoisted_13, [(0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createVNode)(entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.Transition, {
         name: "transform"
       }, {
-        default: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withCtx)(() => [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withDirectives)((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_14, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withDirectives)((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createVNode)(PDFTree, {
+        default: (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withCtx)(() => [(0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withDirectives)((0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", entry_lib_hoisted_14, [(0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withDirectives)((0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createVNode)(entry_lib_PDFTree, {
           "tree-data": catalogTreeData.value,
           "node-key": "title",
           onNodeClick: clickCatalog
-        }, null, 8, ["tree-data"]), [[external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.vShow, showCatalog.value]]), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withDirectives)((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
+        }, null, 8, ["tree-data"]), [[entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.vShow, showCatalog.value]]), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withDirectives)((0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
           class: "pdf-thumbnail-container",
           ref_key: "thumbnailContainer",
           ref: thumbnailContainer
-        }, null, 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.vShow, showThumbnail.value]])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.vShow, showThumbnail.value || showCatalog.value]])]),
+        }, null, 512), [[entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.vShow, showThumbnail.value]])], 512), [[entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.vShow, showThumbnail.value || showCatalog.value]])]),
         _: 1
-      }), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_15, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
+      }), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", entry_lib_hoisted_15, [(0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
         ref_key: "pdfContainer",
         ref: pdfContainer,
         class: "pdf-container absolute w-full h-full overflow-auto"
-      }, _cache[26] || (_cache[26] = [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
+      }, _cache[26] || (_cache[26] = [(0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
         class: "pdfViewer"
-      }, null, -1)]), 512)])]), loadingPercentVisible.value ? ((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)("div", _hoisted_16, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_17, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_18, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
+      }, null, -1)]), 512)])]), loadingPercentVisible.value ? ((0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)("div", entry_lib_hoisted_16, [(0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", entry_lib_hoisted_17, [(0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", entry_lib_hoisted_18, [(0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
         class: "absolute w-full h-full bg-[--pdf-mask-process-highlight] transition-all",
-        style: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeStyle)({
+        style: (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeStyle)({
           transform: `translateX(${loadingPercent.value - 100}%)`
         })
-      }, null, 4)]), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_19, " 准备加载文档中，当前进度：" + (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.toDisplayString)(loadingPercent.value) + "% ", 1)])])) : (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createCommentVNode)("", true), showPrint.value ? ((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)("div", _hoisted_20, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_21, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_22, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
+      }, null, 4)]), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", entry_lib_hoisted_19, " 准备加载文档中，当前进度：" + (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.toDisplayString)(loadingPercent.value) + "% ", 1)])])) : (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createCommentVNode)("", true), showPrint.value ? ((0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)("div", entry_lib_hoisted_20, [(0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", entry_lib_hoisted_21, [(0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", entry_lib_hoisted_22, [(0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
         class: "absolute w-full h-full bg-[--pdf-mask-process-highlight] transition-all",
-        style: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeStyle)({
+        style: (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeStyle)({
           transform: `translateX(${progress.value - 100}%)`
         })
-      }, null, 4)]), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_23, " 准备打印文档中，当前进度：" + (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.toDisplayString)(progress.value) + "% ", 1), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
+      }, null, 4)]), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", entry_lib_hoisted_23, " 准备打印文档中，当前进度：" + (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.toDisplayString)(progress.value) + "% ", 1), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
         class: "mt-[10px] text-center"
-      }, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("button", {
+      }, [(0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("button", {
         class: "text-[12px] text-[--pdf-mask-btn-color] py-[3px] px-[5px] rounded-[5px] transition-all hover:text-[--pdf-mask-btn-highlight] bg-transparent border-none outline-none bg-transparent",
         onClick: abort
-      }, "取消打印")])])])) : (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createCommentVNode)("", true), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createVNode)(external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.Transition, {
+      }, "取消打印")])])])) : (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createCommentVNode)("", true), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createVNode)(entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.Transition, {
         name: "float-fade"
       }, {
-        default: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withCtx)(() => [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withDirectives)((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
+        default: (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withCtx)(() => [(0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withDirectives)((0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
           ref_key: "floating",
           ref: floating,
           class: "w-[165px] min-h-[90px] px-[6px] py-[5px] absolute bg-[--pdf-toolbar-bg] rounded-[6px] z-[20] search-float transition-all duration-300 overflow-hidden",
-          style: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeStyle)({
+          style: (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeStyle)({
             transformOrigin: `${searchFloatXY.x}px ${searchFloatXY.y}px`
           })
-        }, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_24, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withDirectives)((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("input", {
+        }, [(0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", entry_lib_hoisted_24, [(0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withDirectives)((0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("input", {
           type: "text",
           class: "w-[100px] rounded-[3px] h-[27px] focus:border-[--pdf-toolbar-bg-highlight] outline-none px-[5px] py-[3px] text-[12px] mr-[5px] bg-[--pdf-toolbar-input-bg] text-[--pdf-toolbar-text-color]",
           "onUpdate:modelValue": _cache[7] || (_cache[7] = $event => searchKey.value = $event),
-          onInput: _cache[8] || (_cache[8] = (...args) => (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.unref)(input) && (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.unref)(input)(...args)),
-          onKeyup: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withKeys)(findNext, ["enter"])
-        }, null, 544), [[external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.vModelText, searchKey.value]]), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
+          onInput: _cache[8] || (_cache[8] = (...args) => (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.unref)(input) && (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.unref)(input)(...args)),
+          onKeyup: (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.withKeys)(findNext, ["enter"])
+        }, null, 544), [[entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.vModelText, searchKey.value]]), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
           class: "icon iconfont icon-jiantou_xiangshang pdf-search-toggle",
           onClick: findPrev
-        }), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
+        }), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("i", {
           class: "icon iconfont icon-jiantou_xiangxia pdf-search-toggle",
           onClick: findNext
-        })]), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", _hoisted_25, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
-          class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["pdf-search-option", [searchOptions.highlightAll && 'toolbar-item-active']]),
+        })]), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", entry_lib_hoisted_25, [(0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
+          class: (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["pdf-search-option", [searchOptions.highlightAll && 'toolbar-item-active']]),
           onClick: _cache[9] || (_cache[9] = $event => toggleSearchOption('highlightAll'))
-        }, "全部高亮显示", 2), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
-          class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["pdf-search-option ml-[1px]", [searchOptions.caseSensitive && 'toolbar-item-active']]),
+        }, "全部高亮显示", 2), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
+          class: (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["pdf-search-option ml-[1px]", [searchOptions.caseSensitive && 'toolbar-item-active']]),
           onClick: _cache[10] || (_cache[10] = $event => toggleSearchOption('caseSensitive'))
-        }, "区分大小写", 2), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
-          class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["pdf-search-option", [searchOptions.matchDiacritics && 'toolbar-item-active']]),
+        }, "区分大小写", 2), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
+          class: (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["pdf-search-option", [searchOptions.matchDiacritics && 'toolbar-item-active']]),
           onClick: _cache[11] || (_cache[11] = $event => toggleSearchOption('matchDiacritics'))
-        }, "匹配变音符号", 2), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
-          class: (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["pdf-search-option ml-[1px]", [searchOptions.entireWord && 'toolbar-item-active']]),
+        }, "匹配变音符号", 2), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementVNode)("div", {
+          class: (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.normalizeClass)(["pdf-search-option ml-[1px]", [searchOptions.entireWord && 'toolbar-item-active']]),
           onClick: _cache[12] || (_cache[12] = $event => toggleSearchOption('entireWord'))
-        }, "全词匹配", 2)]), searchTotal.value > 0 ? ((0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(), (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)("div", _hoisted_26, " 第" + (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.toDisplayString)(searchIndex.value) + "项，共" + (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.toDisplayString)(searchTotal.value) + "项 ", 1)) : (0,external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createCommentVNode)("", true)], 4), [[external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.vShow, showSearch.value]])]),
+        }, "全词匹配", 2)]), searchTotal.value > 0 ? ((0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.openBlock)(), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createElementBlock)("div", entry_lib_hoisted_26, " 第" + (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.toDisplayString)(searchIndex.value) + "项，共" + (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.toDisplayString)(searchTotal.value) + "项 ", 1)) : (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.createCommentVNode)("", true)], 4), [[entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_namespaceObject.vShow, showSearch.value]])]),
         _: 1
       })]))], 4);
     };
@@ -19448,10 +19476,10 @@ const _hoisted_26 = {
 });
 ;// ./lib/PDF.vue?vue&type=script&setup=true&lang=js
  
-;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-12.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./lib/PDF.vue?vue&type=style&index=0&id=1a197a62&lang=css
+;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-12.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./lib/PDF.vue?vue&type=style&index=0&id=0f58fcf6&lang=css
 // extracted by mini-css-extract-plugin
 
-;// ./lib/PDF.vue?vue&type=style&index=0&id=1a197a62&lang=css
+;// ./lib/PDF.vue?vue&type=style&index=0&id=0f58fcf6&lang=css
 
 ;// ./lib/PDF.vue
 
@@ -19459,19 +19487,19 @@ const _hoisted_26 = {
 
 ;
 
-const PDF_exports_ = PDFvue_type_script_setup_true_lang_js;
+const entry_lib_PDF_exports_ = entry_lib_PDFvue_type_script_setup_true_lang_js;
 
-/* harmony default export */ var lib_PDF = (PDF_exports_);
+/* harmony default export */ var entry_lib_lib_PDF = (entry_lib_PDF_exports_);
 ;// ./lib/index.js
 
 
 
 
-/* harmony default export */ var lib = (lib_PDF);
+/* harmony default export */ var entry_lib_lib = (entry_lib_lib_PDF);
 ;// ./node_modules/@vue/cli-service/lib/commands/build/entry-lib.js
 
 
-/* harmony default export */ var entry_lib = (lib);
+/* harmony default export */ var entry_lib_entry_lib = (entry_lib_lib);
 
 
 }();

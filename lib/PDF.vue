@@ -55,14 +55,17 @@
               <li class="toolbar-page" v-show="!smallMenu">
                 <input
                   type="number" 
-                  class="pdf-input" 
-                  max="40" 
-                  min="1" 
+                  class="pdf-input"
                   :value="currentPage" 
                   @keyup.enter="pagePressHandler"
                 />
-                <span class="align-top mx-[5px]">/</span>
-                <span class="toolbar-page-sum">{{ totalPage }}</span>
+                <span class="align-top mx-[5px] text-[13px]">/</span>
+                <input
+                  type="number" 
+                  class="pdf-input disabled:text-[--pdf-toolbar-text-color]" 
+                  :value="totalPage"
+                  disabled
+                />
               </li>
               <li class="toolbar-item" :class="[spreadMode === 0 && 'toolbar-item-active']" @click="changeSpreadMode(0)">
                 <i class="icon iconfont icon-danyeshitu"></i>
@@ -100,13 +103,16 @@
           <input
             type="number" 
             class="pdf-input" 
-            max="40" 
-            min="1" 
             :value="currentPage" 
             @keyup.enter="pagePressHandler"
           />
-          <span class="align-top mx-[5px]">/</span>
-          <span class="toolbar-page-sum">{{ totalPage }}</span>
+          <span class="align-top mx-[5px] text-[13px]">/</span>
+          <input
+            type="number" 
+            class="pdf-input disabled:text-[--pdf-toolbar-text-color]" 
+            :value="totalPage"
+            disabled
+          />
         </div>
         <div class="pdf-menu-setting toolbar-item" v-if="smallMenu" ref="menuReference" :class="[showSmallMenu && 'toolbar-item-active']" @click="toggleMenu">
           <div class="menu-group-setting" :class="[showSmallMenu && 'menu-group-setting-active']"></div>

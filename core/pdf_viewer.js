@@ -560,27 +560,34 @@ class PDFFindController {
     for (let i = 0, ii = this._linkService.pagesCount; i < ii; i++) {
       const extractTextCapability = new _pdfjsLib.PromiseCapability();
       this._extractTextPromises[i] = extractTextCapability.promise;
-      promise = promise.then(() => {
-        return this._pdfDocument.getPage(i + 1).then(pdfPage => {
-          return pdfPage.getTextContent(textOptions);
-        }).then(textContent => {
-          const strBuf = [];
-          for (const textItem of textContent.items) {
-            strBuf.push(textItem.str);
-            if (textItem.hasEOL) {
-              strBuf.push("\n");
-            }
-          }
-          [this._pageContents[i], this._pageDiffs[i], this._hasDiacritics[i]] = normalize(strBuf.join(""));
-          extractTextCapability.resolve();
-        }, reason => {
-          console.error(`Unable to get text content for page ${i + 1}`, reason);
-          this._pageContents[i] = "";
-          this._pageDiffs[i] = null;
-          this._hasDiacritics[i] = false;
-          extractTextCapability.resolve();
-        });
-      });
+      const callback = (deadline) => {
+        if (deadline.timeRemaining() > 5) {
+          promise = promise.then(() => {
+            return this._pdfDocument.getPage(i + 1).then(pdfPage => {
+              return pdfPage.getTextContent(textOptions);
+            }).then(textContent => {
+              const strBuf = [];
+              for (const textItem of textContent.items) {
+                strBuf.push(textItem.str);
+                if (textItem.hasEOL) {
+                  strBuf.push("\n");
+                }
+              }
+              [this._pageContents[i], this._pageDiffs[i], this._hasDiacritics[i]] = normalize(strBuf.join(""));
+              extractTextCapability.resolve();
+            }, reason => {
+              console.error(`Unable to get text content for page ${i + 1}`, reason);
+              this._pageContents[i] = "";
+              this._pageDiffs[i] = null;
+              this._hasDiacritics[i] = false;
+              extractTextCapability.resolve();
+            });
+          });
+        } else {
+          requestIdleCallback(callback)
+        }
+      }
+      requestIdleCallback(callback)
     }
   }
   #updatePage(index) {
