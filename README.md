@@ -37,6 +37,7 @@ async function handleFileChange(event) {
   const files = event.target.files;
   const file = files[0];
   if (file) {
+    // loadFile支持buffer数据，也支持解决了跨域问题的文件地址链接（cors支持的文件地址或者在您的项目中nginx代理转发的下载地址都可以）
     const buffer = await file.arrayBuffer();
     pdfMobileComp.value?.loadFile(buffer);
     const reReadBuffer = await file.arrayBuffer();

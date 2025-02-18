@@ -15655,6 +15655,7 @@ class entry_lib_PDF {
         this.link.setViewer(this.viewer);
         this.viewer.setDocument(this.pdf);
         this.viewer.renderingQueue.isThumbnailViewEnabled = true;
+        this.listeners?.onReady?.();
       });
     });
   }
@@ -18914,7 +18915,7 @@ const entry_lib_hoisted_26 = {
       default: "light"
     }
   },
-  emits: ["pagesLoaded", "pageRendered", "pageChanging", "findChange", "scaleChanging"],
+  emits: ["pagesLoaded", "pageRendered", "pageChanging", "findChange", "scaleChanging", "ready"],
   setup(__props, {
     expose: __expose,
     emit: __emit
@@ -19084,6 +19085,9 @@ const entry_lib_hoisted_26 = {
             onScaleChanging: v => {
               currentScale.value = parseInt(v.scale * 100);
               emits("scaleChanging", v);
+            },
+            onReady: () => {
+              emits("ready");
             }
           }
         });
@@ -19476,10 +19480,10 @@ const entry_lib_hoisted_26 = {
 });
 ;// ./lib/PDF.vue?vue&type=script&setup=true&lang=js
  
-;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-12.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./lib/PDF.vue?vue&type=style&index=0&id=0f58fcf6&lang=css
+;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-12.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./lib/PDF.vue?vue&type=style&index=0&id=41b2b032&lang=css
 // extracted by mini-css-extract-plugin
 
-;// ./lib/PDF.vue?vue&type=style&index=0&id=0f58fcf6&lang=css
+;// ./lib/PDF.vue?vue&type=style&index=0&id=41b2b032&lang=css
 
 ;// ./lib/PDF.vue
 

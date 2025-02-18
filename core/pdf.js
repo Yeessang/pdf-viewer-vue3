@@ -137,6 +137,7 @@ export class PDF {
         this.link.setViewer(this.viewer)
         this.viewer.setDocument(this.pdf)
         this.viewer.renderingQueue.isThumbnailViewEnabled = true
+        this.listeners?.onReady?.()
       })
     })
   }

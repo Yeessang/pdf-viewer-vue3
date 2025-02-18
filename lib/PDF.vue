@@ -285,7 +285,7 @@ const loadingPercent = ref(0);
 const loadingPercentVisible = ref(false);
 const smallMenu = ref(false);
 const showSmallMenu = ref(false);
-const emits = defineEmits(["pagesLoaded", "pageRendered", "pageChanging", "findChange", "scaleChanging"]);
+const emits = defineEmits(["pagesLoaded", "pageRendered", "pageChanging", "findChange", "scaleChanging", "ready"]);
 function pagePressHandler(e) {
   let value = Number(e.target.value);
   value = Math.min(Math.max(0, value), totalPage.value);
@@ -386,6 +386,9 @@ function loadFile(data) {
         onScaleChanging: (v) => {
           currentScale.value = parseInt(v.scale * 100)
           emits("scaleChanging", v)
+        },
+        onReady: () => {
+          emits("ready")
         }
       }
     });
