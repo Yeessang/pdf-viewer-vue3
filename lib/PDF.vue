@@ -577,7 +577,9 @@ onBeforeUnmount(() => {
 defineExpose({
   loadFile,
   pdfInstance,
-  destroy
+  destroy,
+  changePageScale,
+  changeSpreadMode
 });
 
 </script>

@@ -19296,7 +19296,9 @@ const entry_lib_hoisted_26 = {
     __expose({
       loadFile,
       pdfInstance,
-      destroy
+      destroy,
+      changePageScale,
+      changeSpreadMode
     });
     return (_ctx, _cache) => {
       return (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_.openBlock)(), (0,entry_lib_external_commonjs_vue_commonjs2_vue_root_Vue_.createElementBlock)("section", {
@@ -19498,10 +19500,10 @@ const entry_lib_hoisted_26 = {
 });
 ;// ./lib/PDF.vue?vue&type=script&setup=true&lang=js
  
-;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-54.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-54.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-54.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./lib/PDF.vue?vue&type=style&index=0&id=41b2b032&lang=css
+;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-54.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-54.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-54.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./lib/PDF.vue?vue&type=style&index=0&id=4335810b&lang=css
 // extracted by mini-css-extract-plugin
 
-;// ./lib/PDF.vue?vue&type=style&index=0&id=41b2b032&lang=css
+;// ./lib/PDF.vue?vue&type=style&index=0&id=4335810b&lang=css
 
 ;// ./lib/PDF.vue
 
