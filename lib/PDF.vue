@@ -264,6 +264,10 @@ const props = defineProps({
   theme: {
     type: [String, Object],
     default: "light"
+  },
+  renderOptions: {
+    type: Object,
+    default: () => { return {} }
   }
 })
 const topicVariable = computed(() => {
@@ -361,6 +365,7 @@ function loadFile(data) {
     pdfInstance.value = new PDF({
       pdfContainer: pdfContainer.value,
       thumbnailContainer: thumbnailContainer.value,
+      renderOptions: props.renderOptions,
       listeners: {
         onPagesLoaded: (v) => {
           currentPage.value = 1;

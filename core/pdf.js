@@ -14,7 +14,8 @@ export class PDF {
   constructor({
     listeners = {},
     pdfContainer = null,
-    thumbnailContainer = null
+    thumbnailContainer = null,
+    renderOptions = {}
   }) {
     if (!pdfContainer) {
       throw new Error("pdfContainer is required")
@@ -30,6 +31,7 @@ export class PDF {
     this.pdfContainer = pdfContainer
     this.thumbnailContainer = thumbnailContainer
     this.totalPages = 0
+    this.renderOptions = renderOptions
     this.init()
   }
 
@@ -93,6 +95,7 @@ export class PDF {
     let percentLoaded = 0
     let total = 0
     let loaded = 0
+    // options.disableFontFace = true
     return new Promise((resolve) => {
       this.eventBus.on("pagesloaded", (v) => {
         this.listeners?.onPagesLoaded?.(v)
@@ -133,6 +136,7 @@ export class PDF {
           // enablePrintAutoRotate: true,
           // renderer: "svg",
           renderInteractiveForms: true,
+          ...this.renderOptions
         })
         this.link.setViewer(this.viewer)
         this.viewer.setDocument(this.pdf)
